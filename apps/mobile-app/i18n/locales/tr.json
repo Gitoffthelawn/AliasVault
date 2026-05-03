@@ -23,7 +23,7 @@
     "disabled": "Disabled",
     "twoFactorAuthentication": "İki faktörlü kimlik doğrulama",
     "add": "Ekle",
-    "generate": "Generate",
+    "generate": "Oluştur",
     "attachments": "Ekler",
     "or": "yada",
     "retry": "Tekrar dene",
@@ -112,20 +112,20 @@
   },
   "totp": {
     "addCode": "2FA kodu ekle",
-    "nameOptional": "Name (optional)",
-    "secretKey": "Secret Key",
+    "nameOptional": "İsim (opsiyonel)",
+    "secretKey": "Gizli anahtar",
     "instructions": "Enter the secret key shown by the website where you want to add two-factor authentication.",
     "saveToViewCode": "Save to view code",
-    "scanQrCode": "Scan QR Code",
+    "scanQrCode": "Karekodu okut",
     "enterManually": "Enter a setup key",
     "errors": {
-      "invalidSecretKey": "Invalid secret key format.",
-      "scanFailed": "Failed to scan QR code. Please try again."
+      "invalidSecretKey": "Geçersiz gizli anahtar formatı.",
+      "scanFailed": "Karekod okunamadı. Lütfen daha sonra tekrar deneyiniz."
     }
   },
   "settings": {
     "title": "Ayarlar",
-    "autofill": "Autofill & Passkeys",
+    "autofill": "Otomatik doldurma ve Geçiş anahtarları",
     "iosAutofillSettings": {
       "headerText": "You can configure AliasVault to provide native password and passkey autofill functionality in iOS. Follow the instructions below to enable it.",
       "passkeyNotice": "Passkeys are created through iOS. To store them in AliasVault, ensure Autofill below is enabled.",
