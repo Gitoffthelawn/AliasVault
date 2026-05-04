@@ -443,25 +443,25 @@
     "vaultSyncedSuccessfully": "Bóveda sincronizada correctamente",
     "vaultUpToDate": "La bóveda está actualizada",
     "offlineMessage": "Estás desconectado. Por favor, conéctate a Internet para sincronizar tu bóveda.",
-    "switchBackToOriginalApp": "Switch back to the original app to continue.",
+    "switchBackToOriginalApp": "Volver a la aplicación original para continuar.",
     "autofillOpenApp": {
-      "title": "Autofill request",
-      "description": "Choose an action for the app or website that requested autofill.",
-      "appOrUrlLabel": "App or URL",
-      "findExistingTitle": "Link to existing credential",
-      "findExistingDescription": "Select an existing credential from your vault to link to the address above.",
-      "createNewTitle": "Create new credential",
-      "createNewDescription": "Add a new credential to your vault for this app or URL."
+      "title": "Solicitud de autorrelleno",
+      "description": "Elija una acción para la aplicación o sitio web que solicite el autorelleno.",
+      "appOrUrlLabel": "App o URL",
+      "findExistingTitle": "Enlace a credenciales existentes",
+      "findExistingDescription": "Seleccione una credencial existente de su bóveda para vincular a la dirección anterior.",
+      "createNewTitle": "Crear nueva credencial",
+      "createNewDescription": "Añade una nueva credencial a tu bóveda para esta aplicación o URL."
     },
     "autofillLinkExisting": {
-      "title": "Link to existing credential",
-      "intro": "Select an existing credential from your vault to link to \"{{target}}\".",
-      "confirmTitle": "Link to credential?",
-      "confirmMessage": "Are you sure you want to link \"{{url}}\" to this credential?"
+      "title": "Enlace a credenciales existentes",
+      "intro": "Selecciona una credencial existente en tu bóveda para vincular a \"{{target}}\".",
+      "confirmTitle": "¿Enlace a la credencial?",
+      "confirmMessage": "¿Está seguro de que desea vincular \"{{url}}\" a esta credencial?"
     },
     "autofillUrlAdded": {
-      "title": "Credential linked",
-      "message": "Autofill should now offer this credential the next time you open the app."
+      "title": "Credencial vinculado",
+      "message": "Autocompletar ahora debería ofrecer esta credencial la próxima vez que abras la aplicación."
     },
     "filters": {
       "all": "Elementos",
