@@ -8,6 +8,7 @@
 namespace AliasVault.FaviconExtractor;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -54,6 +55,43 @@ public static class FaviconExtractor
 
         // Return null if the favicon extraction failed.
         return null;
+    }
+
+    /// <summary>
+    /// Extracts favicons for multiple URLs in parallel. Each URL is processed independently;
+    /// individual failures are returned as null entries rather than throwing. The returned
+    /// list lines up index-for-index with the input.
+    /// </summary>
+    /// <param name="urls">The URLs to extract favicons for.</param>
+    /// <returns>A list of favicon byte arrays, in the same order as the input urls.</returns>
+    public static async Task<IReadOnlyList<byte[]?>> GetFaviconsAsync(IReadOnlyList<string> urls)
+    {
+        if (urls.Count == 0)
+        {
+            return Array.Empty<byte[]?>();
+        }
+
+        var tasks = new Task<byte[]?>[urls.Count];
+        for (int i = 0; i < urls.Count; i++)
+        {
+            // Wrap each call in a try/catch so one bad URL doesn't fail the whole batch.
+            var url = urls[i];
+            tasks[i] = SafeGetFaviconAsync(url);
+        }
+
+        return await Task.WhenAll(tasks);
+    }
+
+    private static async Task<byte[]?> SafeGetFaviconAsync(string url)
+    {
+        try
+        {
+            return await GetFaviconAsync(url);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>

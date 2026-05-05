@@ -41,10 +41,22 @@ export class LogoRepository extends BaseRepository {
    * @returns The logo ID (existing or newly created)
    */
   public getOrCreate(source: string, logoData: Uint8Array, currentDateTime: string): string {
-    // Check if a logo for this source already exists
-    const existingId = this.getIdForSource(source);
-    if (existingId) {
-      return existingId;
+    const existing = this.client.executeQuery<{ Id: string; IsDeleted: number }>(
+      LogoQueries.GET_BY_SOURCE_INCLUDING_DELETED,
+      [source]
+    );
+
+    if (existing.length > 0) {
+      const row = existing[0];
+      if (row.IsDeleted === 1) {
+        // Restore a previously soft-deleted record and refill its FileData.
+        this.client.executeUpdate(LogoQueries.RESTORE_WITH_FILE_DATA, [
+          logoData,
+          currentDateTime,
+          row.Id
+        ]);
+      }
+      return row.Id;
     }
 
     // Create new logo entry

@@ -15,11 +15,29 @@ const LogoQueries = {
     LIMIT 1`,
 
   /**
+   * Look up a logo by source regardless of IsDeleted state.
+   */
+  GET_BY_SOURCE_INCLUDING_DELETED: `
+    SELECT Id, IsDeleted FROM Logos
+    WHERE Source = ?
+    LIMIT 1`,
+
+  /**
    * Insert new logo.
    */
   INSERT: `
     INSERT INTO Logos (Id, Source, FileData, CreatedAt, UpdatedAt, IsDeleted)
     VALUES (?, ?, ?, ?, ?, ?)`,
+
+  /**
+   * Restore a soft-deleted logo and refill its FileData in one statement.
+   */
+  RESTORE_WITH_FILE_DATA: `
+    UPDATE Logos
+    SET IsDeleted = 0,
+        FileData = ?,
+        UpdatedAt = ?
+    WHERE Id = ?`,
 
   /**
    * Count items using a logo.
@@ -75,10 +93,22 @@ export class LogoRepository extends BaseRepository {
    * @returns The logo ID (existing or newly created)
    */
   public async getOrCreate(source: string, logoData: Uint8Array, currentDateTime: string): Promise<string> {
-    // Check if a logo for this source already exists
-    const existingId = await this.getIdForSource(source);
-    if (existingId) {
-      return existingId;
+    const existing = await this.client.executeQuery<{ Id: string; IsDeleted: number }>(
+      LogoQueries.GET_BY_SOURCE_INCLUDING_DELETED,
+      [source]
+    );
+
+    if (existing.length > 0) {
+      const row = existing[0];
+      if (row.IsDeleted === 1) {
+        // Restore a previously soft-deleted record and refill its FileData.
+        await this.client.executeUpdate(LogoQueries.RESTORE_WITH_FILE_DATA, [
+          logoData,
+          currentDateTime,
+          row.Id
+        ]);
+      }
+      return row.Id;
     }
 
     // Create new logo entry

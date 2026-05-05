@@ -549,6 +549,7 @@ class PasskeyRepository(database: VaultDatabase) : BaseRepository(database) {
             // Sanity check: restore if soft-deleted
             if (isDeleted) {
                 executeUpdate(LogoQueries.RESTORE, arrayOf(timestamp, existingLogoId))
+                executeUpdate(LogoQueries.UPDATE_FILE_DATA, arrayOf(logoData, timestamp, existingLogoId))
             }
             return existingLogoId
         }

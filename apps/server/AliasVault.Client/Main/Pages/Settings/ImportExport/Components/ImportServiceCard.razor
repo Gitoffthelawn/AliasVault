@@ -4,7 +4,7 @@
 @inject FolderService FolderService
 @inject NavigationManager NavigationManager
 @inject GlobalNotificationService GlobalNotificationService
-@inject HttpClient HttpClient
+@inject FaviconService FaviconService
 @inject IStringLocalizerFactory LocalizerFactory
 @inject AliasVault.Client.Services.Crypto.AvexCryptoService AvexCrypto
 @using Microsoft.Extensions.Localization
@@ -12,7 +12,6 @@
 @using AliasVault.ImportExport.Importers
 @using AliasVault.ImportExport.Models
 @using AliasVault.ImportExport.Models.Exports
-@using AliasVault.Shared.Models.WebApi.Favicon
 @using AliasClientDb
 @using AliasClientDb.Models
 @using AliasVault.Client.Auth.Components
@@ -612,8 +611,9 @@
     }
 
     /// <summary>
-    /// Extracts favicons for credentials. Uses domain-based deduplication to avoid
-    /// fetching the same favicon multiple times for the same domain.
+    /// Extracts favicons for credentials. Delegates dedup-by-domain and batched server-side
+    /// fetching to <see cref="FaviconService"/>; this method only handles UI progress reporting
+    /// and cancellation.
     /// </summary>
     private async Task ExtractFaviconsForCredentials()
     {
@@ -623,93 +623,48 @@
         FaviconExtractionCancellation = new CancellationTokenSource();
         StateHasChanged();
 
-        // Only extract favicons for credentials that don't already have them and have URLs
-        var credentialsWithUrls = ImportedCredentials
-            .Where(c => c.FaviconBytes == null && c.ServiceUrls?.FirstOrDefault() != null)
+        // Only extract favicons for credentials that don't already have them and have URLs.
+        var urls = ImportedCredentials
+            .Where(c => c.FaviconBytes == null)
+            .Select(c => c.ServiceUrls?.FirstOrDefault())
+            .Where(u => !string.IsNullOrEmpty(u))
+            .Cast<string>()
             .ToList();
 
-        // Group credentials by normalized domain to avoid duplicate fetches
-        var processedDomains = new HashSet<string>();
+        // The dialog reports progress as "domains processed" rather than "credentials processed",
+        // since the FaviconService dedupes by domain and that's the actual unit of fetch work.
+        TotalFaviconsToExtract = urls
+            .Select(u => FaviconService.TryNormalizeDomain(u, out var d) ? d : null)
+            .Where(d => d != null)
+            .Distinct()
+            .Count();
 
-        TotalFaviconsToExtract = credentialsWithUrls.Count();
-
-        // Update UI every N items - Task.Delay(1) is required to let browser actually render
-        // Task.Yield() doesn't work because it doesn't give the browser event loop time to paint
-        const int updateEveryNItems = 10;
-
-        foreach (var credential in credentialsWithUrls)
+        // Task.Delay(1) inside the progress callback lets Blazor actually paint between batches.
+        var progress = new Progress<int>(async count =>
         {
-            if (FaviconExtractionCancellation.Token.IsCancellationRequested)
-            {
-                break;
-            }
+            FaviconExtractionProgress = count;
+            StateHasChanged();
+            await Task.Delay(1);
+        });
 
-            // Extract normalized domain for deduplication
-            try
-            {
-                var domain = new Uri(credential.ServiceUrls!.First()).Host.ToLowerInvariant();
-                if (domain.StartsWith("www."))
-                {
-                    domain = domain[4..];
-                }
-
-                // Skip if we've already fetched a favicon for this domain
-                if (!processedDomains.Contains(domain))
-                {
-                    processedDomains.Add(domain);
-                    await ExtractFaviconForCredential(credential);
-                }
-            }
-            catch
-            {
-                // Invalid URL
-            }
-
-            FaviconExtractionProgress++;
-
-            // Update UI periodically
-            if (FaviconExtractionProgress % updateEveryNItems == 0)
-            {
-                StateHasChanged();
-                await Task.Delay(1);
-            }
+        var result = await FaviconService.ExtractBulkAsync(urls, progress, FaviconExtractionCancellation.Token);
+        foreach (var kvp in result.Favicons)
+        {
+            ExtractedFavicons[kvp.Key] = kvp.Value;
         }
 
-        // Final update to show 100% completion before transitioning to next phase
+        if (result.Status == FaviconService.BulkExtractStatus.RateLimited)
+        {
+            // Rate limit error occurred. Silently skip the favicons that couldn't be extracted.
+        }
+
+        // Final update to show 100% completion before transitioning to next phase.
+        FaviconExtractionProgress = TotalFaviconsToExtract;
         StateHasChanged();
         await Task.Delay(50);
 
         IsExtractingFavicons = false;
         StateHasChanged();
-    }
-
-    /// <summary>
-    /// Extracts a favicon for a credential. Stores by normalized domain for deduplication.
-    /// </summary>
-    /// <param name="credential">The credential to extract the favicon for.</param>
-    private async Task ExtractFaviconForCredential(ImportedCredential credential)
-    {
-        try
-        {
-            // Extract normalized domain for storage key
-            var url = credential.ServiceUrls!.First();
-            var domain = new Uri(url).Host.ToLowerInvariant();
-            if (domain.StartsWith("www."))
-            {
-                domain = domain[4..];
-            }
-
-            var apiReturn = await HttpClient.GetFromJsonAsync<FaviconExtractModel>($"v1/Favicon/Extract?url={Uri.EscapeDataString(url)}");
-            if (apiReturn?.Image is not null)
-            {
-                // Store by normalized domain for deduplication
-                ExtractedFavicons[domain] = apiReturn.Image;
-            }
-        }
-        catch
-        {
-            // Ignore favicon extraction errors
-        }
     }
 
     /// <summary>
@@ -952,16 +907,30 @@
             {
                 var context = await DbService.GetDbContextAsync();
 
-                // Check if logo already exists by source
+                // Lookup ignores IsDeleted because Logos.Source is UNIQUE — a soft-deleted row
+                // with the same domain still occupies the slot and would block a new insert.
                 var existingLogo = await context.Logos.FirstOrDefaultAsync(l => l.Source == domain);
-                if (existingLogo != null)
+                if (existingLogo != null && !existingLogo.IsDeleted && existingLogo.FileData is { Length: > 0 })
                 {
+                    // Healthy existing logo — reuse without overwriting.
+                    item.LogoId = existingLogo.Id;
+                    ImportSessionLogoIds[domain] = existingLogo.Id;
+                }
+                else if (existingLogo != null)
+                {
+                    // Refill a soft-deleted or pruner-emptied row with the imported bytes so the
+                    // new item gets a usable logo, instead of inheriting an empty blob.
+                    var nowUtc = DateTime.UtcNow;
+                    existingLogo.IsDeleted = false;
+                    existingLogo.FileData = importedCredential.FaviconBytes;
+                    existingLogo.MimeType = "image/png";
+                    existingLogo.FetchedAt = nowUtc;
+                    existingLogo.UpdatedAt = nowUtc;
                     item.LogoId = existingLogo.Id;
                     ImportSessionLogoIds[domain] = existingLogo.Id;
                 }
                 else
                 {
-                    // Create new logo from embedded bytes
                     var logo = new AliasClientDb.Logo
                     {
                         Id = Guid.NewGuid(),
@@ -1003,30 +972,40 @@
                         var context = await DbService.GetDbContextAsync();
 
                         var existingLogo = await context.Logos.FirstOrDefaultAsync(l => l.Source == domain);
-                        if (existingLogo != null)
+                        if (existingLogo != null && !existingLogo.IsDeleted && existingLogo.FileData is { Length: > 0 })
                         {
-                            // Reuse existing logo
                             item.LogoId = existingLogo.Id;
                             ImportSessionLogoIds[domain] = existingLogo.Id;
                         }
                         else if (ExtractedFavicons.TryGetValue(domain, out var favicon))
                         {
-                            // Create new logo from extracted favicon
-                            var logo = new AliasClientDb.Logo
+                            var nowUtc = DateTime.UtcNow;
+                            if (existingLogo != null)
                             {
-                                Id = Guid.NewGuid(),
-                                Source = domain,
-                                FileData = favicon,
-                                MimeType = "image/png",
-                                FetchedAt = DateTime.UtcNow,
-                                CreatedAt = DateTime.UtcNow,
-                                UpdatedAt = DateTime.UtcNow,
-                            };
-                            context.Logos.Add(logo);
-                            item.LogoId = logo.Id;
-
-                            // Track this logo for subsequent items with same domain
-                            ImportSessionLogoIds[domain] = logo.Id;
+                                existingLogo.IsDeleted = false;
+                                existingLogo.FileData = favicon;
+                                existingLogo.MimeType = "image/png";
+                                existingLogo.FetchedAt = nowUtc;
+                                existingLogo.UpdatedAt = nowUtc;
+                                item.LogoId = existingLogo.Id;
+                                ImportSessionLogoIds[domain] = existingLogo.Id;
+                            }
+                            else
+                            {
+                                var logo = new AliasClientDb.Logo
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Source = domain,
+                                    FileData = favicon,
+                                    MimeType = "image/png",
+                                    FetchedAt = nowUtc,
+                                    CreatedAt = nowUtc,
+                                    UpdatedAt = nowUtc,
+                                };
+                                context.Logos.Add(logo);
+                                item.LogoId = logo.Id;
+                                ImportSessionLogoIds[domain] = logo.Id;
+                            }
                         }
                     }
                 }
