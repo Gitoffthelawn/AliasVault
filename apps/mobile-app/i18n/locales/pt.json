@@ -161,8 +161,8 @@
     "clipboardClearDescription": "Limpa automaticamente as senhas e dados sensíveis copiados da sua área de transferência após o tempo especificado.",
     "clipboardClearAndroidWarning": "Nota: alguns dispositivos Android têm histórico de área de transferência habilitado, o que pode manter dados copiados anteriormente, mesmo após o AliasVault limpar a área de transferência. O AliasVault só pode remover o item mais recente, porém outros itens podem permanecer visíveis no histórico. Por questões de segurança, recomendamos desabilitar qualquer histórico de área de transferência nas configurações do seu dispositivo.",
     "clipboardLocalOnly": "Apenas área de transferência local",
-    "clipboardLocalOnlyDescription": "Keep copied credentials on this device instead of syncing them to your other Apple devices via Universal Clipboard.",
-    "clipboardLocalOnlyDisabledWarning": "With this off, copied credentials can sync to your other Apple devices (Mac, iPad, etc.) through Universal Clipboard.",
+    "clipboardLocalOnlyDescription": "Mantenha as credenciais copiadas neste dispositivo ao invés de sincronizá-las para seus outros dispositivos Apple através da Área de Transferência Universal.",
+    "clipboardLocalOnlyDisabledWarning": "Com esta opção desativada, credenciais copiadas podem ser sincronizadas para seus dispositivos Apple (Mac, iPad, etc.) através da Área de Transferência Universal.",
     "clipboardClearOptions": {
       "never": "Nunca",
       "5seconds": "5 segundos",
@@ -218,7 +218,7 @@
       "biometricDisabledMessage": "{{biometric}} está desabitado para o AliasVault. Para utilizar, por favor primeiro habilite nas configurações do seu dispositivo.",
       "biometricHelp": "Utilize biometria para desbloquear seu cofre, que está protegido por {{keystore}}.",
       "biometricUnavailableHelp": "{{biometric}} não está disponível. Clique para abrir as configurações e/ou vá às configurações do seu dispositivo para habilitar e configurar.",
-      "featureRequiresPasscode": "This feature requires a passcode to be enabled on your device.",
+      "featureRequiresPasscode": "Este recurso requer uma senha para ser habilitado no seu dispositivo.",
       "pin": "Código PIN",
       "pinDescription": "Utilize um código PIN para desbloquear seu cofre mais rapidamente.",
       "pinEnabled": "Desbloqueio por PIN habilitado com sucesso",
@@ -443,25 +443,25 @@
     "vaultSyncedSuccessfully": "Cofre sincronizado com sucesso",
     "vaultUpToDate": "Cofre está atualizado",
     "offlineMessage": "Você está offline. Por favor conecte-se à internet para sincronizar seu cofre.",
-    "switchBackToOriginalApp": "Switch back to the original app to continue.",
+    "switchBackToOriginalApp": "Volte ao aplicativo original para continuar.",
     "autofillOpenApp": {
-      "title": "Autofill request",
-      "description": "Choose an action for the app or website that requested autofill.",
-      "appOrUrlLabel": "App or URL",
-      "findExistingTitle": "Link to existing credential",
-      "findExistingDescription": "Select an existing credential from your vault to link to the address above.",
-      "createNewTitle": "Create new credential",
-      "createNewDescription": "Add a new credential to your vault for this app or URL."
+      "title": "Requisição de preenchimento automático",
+      "description": "Escolha uma ação para o aplicativo ou site que requisitar preenchimento automático.",
+      "appOrUrlLabel": "App ou URL",
+      "findExistingTitle": "Conectar à credencial existente",
+      "findExistingDescription": "Selecione uma credencial existente do seu cofre para conectar ao endereço acima.",
+      "createNewTitle": "Criar nova credencial",
+      "createNewDescription": "Adicionar uma nova credencial ao seu cofre para este app ou URL."
     },
     "autofillLinkExisting": {
-      "title": "Link to existing credential",
-      "intro": "Select an existing credential from your vault to link to \"{{target}}\".",
-      "confirmTitle": "Link to credential?",
-      "confirmMessage": "Are you sure you want to link \"{{url}}\" to this credential?"
+      "title": "Conectar à credencial existente",
+      "intro": "Selecione uma credencial existente do seu cofre para conectar à \"{{target}}\".",
+      "confirmTitle": "Conectar à credencial?",
+      "confirmMessage": "Tem certeza que deseja conectar \"{{url}}\" a esta credencial?"
     },
     "autofillUrlAdded": {
-      "title": "Credential linked",
-      "message": "Autofill should now offer this credential the next time you open the app."
+      "title": "Credencial conectada",
+      "message": "Agora, o preenchimento automático deve oferecer esta credencial da próxima vez que você abrir o aplicativo."
     },
     "filters": {
       "all": "Itens",
@@ -494,7 +494,7 @@
       "usernameCopied": "Nome de usuário copiado para a área de transferência",
       "emailCopied": "E-mail copiado para a área de transferência",
       "passwordCopied": "Senha copiada para a área de transferência",
-      "totpCodeCopied": "TOTP code copied to clipboard",
+      "totpCodeCopied": "Código de TOTP copiado para a área de transferência",
       "urlCopied": "URL copiado para a área de transferência"
     },
     "createNewAliasFor": "Criar novo alias para",
@@ -505,7 +505,7 @@
       "copyUsername": "Copiar Nome de Usuário",
       "copyEmail": "Copiar E-mail",
       "copyPassword": "Copiar Senha",
-      "copyTotpCode": "Copy TOTP Code"
+      "copyTotpCode": "Copiar Código TOTP"
     },
     "urlContextMenu": {
       "title": "Opções de URL",
@@ -528,7 +528,7 @@
       "folderNameRequired": "Nome da pasta é obrigatório",
       "deleteFolder": "Excluir Pasta",
       "deleteFolderKeepItems": "Excluir apenas a pasta",
-      "deleteFolderKeepItemsDescription": "Items will be moved to the parent folder.",
+      "deleteFolderKeepItemsDescription": "Itens serão movidos para a pasta superior.",
       "deleteFolderAndItems": "Excluir pasta e todos os itens",
       "deleteFolderAndItemsDescription": "{{count}} item(ns) serão movidos para Recentemente Excluídos.",
       "emptyFolderHint": "Esta pasta está vazia. Para mover itens para esta pasta, edite o item e selecione esta pasta.",
@@ -537,8 +537,8 @@
     "recentlyDeleted": {
       "title": "Recentemente Excluídos",
       "noItems": "Nenhum item excluído",
-      "noItemsDescription": "Items you delete will appear here for {{days}} days before being permanently removed.",
-      "description": "These items will be permanently deleted after {{days}} days. You can restore them or delete them immediately.",
+      "noItemsDescription": "Itens que você excluir aparecerão aqui por {{days}} dias antes de serem permanentemente removidos.",
+      "description": "Estes itens serão excluídos permanentemente após {{days}} dias. Você pode restaurá-los ou excluí-los imediatamente.",
       "restore": "Restaurar",
       "deletePermanently": "Excluir Permanentemente",
       "emptyAll": "Esvaziar Tudo",
@@ -569,7 +569,7 @@
     "sizeKB": "KB",
     "offlineMessage": "Você está offline. Por favor conecte-se à internet para carregar seus e-mails.",
     "emptyMessage": "Você ainda não recebeu nenhum e-mail em seus endereços de e-mail privados. Quando receber um novo e-mail, ele aparecerá aqui.",
-    "loadMore": "Load More ({{count}} remaining)",
+    "loadMore": "Carregar Mais ({{count}} restante(s))",
     "time": {
       "justNow": "agora",
       "minutesAgo_single": "há {{count}} minutos",
@@ -640,11 +640,11 @@
       "attemptingToUnlockMessage": "Tentando desbloquear."
     },
     "vaultError": {
-      "title": "Vault Error",
-      "description": "An error occurred while loading your vault. If this problem persists, please contact support.",
-      "showDetails": "Show error details",
-      "hideDetails": "Hide error details",
-      "copyErrorDetails": "Copy error details"
+      "title": "Erro no Cofre",
+      "description": "Ocorreu um erro ao carregar seu cofre. Se este problema persistir, por favor, entre em contato com o suporte.",
+      "showDetails": "Mostrar detalhes do erro",
+      "hideDetails": "Esconder detalhes do erro",
+      "copyErrorDetails": "Copiar detalhes do erro"
     },
     "loginSettings": {
       "title": "Conexão com API",
@@ -653,12 +653,12 @@
       "customApiUrl": "URL de API Customizada",
       "customApiUrlPlaceholder": "https://minha-instancia-aliasvault.com/api",
       "version": "Versão: {{version}}",
-      "advancedSettings": "Advanced settings",
-      "customProxyHeaders": "Custom proxy headers",
-      "customProxyHeadersDescription": "Add HTTP headers that will be sent with every request to your AliasVault server. Can be used for self-hosted setups behind a reverse proxy that checks for custom headers (e.g. Pangolin, Cloudflare Access).",
-      "headerName": "Header name",
-      "headerNamePlaceholder": "X-Custom-Header",
-      "headerValue": "Header value"
+      "advancedSettings": "Configurações avançadas",
+      "customProxyHeaders": "Cabeçalhos de proxy personalizados",
+      "customProxyHeadersDescription": "Adicionar cabeçalhos HTTP que serão enviados com cada requisição para seu servidor AliasVault. Pode ser utilizado para configurações self-hosted atrás de proxies reversos que verifiquem por cabeçalhos (por exemplo, Pangolin, Cloudflare Access).",
+      "headerName": "Nome do cabeçalho",
+      "headerNamePlaceholder": "X-Cabeçalho-Personalizado",
+      "headerValue": "Valor do cabeçalho"
     }
   },
   "upgrade": {
