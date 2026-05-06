@@ -134,12 +134,6 @@
     <comment>Table column header for the number of items using a logo</comment>
   </data>
 
-  <!-- Misc -->
-  <data name="ItemsUsingLogoSuffix">
-    <value>items</value>
-    <comment>Suffix shown after the count of items using a given logo (e.g. "3 items")</comment>
-  </data>
-
   <!-- Logo management -->
   <data name="LogoManagementTitle">
     <value>Manage logos</value>
@@ -165,14 +159,6 @@
     <value>This removes every stored logo from your vault and clears the logo on each credential. You can re-download them at any time. Continue?</value>
     <comment>Confirmation modal body for delete-all-logos</comment>
   </data>
-  <data name="DeleteAllLogosProgressMessage">
-    <value>Deleting all logos...</value>
-    <comment>Loading spinner message while logos are being deleted</comment>
-  </data>
-  <data name="DeleteAllLogosSuccessMessage">
-    <value>All logos have been deleted from your vault.</value>
-    <comment>Success notification after deleting every logo</comment>
-  </data>
   <data name="RedownloadAllLogosConfirmTitle">
     <value>Re-download all logos?</value>
     <comment>Confirmation modal title for redownload-all-logos</comment>
@@ -180,14 +166,6 @@
   <data name="RedownloadAllLogosConfirmMessage">
     <value>This re-fetches the favicon for every credential that has a website URL, replacing the existing logo. Depending on your vault size this may take a while. Continue?</value>
     <comment>Confirmation modal body for redownload-all-logos</comment>
-  </data>
-  <data name="RedownloadInProgress">
-    <value>Re-downloading logos...</value>
-    <comment>Progress label shown next to the redownload progress bar</comment>
-  </data>
-  <data name="RedownloadAllLogosSuccessMessage">
-    <value>Re-downloaded logos for {0} domains.</value>
-    <comment>Success notification after redownload, with placeholder for count</comment>
   </data>
   <data name="RedownloadAllLogosNoItemsMessage">
     <value>No items with a website URL were found, nothing to download.</value>

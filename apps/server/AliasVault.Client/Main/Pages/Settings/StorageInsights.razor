@@ -129,7 +129,7 @@ else
                     <SortableTableRow Class="@(logo.FirstItemId.HasValue ? "cursor-pointer" : string.Empty)" OnClick="@(logo.FirstItemId.HasValue ? EventCallback.Factory.Create(this, () => NavigateToItem(logo.FirstItemId!.Value)) : default)">
                         <SortableTableColumn IsPrimary="true">@logo.Source</SortableTableColumn>
                         <SortableTableColumn>@FormatSize(logo.SizeBytes)</SortableTableColumn>
-                        <SortableTableColumn>@logo.ItemCount @Localizer["ItemsUsingLogoSuffix"]</SortableTableColumn>
+                        <SortableTableColumn>@logo.ItemCount</SortableTableColumn>
                     </SortableTableRow>
                 }
             </SortableTable>
@@ -144,7 +144,7 @@ else
         {
             <div class="mb-4">
                 <div class="flex justify-between text-sm text-gray-700 dark:text-gray-300 mb-1">
-                    <span>@Localizer["RedownloadInProgress"]</span>
+                    <span>@SharedLocalizer["Loading"]</span>
                     <span>@_redownloadProgress / @_redownloadTotal</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
@@ -389,7 +389,7 @@ else
 
         _isDeletingLogos = true;
         StateHasChanged();
-        GlobalLoadingSpinner.Show(Localizer["DeleteAllLogosProgressMessage"]);
+        GlobalLoadingSpinner.Show(SharedLocalizer["Loading"]);
 
         try
         {
@@ -420,7 +420,7 @@ else
             await DbService.VacuumDatabaseAsync();
             await DbService.SaveDatabaseAsync();
 
-            GlobalNotificationService.AddSuccessMessage(Localizer["DeleteAllLogosSuccessMessage"], true);
+            GlobalNotificationService.AddSuccessMessage(SharedLocalizer["Success"], true);
             await LoadStatisticsAsync();
         }
         catch (Exception)
@@ -502,7 +502,6 @@ else
 
             var ctx = await DbService.GetDbContextAsync();
             var now = DateTime.UtcNow;
-            int updatedDomains = 0;
 
             foreach (var (domain, bucket) in itemsByDomain)
             {
@@ -545,8 +544,6 @@ else
                         item.UpdatedAt = now;
                     }
                 }
-
-                updatedDomains++;
             }
 
             await ctx.SaveChangesAsync();
@@ -558,7 +555,7 @@ else
             }
             else
             {
-                GlobalNotificationService.AddSuccessMessage(string.Format(System.Globalization.CultureInfo.CurrentCulture, Localizer["RedownloadAllLogosSuccessMessage"], updatedDomains), true);
+                GlobalNotificationService.AddSuccessMessage(SharedLocalizer["Success"], true);
             }
 
             await LoadStatisticsAsync();
