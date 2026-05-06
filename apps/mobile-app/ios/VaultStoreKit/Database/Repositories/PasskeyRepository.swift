@@ -486,7 +486,9 @@ public class PasskeyRepository: BaseRepository {
 
             // Sanity check: restore if soft-deleted
             if isDeleted {
+                let logoDataParam = "av-base64-to-blob:\(logoData.base64EncodedString())"
                 try client.executeUpdate(LogoQueries.restore, params: [now, existingLogoId])
+                try client.executeUpdate(LogoQueries.updateFileData, params: [logoDataParam, now, existingLogoId])
             }
             return existingLogoId
         }

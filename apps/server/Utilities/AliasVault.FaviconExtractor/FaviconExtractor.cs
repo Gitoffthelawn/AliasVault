@@ -8,6 +8,7 @@
 namespace AliasVault.FaviconExtractor;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,9 +22,10 @@ using SkiaSharp;
 /// </summary>
 public static class FaviconExtractor
 {
-    private const int MaxSizeBytes = 50 * 1024; // 50KB max size before resizing
-    private const int TargetWidth = 96; // Resize target width
-    private static readonly string[] _allowedSchemes = { "http", "https" };
+    private const int MaxSizeBytes = 20 * 1024; // 20KB max size; images above this are resized/re-encoded.
+    private static readonly int[] _resizeWidths = [96, 64, 48, 32];
+    private static readonly int[] _jpegFallbackQualities = [80, 65, 50];
+    private static readonly string[] _allowedSchemes = ["http", "https"];
 
     /// <summary>
     /// Extracts the favicon from a URL with enhanced browser like behavior.
@@ -54,6 +56,43 @@ public static class FaviconExtractor
 
         // Return null if the favicon extraction failed.
         return null;
+    }
+
+    /// <summary>
+    /// Extracts favicons for multiple URLs in parallel. Each URL is processed independently;
+    /// individual failures are returned as null entries rather than throwing. The returned
+    /// list lines up index-for-index with the input.
+    /// </summary>
+    /// <param name="urls">The URLs to extract favicons for.</param>
+    /// <returns>A list of favicon byte arrays, in the same order as the input urls.</returns>
+    public static async Task<IReadOnlyList<byte[]?>> GetFaviconsAsync(IReadOnlyList<string> urls)
+    {
+        if (urls.Count == 0)
+        {
+            return Array.Empty<byte[]?>();
+        }
+
+        var tasks = new Task<byte[]?>[urls.Count];
+        for (int i = 0; i < urls.Count; i++)
+        {
+            // Wrap each call in a try/catch so one bad URL doesn't fail the whole batch.
+            var url = urls[i];
+            tasks[i] = SafeGetFaviconAsync(url);
+        }
+
+        return await Task.WhenAll(tasks);
+    }
+
+    private static async Task<byte[]?> SafeGetFaviconAsync(string url)
+    {
+        try
+        {
+            return await GetFaviconAsync(url);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -184,18 +223,13 @@ public static class FaviconExtractor
                 return null;
             }
 
-            // If image is too large, attempt to resize
+            // If image is too large, attempt to resize/re-encode it down under the cap.
             if (imageBytes.Length > MaxSizeBytes)
             {
-                var resizedBytes = ResizeImageAsync(imageBytes, contentType);
-                if (resizedBytes != null)
-                {
-                    imageBytes = resizedBytes;
-                }
+                return ResizeImage(imageBytes, contentType);
             }
 
-            // Return only if within size limits
-            return imageBytes.Length <= MaxSizeBytes ? imageBytes : null;
+            return imageBytes;
         }
         catch
         {
@@ -377,13 +411,22 @@ public static class FaviconExtractor
     }
 
     /// <summary>
-    /// Resizes the image to the target width.
+    /// Iteratively shrinks the image until it fits in the size cap. Tries
+    /// progressively smaller widths in PNG (lossless after downscale handles most cases), then
+    /// falls back to JPEG at decreasing quality if PNG at the smallest width is still too large.
     /// </summary>
     /// <param name="imageBytes">The image bytes to resize.</param>
     /// <param name="contentType">The content type of the image.</param>
-    /// <returns>The resized image bytes.</returns>
-    private static byte[]? ResizeImageAsync(byte[] imageBytes, string contentType)
+    /// <returns>The resized image bytes, or null if it could not be brought under the size cap.</returns>
+    private static byte[]? ResizeImage(byte[] imageBytes, string contentType)
     {
+        // SVG is a text format; we can't usefully raster-resize it here. Caller already rejects
+        // anything over the cap, so just bail and let it return null.
+        if (contentType == "image/svg+xml")
+        {
+            return null;
+        }
+
         try
         {
             using var original = SKBitmap.Decode(imageBytes);
@@ -392,30 +435,59 @@ public static class FaviconExtractor
                 return null;
             }
 
-            var scale = (float)TargetWidth / original.Width;
-            var targetHeight = (int)(original.Height * scale);
-
-            using var resized = original.Resize(new SKImageInfo(TargetWidth, targetHeight), new SKSamplingOptions(SKFilterMode.Linear));
-            if (resized == null)
+            // Pass 1: PNG at progressively smaller widths. Preserves transparency.
+            foreach (var width in _resizeWidths)
             {
-                return null;
+                var encoded = EncodeAtWidth(original, width, SKEncodedImageFormat.Png, 100);
+                if (encoded != null && encoded.Length <= MaxSizeBytes)
+                {
+                    return encoded;
+                }
             }
 
-            using var image = SKImage.FromBitmap(resized);
-            var format = contentType switch
+            // Pass 2: JPEG at the smallest width with decreasing quality. Loses transparency but
+            // gives much smaller files for photographic favicons that resist PNG compression.
+            var fallbackWidth = _resizeWidths[^1];
+            foreach (var quality in _jpegFallbackQualities)
             {
-                "image/png" => SKEncodedImageFormat.Png,
-                "image/jpeg" => SKEncodedImageFormat.Jpeg,
-                "image/gif" => SKEncodedImageFormat.Gif,
-                _ => SKEncodedImageFormat.Png,
-            };
+                var encoded = EncodeAtWidth(original, fallbackWidth, SKEncodedImageFormat.Jpeg, quality);
+                if (encoded != null && encoded.Length <= MaxSizeBytes)
+                {
+                    return encoded;
+                }
+            }
 
-            var data = image.Encode(format, 90);
-            return data?.ToArray();
+            return null;
         }
         catch
         {
             return null;
         }
+    }
+
+    /// <summary>
+    /// Resizes the bitmap to the target width (preserving aspect ratio, never upscaling) and
+    /// encodes it in the given format.
+    /// </summary>
+    /// <param name="original">The decoded source bitmap.</param>
+    /// <param name="targetWidth">Desired output width in pixels.</param>
+    /// <param name="format">Encode format.</param>
+    /// <param name="quality">Encoder quality (only meaningful for lossy formats).</param>
+    /// <returns>Encoded bytes, or null if encoding failed.</returns>
+    private static byte[]? EncodeAtWidth(SKBitmap original, int targetWidth, SKEncodedImageFormat format, int quality)
+    {
+        var width = Math.Min(targetWidth, original.Width);
+        var scale = (float)width / original.Width;
+        var height = Math.Max(1, (int)(original.Height * scale));
+
+        using var resized = original.Resize(new SKImageInfo(width, height), new SKSamplingOptions(SKFilterMode.Linear));
+        if (resized == null)
+        {
+            return null;
+        }
+
+        using var image = SKImage.FromBitmap(resized);
+        using var data = image.Encode(format, quality);
+        return data?.ToArray();
     }
 }

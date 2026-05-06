@@ -90,6 +90,23 @@
             </div>
             <Button OnClick="@(() => ShowExportConfirmation(ExportType.Csv))">@Localizer["ExportCsvButton"]</Button>
         </div>
+
+@* DEBUG-only raw SQLite export. *@
+@if (IsDebugBuild)
+{
+    <div class="flex items-center justify-between p-3 border-2 border-dashed border-yellow-400 dark:border-yellow-600 rounded-lg bg-yellow-50 dark:bg-yellow-900/20">
+        <div class="flex-1 min-w-0 mr-4">
+            <div class="flex items-center gap-2 mb-1">
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-white">Export raw SQLite</h4>
+                <span class="px-1.5 py-0.5 text-xs font-medium text-yellow-800 dark:text-yellow-200 bg-yellow-200 dark:bg-yellow-800 rounded">DEBUG</span>
+            </div>
+            <p class="text-xs text-gray-600 dark:text-gray-300">
+                Downloads the unencrypted SQLite vault file as-is. Anyone with the file can read everything.
+            </p>
+        </div>
+        <Button OnClick="@ExportVaultSqlite">Download .sqlite</Button>
+    </div>
+}
     </div>
 </div>
 
@@ -112,6 +129,13 @@
     OnClose="@CloseExportPasswordModal" />
 
 @code {
+    // Assign debug static flag for Razor markup check.
+#if DEBUG
+    private static readonly bool IsDebugBuild = true;
+#else
+    private static readonly bool IsDebugBuild = false;
+#endif
+
     private string _username = string.Empty;
     private bool _showPasswordConfirmation;
     private string _passwordError = string.Empty;
@@ -292,6 +316,27 @@
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error downloading file");
+        }
+    }
+
+    // Always defined so the markup binding compiles, only invoked when IsDebugBuild is true.
+    private async Task ExportVaultSqlite()
+    {
+        GlobalLoadingSpinner.Show("Exporting SQLite vault...");
+        try
+        {
+            var base64 = await DbService.ExportSqliteToBase64Async();
+            var bytes = Convert.FromBase64String(base64);
+            await JsInteropService.DownloadFileFromStream(await GetExportFileName("sqlite"), bytes);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error exporting raw SQLite vault");
+            GlobalNotificationService.AddErrorMessage(SharedLocalizer["ErrorGeneric"], true);
+        }
+        finally
+        {
+            GlobalLoadingSpinner.Hide();
         }
     }
 

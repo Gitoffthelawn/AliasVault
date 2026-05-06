@@ -106,6 +106,11 @@ else
             {
                 return "image/png";
             }
+
+            if (bytes[0] == 0xFF && bytes[1] == 0xD8 && bytes[2] == 0xFF)
+            {
+                return "image/jpeg";
+            }
         }
 
         return "image/x-icon";

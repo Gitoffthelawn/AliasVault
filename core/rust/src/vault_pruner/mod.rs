@@ -72,6 +72,9 @@ pub struct PruneStats {
     /// Number of tombstoned attachments whose blob bytes were cleared.
     #[serde(default)]
     pub attachment_blobs_cleared: u32,
+    /// Number of tombstoned logos whose FileData bytes were cleared.
+    #[serde(default)]
+    pub logo_blobs_cleared: u32,
 }
 
 /// Output of the prune operation.
@@ -263,7 +266,7 @@ pub fn prune_vault(input: PruneInput) -> VaultResult<PruneOutput> {
             if let Some(logo_id) = logo.get("Id").and_then(|v| v.as_str()) {
                 if !referenced_logo_ids.contains(logo_id) {
                     statements.push(SqlStatement {
-                        sql: "UPDATE Logos SET IsDeleted = 1, UpdatedAt = ? WHERE Id = ?".to_string(),
+                        sql: "UPDATE Logos SET IsDeleted = 1, FileData = X'', UpdatedAt = ? WHERE Id = ?".to_string(),
                         params: vec![
                             serde_json::json!(now_str),
                             serde_json::json!(logo_id),
@@ -307,6 +310,35 @@ pub fn prune_vault(input: PruneInput) -> VaultResult<PruneOutput> {
         }
     }
 
+    // Pass 4 — sweep tombstoned logos that still carry FileData bytes. Logos that have
+    // been soft-deleted but still have FileData bytes take up space for no reason.
+    // This behaviour could have occurred in older clients (before 0.29.x).
+    if let Some(logos_table) = input.tables.iter().find(|t| t.name == "Logos") {
+        for logo in &logos_table.records {
+            let is_deleted = logo.get("IsDeleted")
+                .map(|v| v.as_i64() == Some(1) || v.as_bool() == Some(true))
+                .unwrap_or(false);
+            if !is_deleted {
+                continue;
+            }
+
+            if !logo_has_file_data_bytes(logo) {
+                continue;
+            }
+
+            if let Some(logo_id) = logo.get("Id").and_then(|v| v.as_str()) {
+                statements.push(SqlStatement {
+                    sql: "UPDATE Logos SET FileData = X'', UpdatedAt = ? WHERE Id = ?".to_string(),
+                    params: vec![
+                        serde_json::json!(now_str),
+                        serde_json::json!(logo_id),
+                    ],
+                });
+                stats.logo_blobs_cleared += 1;
+            }
+        }
+    }
+
     Ok(PruneOutput {
         success: true,
         statements,
@@ -317,6 +349,17 @@ pub fn prune_vault(input: PruneInput) -> VaultResult<PruneOutput> {
 /// True if the attachment's Blob field is present and non-empty.
 fn attachment_has_blob_bytes(attachment: &Record) -> bool {
     match attachment.get("Blob") {
+        None => false,
+        Some(serde_json::Value::Null) => false,
+        Some(serde_json::Value::String(s)) => !s.is_empty(),
+        Some(serde_json::Value::Array(a)) => !a.is_empty(),
+        Some(_) => true,
+    }
+}
+
+/// True if the logo's FileData field is present and non-empty.
+fn logo_has_file_data_bytes(logo: &Record) -> bool {
+    match logo.get("FileData") {
         None => false,
         Some(serde_json::Value::Null) => false,
         Some(serde_json::Value::String(s)) => !s.is_empty(),
@@ -430,6 +473,12 @@ mod tests {
         record.insert("Source".to_string(), serde_json::json!("example.com"));
         record.insert("UpdatedAt".to_string(), serde_json::json!("2024-01-01T00:00:00Z"));
         record.insert("IsDeleted".to_string(), serde_json::json!(if is_deleted { 1 } else { 0 }));
+        record
+    }
+
+    fn make_logo_record_with_blob(id: &str, is_deleted: bool, blob: serde_json::Value) -> Record {
+        let mut record = make_logo_record(id, is_deleted);
+        record.insert("FileData".to_string(), blob);
         record
     }
 
@@ -697,6 +746,82 @@ mod tests {
 
         assert_eq!(output.stats.items_pruned, 0);
         assert_eq!(output.stats.logos_pruned, 0);
+    }
+
+    #[test]
+    fn test_orphan_logo_pruning_emits_filedata_clear_in_same_statement() {
+        // Pass 2 must clear FileData when it tombstones a logo, otherwise the
+        // encrypted vault keeps the blob bytes even after the row is "deleted".
+        let now_str = Utc::now().format("%Y-%m-%dT%H:%M:%S%.3fZ").to_string();
+        let input = PruneInput {
+            tables: vec![
+                TableData {
+                    name: "Items".to_string(),
+                    records: vec![],
+                },
+                TableData {
+                    name: "Logos".to_string(),
+                    records: vec![make_logo_record_with_blob("logo-orphan", false, serde_json::json!("aGVsbG8="))],
+                },
+            ],
+            retention_days: 30,
+            current_time: now_str,
+        };
+
+        let output = prune_vault(input).unwrap();
+
+        assert_eq!(output.stats.logos_pruned, 1);
+        assert!(output.statements.iter().any(|s| s.sql.contains("FileData = X''")));
+    }
+
+    #[test]
+    fn test_tombstoned_logo_with_blob_bytes_is_swept() {
+        // Pass 4 must catch historical logos that are IsDeleted=1 but still carry FileData
+        // (e.g. tombstoned by an older client before the FileData=X'' fix landed).
+        let now_str = Utc::now().format("%Y-%m-%dT%H:%M:%S%.3fZ").to_string();
+        let input = PruneInput {
+            tables: vec![
+                TableData {
+                    name: "Items".to_string(),
+                    records: vec![],
+                },
+                TableData {
+                    name: "Logos".to_string(),
+                    records: vec![make_logo_record_with_blob("logo-tombstoned", true, serde_json::json!("aGVsbG8="))],
+                },
+            ],
+            retention_days: 30,
+            current_time: now_str,
+        };
+
+        let output = prune_vault(input).unwrap();
+
+        assert_eq!(output.stats.logo_blobs_cleared, 1);
+        assert_eq!(output.stats.logos_pruned, 0);
+    }
+
+    #[test]
+    fn test_tombstoned_logo_without_blob_is_not_touched() {
+        // Logos already cleared shouldn't generate redundant updates.
+        let now_str = Utc::now().format("%Y-%m-%dT%H:%M:%S%.3fZ").to_string();
+        let input = PruneInput {
+            tables: vec![
+                TableData {
+                    name: "Items".to_string(),
+                    records: vec![],
+                },
+                TableData {
+                    name: "Logos".to_string(),
+                    records: vec![make_logo_record_with_blob("logo-tombstoned", true, serde_json::Value::Null)],
+                },
+            ],
+            retention_days: 30,
+            current_time: now_str,
+        };
+
+        let output = prune_vault(input).unwrap();
+
+        assert_eq!(output.stats.logo_blobs_cleared, 0);
     }
 
     #[test]
