@@ -37,6 +37,10 @@
     <value>Tietoturva-asetukset</value>
     <comment>Navigation link for security settings</comment>
   </data>
+  <data name="StorageInsightsNav">
+    <value>Storage insights</value>
+    <comment>Navigation link for vault storage insights page</comment>
+  </data>
   <data name="ImportExportNav">
     <value>Tuonti / Vienti</value>
     <comment>Navigation link for import/export settings</comment>
