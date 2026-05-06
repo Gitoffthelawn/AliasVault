@@ -32,7 +32,7 @@
     "errors": {
       "unknownError": "Der opstod en ukendt fejl.",
       "unknownErrorTryAgain": "Der opstod en ukendt fejl. Prøv venligst igen.",
-      "vaultTooLarge": "The vault is too large for the server to accept. Try to remove some items or attachments to reduce the size and try again.",
+      "vaultTooLarge": "Boksen er for stor til, at serveren kan acceptere. Prøv at fjerne nogle elementer eller vedhæftede filer for at reducere størrelsen og prøv igen.",
       "serverVersionTooOld": "AliasVault-serveren skal opdateres til en nyere version for at bruge denne funktion. Kontakt venligst serveradministratoren, hvis du har brug for hjælp."
     }
   },
@@ -443,15 +443,15 @@
     "vaultSyncedSuccessfully": "Boks synkroniseret korrekt",
     "vaultUpToDate": "Boksen er opdateret",
     "offlineMessage": "Du er offline. Opret venligst forbindelse til internettet for at synkronisere din boks.",
-    "switchBackToOriginalApp": "Switch back to the original app to continue.",
+    "switchBackToOriginalApp": "Skift tilbage til den oprindelige app for at fortsætte.",
     "autofillOpenApp": {
-      "title": "Autofill request",
-      "description": "Choose an action for the app or website that requested autofill.",
-      "appOrUrlLabel": "App or URL",
-      "findExistingTitle": "Link to existing credential",
-      "findExistingDescription": "Select an existing credential from your vault to link to the address above.",
-      "createNewTitle": "Create new credential",
-      "createNewDescription": "Add a new credential to your vault for this app or URL."
+      "title": "Autofyld anmodning",
+      "description": "Vælg en handling for den app eller hjemmeside, der anmodede om autoudfyldelse.",
+      "appOrUrlLabel": "App eller URL",
+      "findExistingTitle": "Link til eksisterende legitimationsoplysninger",
+      "findExistingDescription": "Vælg en eksisterende legitimationsoplysninger fra din boks for at linke til adressen ovenfor.",
+      "createNewTitle": "Opret nye legitimationsoplysninger",
+      "createNewDescription": "Tilføj nye legitimationsoplysninger til din boks til denne app eller URL."
     },
     "autofillLinkExisting": {
       "title": "Link to existing credential",
