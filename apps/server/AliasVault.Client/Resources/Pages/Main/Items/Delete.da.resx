@@ -28,7 +28,7 @@
     <comment>Page header title for deleting item</comment>
   </data>
   <data name="DeleteItemDescription">
-    <value>Are you sure you want to delete this item? It will be moved to the recently deleted items and permanently deleted after {0} days.</value>
+    <value>Er du sikker på, at du vil slette dette element? Det vil blive flyttet til de nyligt slettede elementer og slettet permanent efter {0} dage.</value>
     <comment>Confirmation message shown in the delete-item modal. Placeholder {0} is the trash retention period in days.</comment>
   </data>
   <data name="ItemEntrySection">
@@ -72,7 +72,7 @@
     <comment>Success message after item deletion</comment>
   </data>
   <data name="DeleteDatabaseError">
-    <value>Fejl ved gemning i database.</value>
+    <value>Fejl ved lagring af database.</value>
     <comment>Error message when database save fails</comment>
   </data>
 </root>
