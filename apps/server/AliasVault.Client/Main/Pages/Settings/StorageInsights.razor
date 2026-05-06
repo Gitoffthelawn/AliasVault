@@ -129,7 +129,6 @@ else
                     <SortableTableRow Class="@(logo.FirstItemId.HasValue ? "cursor-pointer" : string.Empty)" OnClick="@(logo.FirstItemId.HasValue ? EventCallback.Factory.Create(this, () => NavigateToItem(logo.FirstItemId!.Value)) : default)">
                         <SortableTableColumn IsPrimary="true">@logo.Source</SortableTableColumn>
                         <SortableTableColumn>@FormatSize(logo.SizeBytes)</SortableTableColumn>
-                        <SortableTableColumn>@(string.IsNullOrWhiteSpace(logo.MimeType) ? "-" : logo.MimeType)</SortableTableColumn>
                         <SortableTableColumn>@logo.ItemCount @Localizer["ItemsUsingLogoSuffix"]</SortableTableColumn>
                     </SortableTableRow>
                 }
@@ -191,7 +190,6 @@ else
     [
         new TableColumn { Title = "Source", Sortable = false },
         new TableColumn { Title = "Size", Sortable = false },
-        new TableColumn { Title = "Type", Sortable = false },
         new TableColumn { Title = "Used by", Sortable = false },
     ];
 
@@ -228,8 +226,7 @@ else
         _attachmentColumns[3].Title = Localizer["ColumnCreated"];
         _logoColumns[0].Title = Localizer["ColumnWebsiteURL"];
         _logoColumns[1].Title = Localizer["ColumnSize"];
-        _logoColumns[2].Title = Localizer["ColumnMimeType"];
-        _logoColumns[3].Title = Localizer["ColumnItemCount"];
+        _logoColumns[2].Title = Localizer["ColumnItemCount"];
 
         await LoadStatisticsAsync();
     }
@@ -288,7 +285,6 @@ else
             {
                 l.Id,
                 l.Source,
-                l.MimeType,
                 SizeBytes = l.FileData!.Length,
                 ItemIds = l.Items
                     .Where(i => !i.IsDeleted && i.DeletedAt == null)
@@ -302,7 +298,6 @@ else
             {
                 Id = l.Id,
                 Source = l.Source,
-                MimeType = l.MimeType,
                 SizeBytes = l.SizeBytes,
                 ItemCount = l.ItemIds.Count,
                 FirstItemId = l.ItemIds.Count > 0 ? l.ItemIds[0] : null,
@@ -523,7 +518,6 @@ else
                 {
                     existingLogo.IsDeleted = false;
                     existingLogo.FileData = image;
-                    existingLogo.MimeType = "image/png";
                     existingLogo.FetchedAt = now;
                     existingLogo.UpdatedAt = now;
                     logoId = existingLogo.Id;
@@ -535,7 +529,6 @@ else
                         Id = Guid.NewGuid(),
                         Source = domain,
                         FileData = image,
-                        MimeType = "image/png",
                         FetchedAt = now,
                         CreatedAt = now,
                         UpdatedAt = now,
@@ -601,8 +594,6 @@ else
         public Guid Id { get; init; }
 
         public string Source { get; init; } = string.Empty;
-
-        public string? MimeType { get; init; }
 
         public int SizeBytes { get; init; }
 

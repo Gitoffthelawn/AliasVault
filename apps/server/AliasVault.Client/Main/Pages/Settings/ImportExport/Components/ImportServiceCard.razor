@@ -923,7 +923,6 @@
                     var nowUtc = DateTime.UtcNow;
                     existingLogo.IsDeleted = false;
                     existingLogo.FileData = importedCredential.FaviconBytes;
-                    existingLogo.MimeType = "image/png";
                     existingLogo.FetchedAt = nowUtc;
                     existingLogo.UpdatedAt = nowUtc;
                     item.LogoId = existingLogo.Id;
@@ -936,7 +935,6 @@
                         Id = Guid.NewGuid(),
                         Source = domain,
                         FileData = importedCredential.FaviconBytes,
-                        MimeType = "image/png",
                         FetchedAt = DateTime.UtcNow,
                         CreatedAt = DateTime.UtcNow,
                         UpdatedAt = DateTime.UtcNow,
@@ -984,7 +982,6 @@
                             {
                                 existingLogo.IsDeleted = false;
                                 existingLogo.FileData = favicon;
-                                existingLogo.MimeType = "image/png";
                                 existingLogo.FetchedAt = nowUtc;
                                 existingLogo.UpdatedAt = nowUtc;
                                 item.LogoId = existingLogo.Id;
@@ -997,7 +994,6 @@
                                     Id = Guid.NewGuid(),
                                     Source = domain,
                                     FileData = favicon,
-                                    MimeType = "image/png",
                                     FetchedAt = nowUtc,
                                     CreatedAt = nowUtc,
                                     UpdatedAt = nowUtc,

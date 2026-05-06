@@ -1530,7 +1530,6 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
                 // Restore (or refill) the existing row.
                 existingLogo.IsDeleted = false;
                 existingLogo.FileData = image;
-                existingLogo.MimeType = "image/png";
                 existingLogo.FetchedAt = now;
                 existingLogo.UpdatedAt = now;
                 item.LogoId = existingLogo.Id;
@@ -1542,7 +1541,6 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
                     Id = Guid.NewGuid(),
                     Source = domain,
                     FileData = image,
-                    MimeType = "image/png",
                     FetchedAt = now,
                     CreatedAt = now,
                     UpdatedAt = now,

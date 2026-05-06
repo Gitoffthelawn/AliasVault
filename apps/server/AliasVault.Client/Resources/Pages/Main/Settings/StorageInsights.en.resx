@@ -129,10 +129,6 @@
     <value>Website URL</value>
     <comment>Table column header for logo source domain</comment>
   </data>
-  <data name="ColumnMimeType">
-    <value>Type</value>
-    <comment>Table column header for MIME type</comment>
-  </data>
   <data name="ColumnItemCount">
     <value>Used by</value>
     <comment>Table column header for the number of items using a logo</comment>
