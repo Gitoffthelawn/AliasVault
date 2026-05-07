@@ -21,7 +21,7 @@
   </xsd:schema>
   <!-- Page title and description -->
   <data name="PageTitle">
-    <value>Vault storage insights</value>
+    <value>Speichereinblicke zum Tresor</value>
     <comment>Page title for vault storage insights</comment>
   </data>
   <data name="PageDescription">
@@ -34,37 +34,37 @@
   </data>
   <!-- Estimated total -->
   <data name="EstimatedTotalTitle">
-    <value>Estimated vault size</value>
+    <value>Geschätzte Tresorgröße</value>
     <comment>Title for the estimated total vault size card</comment>
   </data>
   <data name="EstimatedTotalDescription">
-    <value>This is an approximation calculated from your local data.</value>
+    <value>Dies ist eine Annäherung, die aus Deinen lokalen Daten berechnet wird.</value>
     <comment>Subtext explaining that the estimate is approximate</comment>
   </data>
   <!-- Counts -->
   <data name="CountsTitle">
-    <value>Overview</value>
+    <value>Übersicht</value>
     <comment>Title for the counts/overview section</comment>
   </data>
   <data name="ItemCountLabel">
-    <value>Items</value>
+    <value>Elemente</value>
     <comment>Label for total item count card</comment>
   </data>
   <data name="ItemsWithAttachmentsLabel">
-    <value>Items with attachments</value>
+    <value>Elemente mit Anhängen</value>
     <comment>Label for count of items that have at least one attachment</comment>
   </data>
   <data name="ItemsWithLogosLabel">
-    <value>Items with a logo</value>
+    <value>Elemente mit einem Logo</value>
     <comment>Label for count of items that reference a logo</comment>
   </data>
   <!-- Breakdown -->
   <data name="BreakdownTitle">
-    <value>Storage usage breakdown</value>
+    <value>Speichernutzungsaufteilung</value>
     <comment>Title for the breakdown bar section</comment>
   </data>
   <data name="BreakdownDescription">
-    <value>Approximate share of vault size by category. Attachments and logos usually take up most of the space.</value>
+    <value>Ungefähre Anteile an der Tresorgröße nach Kategorie. Anhänge und Logo brauchen üblicherweise am meisten Platz.</value>
     <comment>Description for the breakdown bar</comment>
   </data>
   <data name="BreakdownCredentialsLabel">
@@ -140,27 +140,27 @@
     <comment>Button to delete every logo in the vault</comment>
   </data>
   <data name="RedownloadAllLogosButton">
-    <value>Re-download all logos</value>
+    <value>Alle Logos erneut herunterladen</value>
     <comment>Button to re-fetch favicons for every item with a URL</comment>
   </data>
   <data name="DeleteAllLogosConfirmTitle">
-    <value>Delete all logos?</value>
+    <value>Alle Logos löschen?</value>
     <comment>Confirmation modal title for delete-all-logos</comment>
   </data>
   <data name="DeleteAllLogosConfirmMessage">
-    <value>This removes every stored logo from your vault and clears the logo on each credential. You can re-download them at any time. Continue?</value>
+    <value>Dies entfernt jedes gespeicherte Logo aus deinem Tresor und löscht das Logo für alle Zugangsinformationen. Du kannst es jederzeit erneut herunterladen. Fortfahren?</value>
     <comment>Confirmation modal body for delete-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosConfirmTitle">
-    <value>Re-download all logos?</value>
+    <value>Alle Logos erneut herunterladen?</value>
     <comment>Confirmation modal title for redownload-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosConfirmMessage">
-    <value>This re-fetches the favicon for every credential that has a website URL, replacing the existing logo. Depending on your vault size this may take a while. Continue?</value>
+    <value>Dadurch wird das Favicon für jede Zugangsinformation, die eine URL der Website hat, neu geladen und das bestehende Logo ersetzt. Abhängig von Deiner Tresorgröße kann dies eine Weile dauern. Fortfahren?</value>
     <comment>Confirmation modal body for redownload-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosNoItemsMessage">
-    <value>No items with a website URL were found, nothing to download.</value>
+    <value>Es wurden keine Elemente mit einer Website-URL gefunden, es gibt daher nichts zum Herunterladen.</value>
     <comment>Notification shown when redownload was triggered but no items qualify</comment>
   </data>
 </root>
