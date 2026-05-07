@@ -25,11 +25,11 @@
     <comment>Page title for vault storage insights</comment>
   </data>
   <data name="PageDescription">
-    <value>See an estimate of your vault size. For best sync performance, it's advised to keep your vault size small and delete items you no longer need.</value>
+    <value>Sehe Dir eine Schätzung der Größe Deines Tresors an. Für beste Sync-Leistung ist es ratsam, Deine Tresorgröße kleinzuhalten und Elemente zu löschen, die Du nicht mehr brauchst.</value>
     <comment>Page description for vault storage insights</comment>
   </data>
   <data name="BreadcrumbTitle">
-    <value>Storage insights</value>
+    <value>Speichereinblicke</value>
     <comment>Breadcrumb title for storage insights page</comment>
   </data>
   <!-- Estimated total -->
@@ -68,11 +68,11 @@
     <comment>Description for the breakdown bar</comment>
   </data>
   <data name="BreakdownCredentialsLabel">
-    <value>Credentials</value>
+    <value>Anmeldeinformationen</value>
     <comment>Legend label for credential data slice</comment>
   </data>
   <data name="BreakdownAttachmentsLabel">
-    <value>Attachments</value>
+    <value>Anhänge</value>
     <comment>Legend label for attachments slice</comment>
   </data>
   <data name="BreakdownLogosLabel">
@@ -80,63 +80,63 @@
     <comment>Legend label for logos slice</comment>
   </data>
   <data name="BreakdownBaseOverheadLabel">
-    <value>Database overhead</value>
+    <value>Datenbank-Overhead</value>
     <comment>Legend label for the fixed SQLite base/schema overhead slice</comment>
   </data>
   <!-- Top attachments table -->
   <data name="TopAttachmentsTitle">
-    <value>Largest attachments</value>
+    <value>Größte Anhänge</value>
     <comment>Title for the top attachments table</comment>
   </data>
   <data name="TopAttachmentsDescription">
-    <value>Top 10 largest file attachments. Remove the attachment if you no longer need it.</value>
+    <value>Top 10 der größten Dateianhänge. Entferne Anhänge, wenn Du sie nicht mehr benötigst.</value>
     <comment>Description for the top attachments table</comment>
   </data>
   <!-- Top logos table -->
   <data name="TopLogosTitle">
-    <value>Largest logos</value>
+    <value>Größte Logos</value>
     <comment>Title for the top logos table</comment>
   </data>
   <data name="TopLogosDescription">
-    <value>Top 10 largest service logos. Logos are reused for items with the same domain.</value>
+    <value>Top 10 der größten Logos. Logos werden für Elemente mit derselben Domain wiederverwendet.</value>
     <comment>Description for the top logos table</comment>
   </data>
   <!-- Table column headers -->
   <data name="ColumnFilename">
-    <value>Filename</value>
+    <value>Dateiname</value>
     <comment>Table column header for attachment filename</comment>
   </data>
   <data name="ColumnSize">
-    <value>Size</value>
+    <value>Größe</value>
     <comment>Table column header for size in KB</comment>
   </data>
   <data name="ColumnItem">
-    <value>Item</value>
+    <value>Element</value>
     <comment>Table column header for the parent item name</comment>
   </data>
   <data name="ColumnCreated">
-    <value>Created</value>
+    <value>Erstellt</value>
     <comment>Table column header for creation date</comment>
   </data>
   <data name="ColumnWebsiteURL">
-    <value>Website URL</value>
+    <value>Webseiten-URL</value>
     <comment>Table column header for logo source domain</comment>
   </data>
   <data name="ColumnItemCount">
-    <value>Used by</value>
+    <value>Verwendet von</value>
     <comment>Table column header for the number of items using a logo</comment>
   </data>
   <!-- Logo management -->
   <data name="LogoManagementTitle">
-    <value>Manage logos</value>
+    <value>Logos verwalten</value>
     <comment>Title for the logo management section</comment>
   </data>
   <data name="LogoManagementDescription">
-    <value>Logos are fetched from the favicon of each item's website. You can delete every logo to reclaim space, or re-download them to pick up improved versions.</value>
+    <value>Logos werden aus dem Favicon der jeweiligen Webseite abgerufen. Du kannst jedes Logo löschen, um Platz zurückzuerlangen, oder sie erneut herunterladen, um verbesserte Versionen zu erhalten.</value>
     <comment>Description for the logo management section</comment>
   </data>
   <data name="DeleteAllLogosButton">
-    <value>Delete all logos</value>
+    <value>Alle Logos löschen</value>
     <comment>Button to delete every logo in the vault</comment>
   </data>
   <data name="RedownloadAllLogosButton">
@@ -148,7 +148,7 @@
     <comment>Confirmation modal title for delete-all-logos</comment>
   </data>
   <data name="DeleteAllLogosConfirmMessage">
-    <value>Dies entfernt jedes gespeicherte Logo aus deinem Tresor und löscht das Logo für alle Zugangsinformationen. Du kannst es jederzeit erneut herunterladen. Fortfahren?</value>
+    <value>Dies entfernt jedes gespeicherte Logo aus deinem Tresor und löscht das Logo für alle Anmeldeinformationen. Du kannst es jederzeit erneut herunterladen. Fortfahren?</value>
     <comment>Confirmation modal body for delete-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosConfirmTitle">
