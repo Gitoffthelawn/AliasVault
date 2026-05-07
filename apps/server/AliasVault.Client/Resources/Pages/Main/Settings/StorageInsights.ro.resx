@@ -21,146 +21,146 @@
   </xsd:schema>
   <!-- Page title and description -->
   <data name="PageTitle">
-    <value>Vault storage insights</value>
+    <value>Informații despre stocarea seifului</value>
     <comment>Page title for vault storage insights</comment>
   </data>
   <data name="PageDescription">
-    <value>See an estimate of your vault size. For best sync performance, it's advised to keep your vault size small and delete items you no longer need.</value>
+    <value>Vezi o estimare a dimensiunii seifului tău. Pentru performanță optimă la sincronizare, este recomandat să menții seiful cât mai mic și să ștergi elementele de care nu mai ai nevoie.</value>
     <comment>Page description for vault storage insights</comment>
   </data>
   <data name="BreadcrumbTitle">
-    <value>Storage insights</value>
+    <value>Informații despre stocare</value>
     <comment>Breadcrumb title for storage insights page</comment>
   </data>
   <!-- Estimated total -->
   <data name="EstimatedTotalTitle">
-    <value>Estimated vault size</value>
+    <value>Dimensiune estimată a seifului</value>
     <comment>Title for the estimated total vault size card</comment>
   </data>
   <data name="EstimatedTotalDescription">
-    <value>This is an approximation calculated from your local data.</value>
+    <value>Aceasta este o estimare calculată pe baza datelor tale locale.</value>
     <comment>Subtext explaining that the estimate is approximate</comment>
   </data>
   <!-- Counts -->
   <data name="CountsTitle">
-    <value>Overview</value>
+    <value>Sumar</value>
     <comment>Title for the counts/overview section</comment>
   </data>
   <data name="ItemCountLabel">
-    <value>Items</value>
+    <value>Elemente</value>
     <comment>Label for total item count card</comment>
   </data>
   <data name="ItemsWithAttachmentsLabel">
-    <value>Items with attachments</value>
+    <value>Elemente cu atașamente</value>
     <comment>Label for count of items that have at least one attachment</comment>
   </data>
   <data name="ItemsWithLogosLabel">
-    <value>Items with a logo</value>
+    <value>Elemente cu logo</value>
     <comment>Label for count of items that reference a logo</comment>
   </data>
   <!-- Breakdown -->
   <data name="BreakdownTitle">
-    <value>Storage usage breakdown</value>
+    <value>Detaliere utilizare stocare</value>
     <comment>Title for the breakdown bar section</comment>
   </data>
   <data name="BreakdownDescription">
-    <value>Approximate share of vault size by category. Attachments and logos usually take up most of the space.</value>
+    <value>Pondere aproximativă a dimensiunii seifului pe categorii. Atașamentele și logo-urile ocupă de obicei cea mai mare parte a spațiului.</value>
     <comment>Description for the breakdown bar</comment>
   </data>
   <data name="BreakdownCredentialsLabel">
-    <value>Credentials</value>
+    <value>Date de autentificare</value>
     <comment>Legend label for credential data slice</comment>
   </data>
   <data name="BreakdownAttachmentsLabel">
-    <value>Attachments</value>
+    <value>Atașamente</value>
     <comment>Legend label for attachments slice</comment>
   </data>
   <data name="BreakdownLogosLabel">
-    <value>Logos</value>
+    <value>Logo-uri</value>
     <comment>Legend label for logos slice</comment>
   </data>
   <data name="BreakdownBaseOverheadLabel">
-    <value>Database overhead</value>
+    <value>Suprasarcină bază de date</value>
     <comment>Legend label for the fixed SQLite base/schema overhead slice</comment>
   </data>
   <!-- Top attachments table -->
   <data name="TopAttachmentsTitle">
-    <value>Largest attachments</value>
+    <value>Cele mai mari atașamente</value>
     <comment>Title for the top attachments table</comment>
   </data>
   <data name="TopAttachmentsDescription">
-    <value>Top 10 largest file attachments. Remove the attachment if you no longer need it.</value>
+    <value>Top 10 cele mai mari atașamente de fișiere. Șterge-le dacă nu mai ai nevoie de ele.</value>
     <comment>Description for the top attachments table</comment>
   </data>
   <!-- Top logos table -->
   <data name="TopLogosTitle">
-    <value>Largest logos</value>
+    <value>Cele mai utilizate logo-uri</value>
     <comment>Title for the top logos table</comment>
   </data>
   <data name="TopLogosDescription">
-    <value>Top 10 largest service logos. Logos are reused for items with the same domain.</value>
+    <value>Top 10 cele mai utilizate logo-uri de servicii. Logo-urile sunt reutilizate pentru elementele cu același domeniu.</value>
     <comment>Description for the top logos table</comment>
   </data>
   <!-- Table column headers -->
   <data name="ColumnFilename">
-    <value>Filename</value>
+    <value>Nume fișier</value>
     <comment>Table column header for attachment filename</comment>
   </data>
   <data name="ColumnSize">
-    <value>Size</value>
+    <value>Mărime</value>
     <comment>Table column header for size in KB</comment>
   </data>
   <data name="ColumnItem">
-    <value>Item</value>
+    <value>Element</value>
     <comment>Table column header for the parent item name</comment>
   </data>
   <data name="ColumnCreated">
-    <value>Created</value>
+    <value>Creat</value>
     <comment>Table column header for creation date</comment>
   </data>
   <data name="ColumnWebsiteURL">
-    <value>Website URL</value>
+    <value>URL Website</value>
     <comment>Table column header for logo source domain</comment>
   </data>
   <data name="ColumnItemCount">
-    <value>Used by</value>
+    <value>Folosit de</value>
     <comment>Table column header for the number of items using a logo</comment>
   </data>
   <!-- Logo management -->
   <data name="LogoManagementTitle">
-    <value>Manage logos</value>
+    <value>Gestionează logo-urile</value>
     <comment>Title for the logo management section</comment>
   </data>
   <data name="LogoManagementDescription">
-    <value>Logos are fetched from the favicon of each item's website. You can delete every logo to reclaim space, or re-download them to pick up improved versions.</value>
+    <value>Logo-urile sunt preluate din favicon-ul fiecărui site al elementului. Poți șterge toate logo-urile pentru a elibera spațiu sau le poți descărca din nou pentru a obține versiuni îmbunătățite.</value>
     <comment>Description for the logo management section</comment>
   </data>
   <data name="DeleteAllLogosButton">
-    <value>Delete all logos</value>
+    <value>Șterge toate logo-urile</value>
     <comment>Button to delete every logo in the vault</comment>
   </data>
   <data name="RedownloadAllLogosButton">
-    <value>Re-download all logos</value>
+    <value>Descarcă din nou toate logo-urile</value>
     <comment>Button to re-fetch favicons for every item with a URL</comment>
   </data>
   <data name="DeleteAllLogosConfirmTitle">
-    <value>Delete all logos?</value>
+    <value>Ștergi toate logo-urile?</value>
     <comment>Confirmation modal title for delete-all-logos</comment>
   </data>
   <data name="DeleteAllLogosConfirmMessage">
-    <value>This removes every stored logo from your vault and clears the logo on each credential. You can re-download them at any time. Continue?</value>
+    <value>Această acțiune va elimina toate logo-urile stocate din seiful tău și va șterge logo-ul asociat fiecărui cont. Le poți descărca din nou oricând. Continui?</value>
     <comment>Confirmation modal body for delete-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosConfirmTitle">
-    <value>Re-download all logos?</value>
+    <value>Descarci din nou toate logo-urile?</value>
     <comment>Confirmation modal title for redownload-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosConfirmMessage">
-    <value>This re-fetches the favicon for every credential that has a website URL, replacing the existing logo. Depending on your vault size this may take a while. Continue?</value>
+    <value>Această acțiune reîncarcă favicon-ul pentru fiecare cont care are o adresă URL, înlocuind logo-ul existent. În funcție de dimensiunea seifului, acest proces poate dura ceva timp. Continui?</value>
     <comment>Confirmation modal body for redownload-all-logos</comment>
   </data>
   <data name="RedownloadAllLogosNoItemsMessage">
-    <value>No items with a website URL were found, nothing to download.</value>
+    <value>Nu au fost găsite elemente cu adrese URL, nimic de descărcat.</value>
     <comment>Notification shown when redownload was triggered but no items qualify</comment>
   </data>
 </root>
