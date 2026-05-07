@@ -21,41 +21,41 @@
   </xsd:schema>
   <!-- Page title and description -->
   <data name="PageTitle">
-    <value>Vault storage insights</value>
+    <value>密码库存储洞察</value>
     <comment>Page title for vault storage insights</comment>
   </data>
   <data name="PageDescription">
-    <value>See an estimate of your vault size. For best sync performance, it's advised to keep your vault size small and delete items you no longer need.</value>
+    <value>查看您的密码库大小估算值。为了获得最佳同步性能，建议您保持密码库较小，并删除不需要的项目。</value>
     <comment>Page description for vault storage insights</comment>
   </data>
   <data name="BreadcrumbTitle">
-    <value>Storage insights</value>
+    <value>存储洞察</value>
     <comment>Breadcrumb title for storage insights page</comment>
   </data>
   <!-- Estimated total -->
   <data name="EstimatedTotalTitle">
-    <value>Estimated vault size</value>
+    <value>估计密码库大小</value>
     <comment>Title for the estimated total vault size card</comment>
   </data>
   <data name="EstimatedTotalDescription">
-    <value>This is an approximation calculated from your local data.</value>
+    <value>这是根据您本地数据计算出的近似值。</value>
     <comment>Subtext explaining that the estimate is approximate</comment>
   </data>
   <!-- Counts -->
   <data name="CountsTitle">
-    <value>Overview</value>
+    <value>概览</value>
     <comment>Title for the counts/overview section</comment>
   </data>
   <data name="ItemCountLabel">
-    <value>Items</value>
+    <value>项目</value>
     <comment>Label for total item count card</comment>
   </data>
   <data name="ItemsWithAttachmentsLabel">
-    <value>Items with attachments</value>
+    <value>带附件项目</value>
     <comment>Label for count of items that have at least one attachment</comment>
   </data>
   <data name="ItemsWithLogosLabel">
-    <value>Items with a logo</value>
+    <value>带徽标项目</value>
     <comment>Label for count of items that reference a logo</comment>
   </data>
   <!-- Breakdown -->
