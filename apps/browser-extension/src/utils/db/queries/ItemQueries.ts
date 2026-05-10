@@ -217,12 +217,6 @@ export class ItemQueries {
     WHERE Id = ?`;
 
   /**
-   * Get LogoId for an item.
-   */
-  public static readonly GET_LOGO_ID = `
-    SELECT LogoId FROM Items WHERE Id = ?`;
-
-  /**
    * Get all unique email addresses from field values.
    */
   public static readonly GET_ALL_EMAIL_ADDRESSES = `
@@ -438,11 +432,13 @@ export class AttachmentQueries {
     VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
   /**
-   * Soft delete an attachment.
+   * Soft delete an attachment. Also zeroes the Blob bytes so storage is reclaimed
+   * immediately while the row remains as a tombstone for LWW sync.
    */
   public static readonly SOFT_DELETE = `
     UPDATE Attachments
     SET IsDeleted = 1,
+        Blob = X'',
         UpdatedAt = ?
     WHERE Id = ?`;
 }

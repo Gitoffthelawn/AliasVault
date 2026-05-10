@@ -12,6 +12,16 @@ export class LogoQueries {
     LIMIT 1`;
 
   /**
+   * Look up a logo by source regardless of IsDeleted state. Used by getOrCreate to detect
+   * soft-deleted rows that still occupy the UNIQUE(Source) slot, so we can refill them
+   * instead of trying (and failing) to INSERT a duplicate.
+   */
+  public static readonly GET_BY_SOURCE_INCLUDING_DELETED = `
+    SELECT Id, IsDeleted FROM Logos
+    WHERE Source = ?
+    LIMIT 1`;
+
+  /**
    * Insert new logo.
    */
   public static readonly INSERT = `
@@ -19,15 +29,13 @@ export class LogoQueries {
     VALUES (?, ?, ?, ?, ?, ?)`;
 
   /**
-   * Count items using a logo.
+   * Restore a soft-deleted logo and refill its bytes in one statement. Caller passes
+   * (FileData, UpdatedAt, Id).
    */
-  public static readonly COUNT_USAGE = `
-    SELECT COUNT(*) as count FROM Items
-    WHERE LogoId = ? AND IsDeleted = 0`;
-
-  /**
-   * Hard delete logo.
-   */
-  public static readonly HARD_DELETE = `
-    DELETE FROM Logos WHERE Id = ?`;
+  public static readonly RESTORE_WITH_FILE_DATA = `
+    UPDATE Logos
+    SET IsDeleted = 0,
+        FileData = ?,
+        UpdatedAt = ?
+    WHERE Id = ?`;
 }

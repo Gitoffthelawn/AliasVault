@@ -18,14 +18,12 @@ using System.Threading.Tasks;
 using AliasClientDb;
 using AliasClientDb.Models;
 using AliasVault.Client.Main.Models;
-using AliasVault.Client.Utilities;
-using AliasVault.Shared.Models.WebApi.Favicon;
 using Microsoft.EntityFrameworkCore;
 
 /// <summary>
 /// Service class for Item operations.
 /// </summary>
-public sealed class ItemService(HttpClient httpClient, DbService dbService, Config config, JsInteropService jsInteropService)
+public sealed class ItemService(HttpClient httpClient, DbService dbService, Config config, JsInteropService jsInteropService, FaviconService faviconService)
 {
     /// <summary>
     /// The default service URL used as placeholder in forms. When this value is set, the URL field is considered empty
@@ -580,6 +578,9 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
         {
             attachment.IsDeleted = true;
             attachment.UpdatedAt = deleteDateTime;
+
+            // Reclaim attachment bytes immediately. Tombstone row stays for sync.
+            attachment.Blob = Array.Empty<byte>();
         }
 
         foreach (var totp in item.TotpCodes)
@@ -642,6 +643,9 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
         {
             attachment.IsDeleted = true;
             attachment.UpdatedAt = deleteDateTime;
+
+            // Reclaim attachment bytes immediately. Tombstone row stays for sync.
+            attachment.Blob = Array.Empty<byte>();
         }
 
         foreach (var totp in item.TotpCodes)
@@ -1215,6 +1219,11 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
         {
             attachmentToRemove.IsDeleted = true;
             attachmentToRemove.UpdatedAt = updateDateTime;
+
+            // Drop the blob bytes immediately. The tombstone row stays so the deletion
+            // syncs to other devices via LWW; an empty blob keeps the column non-null
+            // while reclaiming the storage on next save.
+            attachmentToRemove.Blob = Array.Empty<byte>();
         }
 
         // Process attachments from the new item (excluding deleted ones - they're handled above)
@@ -1481,59 +1490,68 @@ public sealed class ItemService(HttpClient httpClient, DbService dbService, Conf
     /// <returns>Task.</returns>
     private async Task ExtractFaviconAsync(Item item)
     {
-        // Try to extract favicon from service URL
         var url = GetFieldValue(item, FieldKey.LoginUrl);
-        if (url != null && !string.IsNullOrEmpty(url) && url != DefaultServiceUrl)
-        {
-            try
-            {
-                // Extract and normalize domain for deduplication
-                var domain = new Uri(url).Host.ToLowerInvariant();
-                if (domain.StartsWith("www."))
-                {
-                    domain = domain[4..];
-                }
-
-                var context = await dbService.GetDbContextAsync();
-
-                // Check if logo already exists for this source (deduplication)
-                var existingLogo = await context.Logos.FirstOrDefaultAsync(l => l.Source == domain);
-
-                if (existingLogo != null)
-                {
-                    // Reuse existing logo - no need to fetch
-                    item.LogoId = existingLogo.Id;
-                    return;
-                }
-
-                // No existing logo - fetch from API
-                var apiReturn = await httpClient.GetFromJsonAsync<FaviconExtractModel>($"v1/Favicon/Extract?url={Uri.EscapeDataString(url)}");
-                if (apiReturn?.Image is not null)
-                {
-                    // Create new logo
-                    var newLogo = new Logo
-                    {
-                        Id = Guid.NewGuid(),
-                        Source = domain,
-                        FileData = apiReturn.Image,
-                        MimeType = "image/png",
-                        FetchedAt = DateTime.UtcNow,
-                        CreatedAt = DateTime.UtcNow,
-                        UpdatedAt = DateTime.UtcNow,
-                    };
-                    context.Logos.Add(newLogo);
-                    item.LogoId = newLogo.Id;
-                }
-            }
-            catch
-            {
-                // Ignore favicon extraction errors
-            }
-        }
-        else
+        if (url == null || string.IsNullOrEmpty(url) || url == DefaultServiceUrl)
         {
             // URL is empty or just the placeholder - clear any existing logo
             item.LogoId = null;
+            return;
+        }
+
+        if (!FaviconService.TryNormalizeDomain(url, out var domain))
+        {
+            return;
+        }
+
+        try
+        {
+            var context = await dbService.GetDbContextAsync();
+
+            // Look up by Source regardless of IsDeleted — Logos.Source has a UNIQUE index, so a
+            // soft-deleted row with the same domain still occupies the slot and we'd hit a UNIQUE
+            // violation on insert. Filter against IsDeleted/empty FileData when deciding whether
+            // it's safe to reuse without re-fetching.
+            var existingLogo = await context.Logos.FirstOrDefaultAsync(l => l.Source == domain);
+            if (existingLogo != null && !existingLogo.IsDeleted && existingLogo.FileData is { Length: > 0 })
+            {
+                item.LogoId = existingLogo.Id;
+                return;
+            }
+
+            var image = await faviconService.ExtractAsync(url);
+            if (image is null)
+            {
+                return;
+            }
+
+            var now = DateTime.UtcNow;
+            if (existingLogo != null)
+            {
+                // Restore (or refill) the existing row.
+                existingLogo.IsDeleted = false;
+                existingLogo.FileData = image;
+                existingLogo.FetchedAt = now;
+                existingLogo.UpdatedAt = now;
+                item.LogoId = existingLogo.Id;
+            }
+            else
+            {
+                var newLogo = new Logo
+                {
+                    Id = Guid.NewGuid(),
+                    Source = domain,
+                    FileData = image,
+                    FetchedAt = now,
+                    CreatedAt = now,
+                    UpdatedAt = now,
+                };
+                context.Logos.Add(newLogo);
+                item.LogoId = newLogo.Id;
+            }
+        }
+        catch
+        {
+            // Ignore favicon extraction errors
         }
     }
 
