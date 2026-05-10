@@ -69,13 +69,13 @@
       "networkError": "Network request failed. Please check your internet connection and try again.",
       "networkErrorSelfHosted": "Network request failed. Check your network connection and server availability. For self-hosted instances, please ensure you have a valid SSL certificate installed. Self-signed certificates are not supported on mobile devices for security reasons.",
       "sessionExpired": "Your session has expired. Please login again.",
-      "httpError": "HTTP error: {{status}}"
+      "httpError": "HTTP အမှား: {{status}}"
     },
-    "confirmLogout": "Are you sure you want to logout? You need to login again with your master password to access your vault.",
+    "confirmLogout": "လော့ဂ်အောက်ထွက်မည် သေချာပါသလား။ သင့် လုံခြုံရေးအခန်းအား ဝင်ရောက်ရန် မာစတာစကားဝှက်ဖြင့် ပြန်လည်ဝင်ရောက်ရမည်ဖြစ်သည်။",
     "noAccountYet": "အကောင့် မရှိသေးဘူးလား။",
-    "createNewVault": "Create new vault",
-    "connectingTo": "Connecting to",
-    "loggedInAs": "Logged in as"
+    "createNewVault": "လုံခြုံရေးအခန်းသစ် ဖန်တီးမည်",
+    "connectingTo": "ချိတ်ဆက်",
+    "loggedInAs": "အဖြစ် လော့ဂ်အင်ဝင်ရောက်"
   },
   "logout": {
     "unsyncedChangesTitle": "Unsynced Changes",
@@ -130,8 +130,8 @@
       "headerText": "You can configure AliasVault to provide native password and passkey autofill functionality in iOS. Follow the instructions below to enable it.",
       "passkeyNotice": "Passkeys are created through iOS. To store them in AliasVault, ensure Autofill below is enabled.",
       "howToEnable": "How to enable Autofill & Passkeys:",
-      "step1": "1. Open iOS Settings via the button below",
-      "step2": "2. Go to \"General\"",
+      "step1": "၁။ အိုင်အိုအက်စ် အပြင်အဆင်များကို အောက်ပါ ခလုတ်မှတဆင့် ဖွင့်ပါ",
+      "step2": "၂။ \"General\" သို့ သွားပါ",
       "step3": "3. Tap \"AutoFill & Passwords\"",
       "step4": "4. Enable \"AliasVault\"",
       "step5": "5. Disable other password providers (e.g. \"iCloud Passwords\") to avoid conflicts",

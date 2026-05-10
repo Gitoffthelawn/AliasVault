@@ -32,7 +32,7 @@
     "errors": {
       "unknownError": "Der opstod en ukendt fejl.",
       "unknownErrorTryAgain": "Der opstod en ukendt fejl. Prøv venligst igen.",
-      "vaultTooLarge": "The vault is too large for the server to accept. Try to remove some items or attachments to reduce the size and try again.",
+      "vaultTooLarge": "Boksen er for stor til, at serveren kan acceptere. Prøv at fjerne nogle elementer eller vedhæftede filer for at reducere størrelsen og prøv igen.",
       "serverVersionTooOld": "AliasVault-serveren skal opdateres til en nyere version for at bruge denne funktion. Kontakt venligst serveradministratoren, hvis du har brug for hjælp."
     }
   },
@@ -443,25 +443,25 @@
     "vaultSyncedSuccessfully": "Boks synkroniseret korrekt",
     "vaultUpToDate": "Boksen er opdateret",
     "offlineMessage": "Du er offline. Opret venligst forbindelse til internettet for at synkronisere din boks.",
-    "switchBackToOriginalApp": "Switch back to the original app to continue.",
+    "switchBackToOriginalApp": "Skift tilbage til den oprindelige app for at fortsætte.",
     "autofillOpenApp": {
-      "title": "Autofill request",
-      "description": "Choose an action for the app or website that requested autofill.",
-      "appOrUrlLabel": "App or URL",
-      "findExistingTitle": "Link to existing credential",
-      "findExistingDescription": "Select an existing credential from your vault to link to the address above.",
-      "createNewTitle": "Create new credential",
-      "createNewDescription": "Add a new credential to your vault for this app or URL."
+      "title": "Autofyld anmodning",
+      "description": "Vælg en handling for den app eller hjemmeside, der anmodede om autoudfyldelse.",
+      "appOrUrlLabel": "App eller URL",
+      "findExistingTitle": "Link til eksisterende legitimationsoplysninger",
+      "findExistingDescription": "Vælg en eksisterende legitimationsoplysninger fra din boks for at linke til adressen ovenfor.",
+      "createNewTitle": "Opret nye legitimationsoplysninger",
+      "createNewDescription": "Tilføj nye legitimationsoplysninger til din boks til denne app eller URL."
     },
     "autofillLinkExisting": {
-      "title": "Link to existing credential",
-      "intro": "Select an existing credential from your vault to link to \"{{target}}\".",
-      "confirmTitle": "Link to credential?",
-      "confirmMessage": "Are you sure you want to link \"{{url}}\" to this credential?"
+      "title": "Link til eksisterende legitimationsoplysninger",
+      "intro": "Vælg en eksisterende legitimationsoplysninger fra din boks for at linke til \"{{target}}\".",
+      "confirmTitle": "Link til legitimationsoplysninger?",
+      "confirmMessage": "Er du sikker på, at du vil linke \"{{url}}\" til denne legitimationsoplysning?"
     },
     "autofillUrlAdded": {
-      "title": "Credential linked",
-      "message": "Autofill should now offer this credential the next time you open the app."
+      "title": "Oplysninger linket",
+      "message": "Autofyld bør nu tilbyde disse legitimationsoplysninger, næste gang du åbner appen."
     },
     "filters": {
       "all": "Elementer",
@@ -537,8 +537,8 @@
     "recentlyDeleted": {
       "title": "Senest slettet",
       "noItems": "Ingen slettede elementer",
-      "noItemsDescription": "Items you delete will appear here for {{days}} days before being permanently removed.",
-      "description": "These items will be permanently deleted after {{days}} days. You can restore them or delete them immediately.",
+      "noItemsDescription": "Elementer du sletter vises her i {{days}} dage før de fjernes permanent.",
+      "description": "Disse elementer slettes permanent efter {{days}} dage. Du kan gendanne dem eller slette dem med det samme.",
       "restore": "Gendan",
       "deletePermanently": "Slet permanent",
       "emptyAll": "Tøm alt",
@@ -653,12 +653,12 @@
       "customApiUrl": "Brugerdefineret API-URL",
       "customApiUrlPlaceholder": "https://min-aliasvault-instans.dk/api",
       "version": "Version: {{version}}",
-      "advancedSettings": "Advanced settings",
-      "customProxyHeaders": "Custom proxy headers",
-      "customProxyHeadersDescription": "Add HTTP headers that will be sent with every request to your AliasVault server. Can be used for self-hosted setups behind a reverse proxy that checks for custom headers (e.g. Pangolin, Cloudflare Access).",
-      "headerName": "Header name",
+      "advancedSettings": "Avancerede indstillinger",
+      "customProxyHeaders": "Tilpassede proxy headers",
+      "customProxyHeadersDescription": "Tilføj HTTP-headere, der sendes med alle anmodninger til din AliasVault-server. Kan bruges til selvhostede opsætninger bag en omvendt proxy, der kontrollerer brugerdefinerede overskrifter (f.eks Pangolin, Cloudflare Access).",
+      "headerName": "Header navn",
       "headerNamePlaceholder": "X-Custom-Header",
-      "headerValue": "Header value"
+      "headerValue": "Header værdi"
     }
   },
   "upgrade": {

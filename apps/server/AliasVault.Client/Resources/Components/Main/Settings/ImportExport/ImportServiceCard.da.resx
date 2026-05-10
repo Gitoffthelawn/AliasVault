@@ -95,11 +95,11 @@
     <comment>Info text showing number of folders detected in the import. {0} is the count</comment>
   </data>
   <data name="ImportAttachmentsLabel" xml:space="preserve">
-    <value>Import detected attachments</value>
+    <value>Importer fundne vedhæftninger</value>
     <comment>Checkbox label for importing file attachments detected in the source export</comment>
   </data>
   <data name="AttachmentsDetected" xml:space="preserve">
-    <value>{0} attachment(s), {1}</value>
+    <value>{0} vedhæftning(er), {1}</value>
     <comment>Info text showing number of attachments detected and their total size. {0} is the count, {1} is the human-readable size (e.g. "3.9 MB")</comment>
   </data>
   <data name="DuplicateCredentialsWarning" xml:space="preserve">
@@ -171,11 +171,11 @@
     <comment>Error message when user tries to import a zip file</comment>
   </data>
   <data name="ImportErrorUnsupportedFormat" xml:space="preserve">
-    <value>Unsupported file format. Supported formats: {0}</value>
+    <value>Ikke understøttet filformat. Understøttede formater: {0}</value>
     <comment>Error message when user selects an unsupported file format. {0} is the list of supported extensions</comment>
   </data>
   <data name="ImportErrorFileTooLarge" xml:space="preserve">
-    <value>File size exceeds {0}MB limit.</value>
+    <value>Filstørrelse overstiger {0}MB grænse.</value>
     <comment>Error message when file is too large. {0} is the maximum allowed size in megabytes</comment>
   </data>
   <data name="EncryptedFilePasswordPrompt" xml:space="preserve">
@@ -207,7 +207,7 @@
     <comment>Generic error message for decryption failure</comment>
   </data>
   <data name="supportedFormats" xml:space="preserve">
-    <value>Supported formats</value>
+    <value>Understøttede formater</value>
     <comment>Label for supported file formats</comment>
   </data>
 </root>

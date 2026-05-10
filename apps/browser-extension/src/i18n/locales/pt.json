@@ -30,8 +30,8 @@
     "loginWithMobile": "Entrar utilizado Dispositivo Móvel",
     "unlockWithMobile": "Desbloquear utilizando Dispositivo Móvel",
     "scanQrCode": "Escaneie este código QR com seu aplicativo AliasVault para dispositivo móvel para entrar e desbloquear seu cofre.",
-    "passwordAttemptsWarning": "Incorrect password. You will be logged out if you enter the wrong password {{remainingAttempts}} more times.",
-    "maxAttemptsReached": "Too many failed unlock attempts. You have been logged out for security reasons."
+    "passwordAttemptsWarning": "Senha incorreta. Você será desconectado se você digitar a senha incorretamente mais {{remainingAttempts}} vezes.",
+    "maxAttemptsReached": "Muitas tentativas de desbloqueio falharam. Você foi desconectado por motivos de segurança."
   },
   "menu": {
     "vault": "Cofre",
@@ -108,7 +108,7 @@
       "passwordChanged": "Sua senha mudou desde o último login. Por favor, realize login novamente por questões de segurança.",
       "syncConflictMaxRetries": "Não foi possível sincronizar seu cofre após várias tentativas. Por favor, tente novamente mais tarde.",
       "mergeFailed": "Falha ao combinar mudanças do cofre. Por favor, tente novamente.",
-      "vaultTooLarge": "The vault is too large for the server to accept. Try to remove some items or attachments to reduce the size and try again.",
+      "vaultTooLarge": "O cofre é grande demais para o servidor aceitar. Tente remover alguns itens ou anexos para reduzir o tamanho e tente novamente.",
       "invalidCode": "Por favor digite o código de autenticação de 6 dígitos.",
       "serverError": "Não foi possível conectar ao servidor do AliasVault. Por favor tente novamente mais tarde ou entre em contato com o suporte caso o problema persista.",
       "wrongPassword": "Senha incorreta. Por favor tente novamente.",
@@ -209,7 +209,7 @@
     "allItemsInFolders": "Todos os seus itens estão organizados em pastas. Clique em uma pasta acima para ver suas credenciais, ou utilize a busca para encontrar itens específicos.",
     "deleteFolder": "Excluir Pasta",
     "deleteFolderKeepItems": "Excluir apenas a pasta",
-    "deleteFolderKeepItemsDescription": "Items will be moved to the parent folder.",
+    "deleteFolderKeepItemsDescription": "Itens serão movidos para a pasta superior.",
     "deleteFolderAndItems": "Excluir pasta e todos os itens",
     "deleteFolderAndItemsDescription": "{{count}} item(s) será(ão) movido(s) para Recentemente Excluídos.",
     "filters": {
@@ -327,7 +327,7 @@
     "noEmails": "Nenhum e-mail encontrado",
     "noEmailsDescription": "Você ainda não recebeu nenhum e-mail em seus endereços de e-mail privados. Quando receber um novo e-mail, ele aparecerá aqui.",
     "offlineMessage": "Você está offline. Por favor, conecte-se à internet para carregar seus e-mails.",
-    "loadMore": "Load More ({{count}} remaining)",
+    "loadMore": "Carregar Mais ({{count}} restante(s))",
     "dateFormat": {
       "justNow": "agora",
       "minutesAgo_single": "há {{count}} minuto",
@@ -434,12 +434,12 @@
         "female": "Feminino"
       }
     },
-    "credentialAutofill": "Credential autofill",
-    "credentialAutofillDescription": "Show autofill popup when username/password fields are detected",
-    "totpAutofill": "2FA code autofill",
-    "totpAutofillDescription": "Show autofill popup when 2FA code fields are detected",
-    "autoCopyTotpOnAutofill": "Auto-copy 2FA to clipboard",
-    "autoCopyTotpOnAutofillDescription": "Automatically copy the first 2FA code to clipboard after autofilling credentials",
+    "credentialAutofill": "Preenchimento automático de credenciais",
+    "credentialAutofillDescription": "Mostrar pop-up de preenchimento automático quando campos de nome de usuário/senha forem detectados",
+    "totpAutofill": "Preenchimento automático de código de 2FA",
+    "totpAutofillDescription": "Mostrar pop-up de preenchimento automático quando campos de 2FA forem detectados",
+    "autoCopyTotpOnAutofill": "Copiar código 2FA para a área de transferência automaticamente",
+    "autoCopyTotpOnAutofillDescription": "Copiar automaticamente o primeiro código 2FA para a área de transferência após preencher as credenciais automaticamente",
     "loginSave": {
       "title": "Salvar Prompt de Login",
       "description": "Mostra um prompt para salvar credenciais de login quando você faz login em algum website.",
@@ -507,8 +507,8 @@
   "recentlyDeleted": {
     "title": "Recentemente Excluídos",
     "noItems": "Nenhum item excluído",
-    "noItemsDescription": "Items you delete will appear here for {{days}} days before being permanently removed.",
-    "description": "These items will be permanently deleted after {{days}} days. You can restore them or delete them immediately.",
+    "noItemsDescription": "Itens que você excluir aparecerão aqui por {{days}} dias antes de serem permanentemente removidos.",
+    "description": "Estes itens serão excluídos permanentemente após {{days}} dias. Você pode restaurá-los ou excluí-los imediatamente.",
     "restore": "Restaurar",
     "deletePermanently": "Excluir Permanentemente",
     "emptyAll": "Esvaziar Tudo",
@@ -548,7 +548,7 @@
   "sync": {
     "offline": "Offline",
     "tapToRetry": "Toque para tentar sincronizar novamente",
-    "syncErrorTitle": "Sync Failed",
+    "syncErrorTitle": "Sincronização Falhou",
     "syncErrorDismiss": "Ignorar"
   }
 }

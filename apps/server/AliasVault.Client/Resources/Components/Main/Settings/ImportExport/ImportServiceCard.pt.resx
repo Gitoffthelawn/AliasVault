@@ -95,11 +95,11 @@
     <comment>Info text showing number of folders detected in the import. {0} is the count</comment>
   </data>
   <data name="ImportAttachmentsLabel" xml:space="preserve">
-    <value>Import detected attachments</value>
+    <value>Importar anexos detectados</value>
     <comment>Checkbox label for importing file attachments detected in the source export</comment>
   </data>
   <data name="AttachmentsDetected" xml:space="preserve">
-    <value>{0} attachment(s), {1}</value>
+    <value>{0} anexo(s), {1}</value>
     <comment>Info text showing number of attachments detected and their total size. {0} is the count, {1} is the human-readable size (e.g. "3.9 MB")</comment>
   </data>
   <data name="DuplicateCredentialsWarning" xml:space="preserve">
@@ -171,31 +171,31 @@
     <comment>Error message when user tries to import a zip file</comment>
   </data>
   <data name="ImportErrorUnsupportedFormat" xml:space="preserve">
-    <value>Unsupported file format. Supported formats: {0}</value>
+    <value>Formato de arquivo não suportado. Formatos suportados: {0}</value>
     <comment>Error message when user selects an unsupported file format. {0} is the list of supported extensions</comment>
   </data>
   <data name="ImportErrorFileTooLarge" xml:space="preserve">
-    <value>File size exceeds {0}MB limit.</value>
+    <value>O tamanho do arquivo excede o limite de {0}MB.</value>
     <comment>Error message when file is too large. {0} is the maximum allowed size in megabytes</comment>
   </data>
   <data name="EncryptedFilePasswordPrompt" xml:space="preserve">
-    <value>This file is encrypted. Please enter the password you used when creating the export.</value>
+    <value>Este arquivo está criptografado. Por favor, digite a senha que utilizou ao criar a exportação.</value>
     <comment>Prompt for encrypted file password</comment>
   </data>
   <data name="DecryptionPasswordLabel" xml:space="preserve">
-    <value>Decryption Password</value>
+    <value>Senha de Descriptografia</value>
     <comment>Label for decryption password input</comment>
   </data>
   <data name="DecryptionPasswordHint" xml:space="preserve">
-    <value>This is the password you set when creating the encrypted export (.avex file), not your vault master password.</value>
+    <value>Esta é a senha que você configurou ao criar esta exportação criptografada (arquivo .avex), não a senha mester do cofre.</value>
     <comment>Hint explaining what password is needed</comment>
   </data>
   <data name="DecryptAndContinueButton" xml:space="preserve">
-    <value>Decrypt and Continue</value>
+    <value>Descriptografar e Continuar</value>
     <comment>Button text for decryption</comment>
   </data>
   <data name="DecryptingFile" xml:space="preserve">
-    <value>Decrypting file...</value>
+    <value>Descriptografando arquivo...</value>
     <comment>Progress text during decryption</comment>
   </data>
   <data name="IncorrectPasswordError" xml:space="preserve">
@@ -203,11 +203,11 @@
     <comment>Error message for incorrect decryption password</comment>
   </data>
   <data name="DecryptionErrorGeneric" xml:space="preserve">
-    <value>Failed to decrypt the file. Please check that the file is not corrupted and try again.</value>
+    <value>Falha ao descriptografar o arquivo. Por favor, confirme que o arquivo não está corrompido e tente novamente.</value>
     <comment>Generic error message for decryption failure</comment>
   </data>
   <data name="supportedFormats" xml:space="preserve">
-    <value>Supported formats</value>
+    <value>Formatos suportados</value>
     <comment>Label for supported file formats</comment>
   </data>
 </root>

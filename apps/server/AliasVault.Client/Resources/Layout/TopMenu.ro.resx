@@ -37,6 +37,10 @@
     <value>Setări de securitate</value>
     <comment>Navigation link for security settings</comment>
   </data>
+  <data name="StorageInsightsNav">
+    <value>Informații despre stocare</value>
+    <comment>Navigation link for vault storage insights page</comment>
+  </data>
   <data name="ImportExportNav">
     <value>Importă / Exportă</value>
     <comment>Navigation link for import/export settings</comment>

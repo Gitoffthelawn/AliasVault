@@ -180,7 +180,7 @@
     "importExport": "Import und Export",
     "importSectionTitle": "Importieren",
     "importSectionDescription": "Importiere Deine Passwörter von anderen Passwort-Managern oder von einem früheren AliasVault-Export.",
-    "importWebNote": "Um Zugangsdaten von bestehenden Passwort-Managern zu importieren, melde Dich bitte in die Web-App an. Die Import-Funktion ist derzeit nur auf der Web-Version verfügbar.",
+    "importWebNote": "Um Zugangsdaten von bestehenden Passwort-Managern zu importieren, melde Dich bitte in der Web-App an. Die Import-Funktion ist derzeit nur auf der Web-Version verfügbar.",
     "exportSectionTitle": "Exportieren",
     "exportSectionDescription": "Exportiere Deinen Tresor in eine CSV-Datei. Diese Datei kann als Sicherung verwendet werden und kann auch in andere Passwort-Manager importiert werden.",
     "exportCsvButton": "Tresor als CSV-Datei exportieren",
