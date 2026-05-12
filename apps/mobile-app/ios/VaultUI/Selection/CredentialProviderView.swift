@@ -11,6 +11,7 @@ public struct CredentialProviderView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
+    @State private var toastMessage: String?
 
     public init(viewModel: CredentialProviderViewModel) {
          self._viewModel = ObservedObject(wrappedValue: viewModel)
@@ -90,7 +91,8 @@ public struct CredentialProviderView: View {
                                                     username: username,
                                                     password: password
                                                 )
-                                            }
+                                            },
+                                            onCopy: presentToast
                                         )
                                     }
                                 }
@@ -160,6 +162,19 @@ public struct CredentialProviderView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                if let message = toastMessage {
+                    CopyToastView(message: message)
+                        .padding(.bottom, 24)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(.spring(response: 0.4, dampingFraction: 0.85), value: toastMessage)
+            .task(id: toastMessage) {
+                guard toastMessage != nil else { return }
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                toastMessage = nil
+            }
             .task {
                 try? await Task.sleep(nanoseconds: 100_000_000)
                 await viewModel.loadCredentials()
@@ -168,6 +183,12 @@ public struct CredentialProviderView: View {
                 viewModel.cancel()
             }
         }
+    }
+
+    /// Show the global copy-confirmation toast. Each call resets the
+    /// auto-dismiss timer via `.task(id: toastMessage)` on the body.
+    private func presentToast(_ message: String) {
+        toastMessage = message
     }
 
     /// Two-way binding that maps the optional pendingLinkSelection to a Bool
@@ -218,6 +239,7 @@ private struct AutofillCredentialCardWithSelection: View {
     let credential: AutofillCredential
     let isChoosingTextToInsert: Bool
     let onSelect: (String, String) -> Void
+    let onCopy: (String) -> Void
 
     @State private var showSelectionSheet = false
     @State private var totpCode: String?
@@ -250,7 +272,7 @@ private struct AutofillCredentialCardWithSelection: View {
                 // Fill both username and password immediately for normal autofill
                 onSelect(identifier, credential.password ?? "")
             }
-        })
+        }, onCopy: onCopy)
         .confirmationDialog(
             String(localized: "select_text_to_insert", bundle: locBundle),
             isPresented: $showSelectionSheet,
