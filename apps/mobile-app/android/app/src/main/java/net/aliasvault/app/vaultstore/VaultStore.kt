@@ -442,6 +442,23 @@ class VaultStore(
     }
 
     /**
+     * Get the first non-deleted TOTP secret for an item, or null when none exists.
+     * Used by the autofill service to copy a credential's current TOTP code to
+     * the clipboard at fill time.
+     */
+    fun getTotpSecretForItem(itemId: String): String? {
+        if (!database.isVaultUnlocked()) {
+            return null
+        }
+        return try {
+            itemRepository.getTotpSecretForItem(itemId)
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error getting TOTP secret for item", e)
+            null
+        }
+    }
+
+    /**
      * Attempts to get all items using only the cached encryption key.
      */
     fun tryGetAllItems(callback: ItemOperationCallback): Boolean {

@@ -20,18 +20,23 @@ export default function AndroidAutofillScreen() : React.ReactNode {
   const { markAutofillConfigured, shouldShowAutofillReminder } = useAuth();
   const [advancedOptionsExpanded, setAdvancedOptionsExpanded] = useState(false);
   const [showSearchText, setShowSearchText] = useState(false);
+  const [copyTotpOnFill, setCopyTotpOnFill] = useState(true);
 
   /**
-   * Load the show search text setting on mount.
+   * Load native autofill toggle settings on mount.
    */
   useEffect(() => {
     /**
-     * Load the show search text setting.
+     * Read the persisted autofill toggle settings.
      */
     const loadSettings = async () : Promise<void> => {
       try {
-        const value = await NativeVaultManager.getAutofillShowSearchText();
-        setShowSearchText(value);
+        const [searchText, totpOnFill] = await Promise.all([
+          NativeVaultManager.getAutofillShowSearchText(),
+          NativeVaultManager.getAutofillCopyTotpOnFill(),
+        ]);
+        setShowSearchText(searchText);
+        setCopyTotpOnFill(totpOnFill);
       } catch (err) {
         console.warn('Failed to load autofill settings:', err);
       }
@@ -75,6 +80,18 @@ export default function AndroidAutofillScreen() : React.ReactNode {
       setShowSearchText(value);
     } catch (err) {
       console.warn('Failed to update show search text setting:', err);
+    }
+  };
+
+  /**
+   * Handle toggling the copy-TOTP-on-fill setting.
+   */
+  const handleToggleCopyTotpOnFill = async (value: boolean) : Promise<void> => {
+    try {
+      await NativeVaultManager.setAutofillCopyTotpOnFill(value);
+      setCopyTotpOnFill(value);
+    } catch (err) {
+      console.warn('Failed to update copy-TOTP-on-fill setting:', err);
     }
   };
 
@@ -267,18 +284,18 @@ export default function AndroidAutofillScreen() : React.ReactNode {
           <ThemedText style={styles.instructionStep}>
             {t('settings.androidAutofillSettings.step2')}
           </ThemedText>
-          <View style={styles.buttonContainer}>
-            {shouldShowAutofillReminder && (
-              <TouchableOpacity
-                style={styles.secondaryButton}
-                onPress={handleAlreadyConfigured}
-              >
-                <ThemedText style={styles.secondaryButtonText}>
-                  {t('settings.androidAutofillSettings.alreadyConfigured')}
-                </ThemedText>
-              </TouchableOpacity>
-            )}
-          </View>
+          {shouldShowAutofillReminder && (
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.secondaryButton}
+                  onPress={handleAlreadyConfigured}
+                >
+                  <ThemedText style={styles.secondaryButtonText}>
+                    {t('settings.androidAutofillSettings.alreadyConfigured')}
+                  </ThemedText>
+                </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         <View style={styles.advancedOptionsContainer}>
@@ -287,7 +304,7 @@ export default function AndroidAutofillScreen() : React.ReactNode {
             onPress={() => setAdvancedOptionsExpanded(!advancedOptionsExpanded)}
           >
             <ThemedText style={styles.advancedOptionsTitle}>
-              {t('settings.androidAutofillSettings.advancedOptions')}
+              {t('settings.advancedOptions')}
             </ThemedText>
             <ThemedText style={styles.chevron}>
               {advancedOptionsExpanded ? '▼' : '▶'}
@@ -296,6 +313,22 @@ export default function AndroidAutofillScreen() : React.ReactNode {
 
           {advancedOptionsExpanded && (
             <View>
+              <View style={styles.settingRow}>
+                <View style={styles.settingRowText}>
+                  <ThemedText style={styles.settingRowTitle}>
+                    {t('settings.copyTotpOnFill')}
+                  </ThemedText>
+                  <ThemedText style={styles.settingRowDescription}>
+                    {t('settings.copyTotpOnFillDescription')}
+                  </ThemedText>
+                </View>
+                <Switch
+                  value={copyTotpOnFill}
+                  onValueChange={handleToggleCopyTotpOnFill}
+                  trackColor={{ false: colors.accentBackground, true: colors.primary }}
+                  thumbColor={colors.primarySurfaceText}
+                />
+              </View>
               <View style={styles.settingRow}>
                 <View style={styles.settingRowText}>
                   <ThemedText style={styles.settingRowTitle}>

@@ -1,4 +1,3 @@
-import * as OTPAuth from 'otpauth';
 import React, { useState, useEffect } from 'react';
 
 import { generateTotpCode } from '@/utils/TotpUtility';
@@ -43,16 +42,10 @@ export const TotpSection: React.FC<TotpSectionProps> = ({ item }) : React.ReactN
   const { t } = useTranslation();
 
   /**
-   * Get the remaining seconds.
+   * Get the remaining seconds in the current TOTP window.
    */
   const getRemainingSeconds = (step = 30): number => {
-    const totp = new OTPAuth.TOTP({
-      secret: 'dummy',
-      algorithm: 'SHA1',
-      digits: 6,
-      period: step
-    });
-    return totp.period - (Math.floor(Date.now() / 1000) % totp.period);
+    return step - (Math.floor(Date.now() / 1000) % step);
   };
 
   /**
@@ -109,34 +102,38 @@ export const TotpSection: React.FC<TotpSectionProps> = ({ item }) : React.ReactN
   }, [item, dbContext?.sqliteClient]);
 
   useEffect(() => {
+    let cancelled = false;
+
     /**
-     * Update the totp codes.
+     * Generate codes for all current TOTP entries via the native bridge and
+     * push them into state. Falls back to "Error" only when no previous code
+     * exists for that entry, so the display doesn't flicker when a single
+     * tick fails.
      */
-    const updateTotpCodes = (prevCodes: Record<string, string>): Record<string, string> => {
-      const newCodes: Record<string, string> = {};
-      totpCodes.forEach(code => {
-        const generatedCode = generateTotpCode(code.SecretKey);
-        if (generatedCode) {
-          newCodes[code.Id] = generatedCode;
-        } else {
-          newCodes[code.Id] = prevCodes[code.Id] ?? 'Error';
+    const refreshCodes = async () : Promise<void> => {
+      const results = await Promise.all(
+        totpCodes.map(async (code) => ({
+          id: code.Id,
+          value: await generateTotpCode(code.SecretKey),
+        }))
+      );
+      if (cancelled) return;
+      setCurrentCodes(prev => {
+        const next: Record<string, string> = {};
+        for (const { id, value } of results) {
+          next[id] = value || prev[id] || 'Error';
         }
+        return next;
       });
-      return newCodes;
     };
 
-    const initialCodes: Record<string, string> = {};
-    totpCodes.forEach(code => {
-      const codeStr = generateTotpCode(code.SecretKey);
-      initialCodes[code.Id] = codeStr || 'Error';
-    });
-    setCurrentCodes(initialCodes);
+    refreshCodes();
+    const intervalId = setInterval(refreshCodes, 1000);
 
-    const intervalId = setInterval(() => {
-      setCurrentCodes(updateTotpCodes);
-    }, 1000);
-
-    return () : void => clearInterval(intervalId);
+    return () : void => {
+      cancelled = true;
+      clearInterval(intervalId);
+    };
   }, [totpCodes]);
 
   if (totpCodes.length === 0) {
