@@ -286,14 +286,14 @@ export default function AndroidAutofillScreen() : React.ReactNode {
           </ThemedText>
           {shouldShowAutofillReminder && (
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.secondaryButton}
-                  onPress={handleAlreadyConfigured}
-                >
-                  <ThemedText style={styles.secondaryButtonText}>
-                    {t('settings.androidAutofillSettings.alreadyConfigured')}
-                  </ThemedText>
-                </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.secondaryButton}
+                onPress={handleAlreadyConfigured}
+              >
+                <ThemedText style={styles.secondaryButtonText}>
+                  {t('settings.androidAutofillSettings.alreadyConfigured')}
+                </ThemedText>
+              </TouchableOpacity>
             </View>
           )}
         </View>

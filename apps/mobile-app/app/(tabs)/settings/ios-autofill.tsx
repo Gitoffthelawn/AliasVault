@@ -221,14 +221,14 @@ export default function IosAutofillScreen() : React.ReactNode {
           </ThemedText>
           {shouldShowAutofillReminder && (
             <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.secondaryButton}
-                  onPress={handleAlreadyConfigured}
-                >
-                  <ThemedText style={styles.secondaryButtonText}>
-                    {t('settings.iosAutofillSettings.alreadyConfigured')}
-                  </ThemedText>
-                </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.secondaryButton}
+                onPress={handleAlreadyConfigured}
+              >
+                <ThemedText style={styles.secondaryButtonText}>
+                  {t('settings.iosAutofillSettings.alreadyConfigured')}
+                </ThemedText>
+              </TouchableOpacity>
             </View>
           )}
         </View>
