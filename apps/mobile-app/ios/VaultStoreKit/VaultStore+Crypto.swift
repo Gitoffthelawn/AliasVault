@@ -3,6 +3,7 @@ import CryptoKit
 import LocalAuthentication
 import Security
 import SignalArgon2
+import VaultUtils
 
 /// Extension for the VaultStore class to handle encryption/decryption
 extension VaultStore {

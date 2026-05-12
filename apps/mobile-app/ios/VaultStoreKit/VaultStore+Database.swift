@@ -1,5 +1,6 @@
 import Foundation
 import SQLite
+import VaultUtils
 
 /// Extension for the VaultStore class to handle database management
 extension VaultStore {

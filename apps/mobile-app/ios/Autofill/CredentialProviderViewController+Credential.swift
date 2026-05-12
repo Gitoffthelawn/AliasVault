@@ -12,7 +12,6 @@ import VaultUtils
 extension CredentialProviderViewController: CredentialProviderDelegate {
 
     // MARK: - CredentialProviderDelegate Implementation
-
     func setupCredentialView(vaultStore: VaultStore, serviceUrl: String?) throws -> UIViewController {
         // Create the ViewModel with injected behaviors
         let viewModel = CredentialProviderViewModel(

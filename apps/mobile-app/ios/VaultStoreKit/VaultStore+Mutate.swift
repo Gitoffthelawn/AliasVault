@@ -1,5 +1,6 @@
 import Foundation
 import VaultModels
+import VaultUtils
 
 /// Vault upload model that matches the API contract
 public struct VaultUpload: Codable {

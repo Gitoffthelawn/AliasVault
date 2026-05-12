@@ -1,5 +1,6 @@
 import Foundation
 import VaultModels
+import VaultUtils
 
 /// Extension for the VaultStore class to handle metadata management
 extension VaultStore {

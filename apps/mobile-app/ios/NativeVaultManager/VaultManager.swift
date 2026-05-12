@@ -396,27 +396,14 @@ public class VaultManager: NSObject {
     @objc
     func getAutofillCopyTotpOnFill(_ resolve: @escaping RCTPromiseResolveBlock,
                                    rejecter reject: @escaping RCTPromiseRejectBlock) {
-        guard let defaults = UserDefaults(suiteName: VaultConstants.userDefaultsSuite) else {
-            resolve(true)
-            return
-        }
-        // Default to true when key has never been written.
-        if defaults.object(forKey: VaultConstants.autofillCopyTotpOnFillKey) == nil {
-            resolve(true)
-            return
-        }
-        resolve(defaults.bool(forKey: VaultConstants.autofillCopyTotpOnFillKey))
+        resolve(AutofillSettings.shouldCopyTotpOnFill)
     }
 
     @objc
     func setAutofillCopyTotpOnFill(_ enabled: Bool,
                                    resolver resolve: @escaping RCTPromiseResolveBlock,
                                    rejecter reject: @escaping RCTPromiseRejectBlock) {
-        guard let defaults = UserDefaults(suiteName: VaultConstants.userDefaultsSuite) else {
-            reject("AUTOFILL_SETTING_ERROR", "App Group UserDefaults unavailable", nil)
-            return
-        }
-        defaults.set(enabled, forKey: VaultConstants.autofillCopyTotpOnFillKey)
+        AutofillSettings.shouldCopyTotpOnFill = enabled
         resolve(nil)
     }
 
