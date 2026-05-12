@@ -3,6 +3,7 @@ import SwiftUI
 import VaultStoreKit
 import VaultUI
 import VaultModels
+import VaultUtils
 
 /**
  * Credential-specific functionality for CredentialProviderViewController
@@ -122,6 +123,18 @@ extension CredentialProviderViewController: CredentialProviderDelegate {
                 let elapsed = Date().timeIntervalSince(startTime)
                 if elapsed < minimumDuration {
                     Thread.sleep(forTimeInterval: minimumDuration - elapsed)
+                }
+
+                // If the credential has a TOTP secret and the user has the
+                // copy-on-fill setting enabled (default), put the current
+                // TOTP code on the clipboard so they can paste it into the
+                // 2FA field after the autofill completes.
+                if matchingCredential.hasTotp,
+                   let secret = matchingCredential.totpSecret,
+                   AutofillSettings.shouldCopyTotpOnFill,
+                   let code = TotpGenerator.generateCode(secret: secret),
+                   !code.isEmpty {
+                    UIPasteboard.general.string = code
                 }
 
                 // Use the identifier that matches the credential identity

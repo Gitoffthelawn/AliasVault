@@ -90,9 +90,6 @@ public struct CredentialProviderView: View {
                                                     username: username,
                                                     password: password
                                                 )
-                                            },
-                                            onCopy: {
-                                                viewModel.cancel()
                                             }
                                         )
                                     }
@@ -221,7 +218,6 @@ private struct AutofillCredentialCardWithSelection: View {
     let credential: AutofillCredential
     let isChoosingTextToInsert: Bool
     let onSelect: (String, String) -> Void
-    let onCopy: () -> Void
 
     @State private var showSelectionSheet = false
     @State private var totpCode: String?
@@ -239,10 +235,22 @@ private struct AutofillCredentialCardWithSelection: View {
                 // For normal autofill, use the credential's identifier property
                 let identifier = credential.identifier
 
+                // If the credential has a TOTP secret and the user has the
+                // copy-on-fill setting enabled (default), put the current
+                // TOTP code on the clipboard so they can paste it into the
+                // 2FA field after the autofill completes.
+                if credential.hasTotp,
+                   let secret = credential.totpSecret,
+                   AutofillSettings.shouldCopyTotpOnFill,
+                   let code = TotpGenerator.generateCode(secret: secret),
+                   !code.isEmpty {
+                    UIPasteboard.general.string = code
+                }
+
                 // Fill both username and password immediately for normal autofill
                 onSelect(identifier, credential.password ?? "")
             }
-        }, onCopy: onCopy)
+        })
         .confirmationDialog(
             String(localized: "select_text_to_insert", bundle: locBundle),
             isPresented: $showSelectionSheet,

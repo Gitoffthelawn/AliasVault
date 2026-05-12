@@ -5,6 +5,7 @@ import VaultStoreKit
 import VaultModels
 import SwiftUI
 import VaultUI
+import VaultUtils
 import AVFoundation
 import RustCoreFramework
 import AuthenticationServices
@@ -390,6 +391,42 @@ public class VaultManager: NSObject {
                                    rejecter reject: @escaping RCTPromiseRejectBlock) {
         // iOS autofill doesn't have this feature, no-op
         resolve(nil)
+    }
+
+    @objc
+    func getAutofillCopyTotpOnFill(_ resolve: @escaping RCTPromiseResolveBlock,
+                                   rejecter reject: @escaping RCTPromiseRejectBlock) {
+        guard let defaults = UserDefaults(suiteName: VaultConstants.userDefaultsSuite) else {
+            resolve(true)
+            return
+        }
+        // Default to true when key has never been written.
+        if defaults.object(forKey: VaultConstants.autofillCopyTotpOnFillKey) == nil {
+            resolve(true)
+            return
+        }
+        resolve(defaults.bool(forKey: VaultConstants.autofillCopyTotpOnFillKey))
+    }
+
+    @objc
+    func setAutofillCopyTotpOnFill(_ enabled: Bool,
+                                   resolver resolve: @escaping RCTPromiseResolveBlock,
+                                   rejecter reject: @escaping RCTPromiseRejectBlock) {
+        guard let defaults = UserDefaults(suiteName: VaultConstants.userDefaultsSuite) else {
+            reject("AUTOFILL_SETTING_ERROR", "App Group UserDefaults unavailable", nil)
+            return
+        }
+        defaults.set(enabled, forKey: VaultConstants.autofillCopyTotpOnFillKey)
+        resolve(nil)
+    }
+
+    @objc
+    func generateTotpCode(_ secret: String,
+                          resolver resolve: @escaping RCTPromiseResolveBlock,
+                          rejecter reject: @escaping RCTPromiseRejectBlock) {
+        // Returns nil for invalid secrets; the JS side treats null as "code unavailable".
+        let code = TotpGenerator.generateCode(secret: secret)
+        resolve(code)
     }
 
     @objc

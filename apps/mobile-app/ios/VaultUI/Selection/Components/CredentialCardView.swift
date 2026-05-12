@@ -8,15 +8,13 @@ private let locBundle = Bundle.vaultUI
 public struct AutofillCredentialCard: View {
     let credential: AutofillCredential
     let action: () -> Void
-    let onCopy: () -> Void
     @Environment(\.colorScheme) private var colorScheme
     @State private var showCopyToast = false
     @State private var copyToastMessage = ""
 
-    public init(credential: AutofillCredential, action: @escaping () -> Void, onCopy: @escaping () -> Void) {
+    public init(credential: AutofillCredential, action: @escaping () -> Void) {
         self.credential = credential
         self.action = action
-        self.onCopy = onCopy
     }
 
     private var colors: ColorConstants.Colors.Type {
@@ -72,15 +70,15 @@ public struct AutofillCredentialCard: View {
             .cornerRadius(8)
         }
         .contextMenu(menuItems: {
+            // Copy actions only copy to the clipboard and show a toast — they
+            // intentionally leave the autofill picker open so the user can
+            // still pick a credential to fill afterwards (for example: copy
+            // TOTP first, then tap to fill username/password).
             if let username = credential.username, !username.isEmpty {
                 Button(action: {
                     UIPasteboard.general.string = username
                     copyToastMessage = String(localized: "username_copied", bundle: locBundle)
                     showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
                 }, label: {
                     Label(String(localized: "copy_username", bundle: locBundle), systemImage: "person")
                 })
@@ -91,10 +89,6 @@ public struct AutofillCredentialCard: View {
                     UIPasteboard.general.string = password
                     copyToastMessage = String(localized: "password_copied", bundle: locBundle)
                     showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
                 }, label: {
                     Label(String(localized: "copy_password", bundle: locBundle), systemImage: "key")
                 })
@@ -105,18 +99,28 @@ public struct AutofillCredentialCard: View {
                     UIPasteboard.general.string = email
                     copyToastMessage = String(localized: "email_copied", bundle: locBundle)
                     showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
                 }, label: {
                     Label(String(localized: "copy_email", bundle: locBundle), systemImage: "envelope")
                 })
             }
 
+            if credential.hasTotp,
+               let secret = credential.totpSecret,
+               let code = TotpGenerator.generateCode(secret: secret),
+               !code.isEmpty {
+                Button(action: {
+                    UIPasteboard.general.string = code
+                    copyToastMessage = String(localized: "totp_code_copied", bundle: locBundle)
+                    showCopyToast = true
+                }, label: {
+                    Label(String(localized: "copy_totp_code", bundle: locBundle), systemImage: "number")
+                })
+            }
+
             if (credential.username != nil && !credential.username!.isEmpty) ||
                (credential.password != nil && !credential.password!.isEmpty) ||
-               (credential.email != nil && !credential.email!.isEmpty) {
+               (credential.email != nil && !credential.email!.isEmpty) ||
+               credential.hasTotp {
                 Divider()
             }
 
@@ -188,7 +192,6 @@ public func truncateText(_ text: String?, limit: Int) -> String {
             createdAt: Date(),
             updatedAt: Date()
         ),
-        action: {},
-        onCopy: {}
+        action: {}
     )
 }

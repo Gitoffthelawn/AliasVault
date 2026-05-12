@@ -151,8 +151,20 @@
     [vaultManager setAutofillShowSearchText:showSearchText resolver:resolve rejecter:reject];
 }
 
+- (void)getAutofillCopyTotpOnFill:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    [vaultManager getAutofillCopyTotpOnFill:resolve rejecter:reject];
+}
+
+- (void)setAutofillCopyTotpOnFill:(BOOL)enabled resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    [vaultManager setAutofillCopyTotpOnFill:enabled resolver:resolve rejecter:reject];
+}
+
 - (void)copyToClipboardWithExpiration:(NSString *)text expirationSeconds:(double)expirationSeconds localOnly:(BOOL)localOnly resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
     [vaultManager copyToClipboardWithExpiration:text expirationSeconds:expirationSeconds localOnly:localOnly resolver:resolve rejecter:reject];
+}
+
+- (void)generateTotpCode:(NSString *)secret resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    [vaultManager generateTotpCode:secret resolver:resolve rejecter:reject];
 }
 
 // MARK: - Android-specific methods (stubs for iOS)

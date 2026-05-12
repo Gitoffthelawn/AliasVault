@@ -5,7 +5,7 @@ import VaultModels
 public struct VaultConstants {
     static let keychainService = "net.aliasvault.autofill"
     static let keychainAccessGroup = "group.net.aliasvault.autofill"
-    static let userDefaultsSuite = "group.net.aliasvault.autofill"
+    public static let userDefaultsSuite = "group.net.aliasvault.autofill"
 
     static let vaultMetadataKey = "aliasvault_vault_metadata"
     static let encryptionKeyKey = "aliasvault_encryption_key"
@@ -17,6 +17,7 @@ public struct VaultConstants {
     static let offlineModeKey = "aliasvault_offline_mode"
     static let pinEnabledKey = "aliasvault_pin_enabled"
     static let serverVersionKey = "aliasvault_server_version"
+    public static let autofillCopyTotpOnFillKey = "aliasvault_autofill_copy_totp_on_fill"
 
     // Sync state keys (for offline sync and race detection)
     static let isDirtyKey = "aliasvault_is_dirty"
