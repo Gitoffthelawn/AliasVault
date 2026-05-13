@@ -153,7 +153,7 @@
       "showSearchText": "הצגת טקסט חיפוש",
       "showSearchTextDescription": "Include the text AliasVault receives from Android that it uses to search for a matching credential"
     },
-    "advancedOptions": "Advanced Options",
+    "advancedOptions": "אפשרויות מתקדמות",
     "copyTotpOnFill": "Copy TOTP code on autofill",
     "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "שיטת שחרור נעילת כספת",
