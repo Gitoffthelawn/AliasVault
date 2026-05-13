@@ -153,9 +153,9 @@
       "showSearchText": "Toon zoektekst",
       "showSearchTextDescription": "Toon de zoektekst die AliasVault ontvangt van Android om te zoeken naar overeenkomende credentials"
     },
-    "advancedOptions": "Advanced Options",
-    "copyTotpOnFill": "Copy TOTP code on autofill",
-    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
+    "advancedOptions": "Geavanceerde opties",
+    "copyTotpOnFill": "TOTP-code kopiëren bij automatisch invullen",
+    "copyTotpOnFillDescription": "Wanneer je een inloggegeven automatisch met 2FA invult, kopieer je de TOTP-code automatisch naar het klembord, zodat je deze in het volgende veld kunt plakken.",
     "vaultUnlock": "Vault ontgrendelmethode",
     "autoLock": "Automatisch vergrendelen",
     "clipboardClear": "Klembord wissen",
