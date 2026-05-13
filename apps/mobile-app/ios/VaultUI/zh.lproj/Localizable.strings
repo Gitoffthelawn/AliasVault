@@ -40,7 +40,7 @@
 "username_copied" = "用户名已复制";
 "password_copied" = "密码已复制";
 "email_copied" = "邮箱已复制";
-"totp_code_copied" = "TOTP code copied";
+"totp_code_copied" = "TOTP 验证码已复制";
 "totp_code" = "TOTP 验证码";
 
 /* Search bar */
