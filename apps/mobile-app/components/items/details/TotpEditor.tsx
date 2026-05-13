@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import * as OTPAuth from 'otpauth';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, TextInput, Modal, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
@@ -12,6 +11,7 @@ import { useDialog } from '@/context/DialogContext';
 import { useColors } from '@/hooks/useColorScheme';
 import NativeVaultManager from '@/specs/NativeVaultManager';
 import type { TotpCode } from '@/utils/dist/core/models/vault';
+import { parseOtpAuthUri } from '@/utils/TotpUtility';
 
 type TotpFormData = {
   name: string;
@@ -104,28 +104,21 @@ export const TotpEditor: React.FC<TotpEditorProps> = ({
 
       if (scannedData) {
         // Parse the otpauth:// URL
-        try {
-          const uri = OTPAuth.URI.parse(scannedData);
-          if (uri instanceof OTPAuth.TOTP) {
-            const secretKey = uri.secret.base32;
-            const name = uri.label || 'Authenticator';
+        const parsed = parseOtpAuthUri(scannedData);
+        if (parsed && parsed.type === 'totp') {
+          const secretKey = parsed.secret.replace(/\s/g, '').replace(/=+$/, '');
+          const name = parsed.label || 'Authenticator';
 
-            // Create new TOTP code immediately
-            const newTotpCode: TotpCode = {
-              Id: crypto.randomUUID().toUpperCase(),
-              Name: name,
-              SecretKey: secretKey,
-              ItemId: '' // Will be set when saving the item
-            };
+          const newTotpCode: TotpCode = {
+            Id: crypto.randomUUID().toUpperCase(),
+            Name: name,
+            SecretKey: secretKey,
+            ItemId: '' // Will be set when saving the item
+          };
 
-            // Add to the list
-            const updatedTotpCodes = [...totpCodes, newTotpCode];
-            onTotpCodesChange(updatedTotpCodes);
-          } else {
-            showAlert(t('common.error'), t('totp.errors.scanFailed'));
-          }
-        } catch (error) {
-          console.error('Error parsing TOTP QR code:', error);
+          const updatedTotpCodes = [...totpCodes, newTotpCode];
+          onTotpCodesChange(updatedTotpCodes);
+        } else {
           showAlert(t('common.error'), t('totp.errors.scanFailed'));
         }
       }
@@ -160,17 +153,14 @@ export const TotpEditor: React.FC<TotpEditorProps> = ({
 
     // Check if it's a TOTP URI
     if (secretKey.toLowerCase().startsWith('otpauth://totp/')) {
-      try {
-        const uri = OTPAuth.URI.parse(secretKey);
-        if (uri instanceof OTPAuth.TOTP) {
-          secretKey = uri.secret.base32;
-          // If name is empty, use the label from the URI
-          if (!name && uri.label) {
-            name = uri.label;
-          }
-        }
-      } catch {
+      const parsed = parseOtpAuthUri(secretKey);
+      if (!parsed || parsed.type !== 'totp') {
         throw new Error(t('totp.errors.invalidSecretKey'));
+      }
+      secretKey = parsed.secret;
+      // If name is empty, use the label from the URI
+      if (!name && parsed.label) {
+        name = parsed.label;
       }
     }
 

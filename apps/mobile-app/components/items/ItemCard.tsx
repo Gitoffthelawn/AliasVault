@@ -165,7 +165,7 @@ export function ItemCard({ item, onItemDelete, showFolderPath = false }: ItemCar
               const totpCodes = await dbContext.sqliteClient.settings.getTotpCodesForItem(item.Id);
               const activeTotp = totpCodes.find(tc => !tc.IsDeleted);
               if (activeTotp) {
-                const code = generateTotpCode(activeTotp.SecretKey);
+                const code = await generateTotpCode(activeTotp.SecretKey);
                 if (code) {
                   await copyToClipboard(code);
                   if (Platform.OS === 'ios') {

@@ -1,4 +1,5 @@
 import Foundation
+import VaultUtils
 
 /**
  * Native Swift WebAPI service for making HTTP requests to the AliasVault server.

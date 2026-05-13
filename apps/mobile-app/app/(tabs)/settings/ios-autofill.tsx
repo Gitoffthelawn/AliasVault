@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Switch } from 'react-native';
 
 import { useColors } from '@/hooks/useColorScheme';
 
@@ -17,6 +18,26 @@ export default function IosAutofillScreen() : React.ReactNode {
   const colors = useColors();
   const { t } = useTranslation();
   const { markAutofillConfigured, shouldShowAutofillReminder } = useAuth();
+  const [advancedOptionsExpanded, setAdvancedOptionsExpanded] = useState(false);
+  const [copyTotpOnFill, setCopyTotpOnFill] = useState(true);
+
+  /**
+   * Load native autofill toggle settings on mount.
+   */
+  useEffect(() => {
+    /**
+     * Read the persisted copy-TOTP-on-fill setting.
+     */
+    const loadSettings = async () : Promise<void> => {
+      try {
+        const value = await NativeVaultManager.getAutofillCopyTotpOnFill();
+        setCopyTotpOnFill(value);
+      } catch (err) {
+        console.warn('Failed to load autofill settings:', err);
+      }
+    };
+    loadSettings();
+  }, []);
 
   /**
    * Handle the configure press.
@@ -38,10 +59,41 @@ export default function IosAutofillScreen() : React.ReactNode {
     router.back();
   };
 
+  /**
+   * Handle toggling the copy-TOTP-on-fill setting.
+   */
+  const handleToggleCopyTotpOnFill = async (value: boolean) : Promise<void> => {
+    try {
+      await NativeVaultManager.setAutofillCopyTotpOnFill(value);
+      setCopyTotpOnFill(value);
+    } catch (err) {
+      console.warn('Failed to update copy-TOTP-on-fill setting:', err);
+    }
+  };
+
   const styles = StyleSheet.create({
+    advancedOptionsContainer: {
+      marginTop: 16,
+      paddingBottom: 16,
+    },
+    advancedOptionsTitle: {
+      color: colors.text,
+      fontSize: 15,
+      fontWeight: '600',
+    },
+    advancedOptionsToggleHeader: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 8,
+    },
     buttonContainer: {
       padding: 16,
       paddingBottom: 32,
+    },
+    chevron: {
+      color: colors.textMuted,
+      fontSize: 20,
     },
     configureButton: {
       alignItems: 'center',
@@ -100,11 +152,30 @@ export default function IosAutofillScreen() : React.ReactNode {
       fontSize: 16,
       fontWeight: '600',
     },
-    warningText: {
+    settingRow: {
+      alignItems: 'center',
+      backgroundColor: colors.accentBackground,
+      borderRadius: 10,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 12,
+      padding: 16,
+    },
+    settingRowDescription: {
       color: colors.textMuted,
+      fontSize: 13,
+      lineHeight: 18,
+      marginTop: 4,
+    },
+    settingRowText: {
+      color: colors.text,
+      flex: 1,
+      marginRight: 12,
+    },
+    settingRowTitle: {
+      color: colors.text,
       fontSize: 15,
-      fontStyle: 'italic',
-      marginTop: 8,
+      fontWeight: '500',
     },
   });
 
@@ -148,11 +219,8 @@ export default function IosAutofillScreen() : React.ReactNode {
           <ThemedText style={styles.instructionStep}>
             {t('settings.iosAutofillSettings.step5')}
           </ThemedText>
-          <ThemedText style={styles.warningText}>
-            {t('settings.iosAutofillSettings.warningText')}
-          </ThemedText>
-          <View style={styles.buttonContainer}>
-            {shouldShowAutofillReminder && (
+          {shouldShowAutofillReminder && (
+            <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.secondaryButton}
                 onPress={handleAlreadyConfigured}
@@ -161,8 +229,43 @@ export default function IosAutofillScreen() : React.ReactNode {
                   {t('settings.iosAutofillSettings.alreadyConfigured')}
                 </ThemedText>
               </TouchableOpacity>
-            )}
-          </View>
+            </View>
+          )}
+        </View>
+
+        <View style={styles.advancedOptionsContainer}>
+          <TouchableOpacity
+            style={styles.advancedOptionsToggleHeader}
+            onPress={() => setAdvancedOptionsExpanded(!advancedOptionsExpanded)}
+          >
+            <ThemedText style={styles.advancedOptionsTitle}>
+              {t('settings.advancedOptions')}
+            </ThemedText>
+            <ThemedText style={styles.chevron}>
+              {advancedOptionsExpanded ? '▼' : '▶'}
+            </ThemedText>
+          </TouchableOpacity>
+
+          {advancedOptionsExpanded && (
+            <View>
+              <View style={styles.settingRow}>
+                <View style={styles.settingRowText}>
+                  <ThemedText style={styles.settingRowTitle}>
+                    {t('settings.copyTotpOnFill')}
+                  </ThemedText>
+                  <ThemedText style={styles.settingRowDescription}>
+                    {t('settings.copyTotpOnFillDescription')}
+                  </ThemedText>
+                </View>
+                <Switch
+                  value={copyTotpOnFill}
+                  onValueChange={handleToggleCopyTotpOnFill}
+                  trackColor={{ false: colors.accentBackground, true: colors.primary }}
+                  thumbColor={colors.primarySurfaceText}
+                />
+              </View>
+            </View>
+          )}
         </View>
       </ThemedScrollView>
     </ThemedContainer>

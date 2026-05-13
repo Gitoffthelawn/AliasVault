@@ -8,12 +8,14 @@ private let locBundle = Bundle.vaultUI
 public struct AutofillCredentialCard: View {
     let credential: AutofillCredential
     let action: () -> Void
-    let onCopy: () -> Void
+    let onCopy: (String) -> Void
     @Environment(\.colorScheme) private var colorScheme
-    @State private var showCopyToast = false
-    @State private var copyToastMessage = ""
 
-    public init(credential: AutofillCredential, action: @escaping () -> Void, onCopy: @escaping () -> Void) {
+    public init(
+        credential: AutofillCredential,
+        action: @escaping () -> Void,
+        onCopy: @escaping (String) -> Void = { _ in }
+    ) {
         self.credential = credential
         self.action = action
         self.onCopy = onCopy
@@ -72,15 +74,14 @@ public struct AutofillCredentialCard: View {
             .cornerRadius(8)
         }
         .contextMenu(menuItems: {
+            // Copy actions only copy to the clipboard and show a toast — they
+            // intentionally leave the autofill picker open so the user can
+            // still pick a credential to fill afterwards (for example: copy
+            // TOTP first, then tap to fill username/password).
             if let username = credential.username, !username.isEmpty {
                 Button(action: {
                     UIPasteboard.general.string = username
-                    copyToastMessage = String(localized: "username_copied", bundle: locBundle)
-                    showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
+                    onCopy(String(localized: "username_copied", bundle: locBundle))
                 }, label: {
                     Label(String(localized: "copy_username", bundle: locBundle), systemImage: "person")
                 })
@@ -89,12 +90,7 @@ public struct AutofillCredentialCard: View {
             if let password = credential.password, !password.isEmpty {
                 Button(action: {
                     UIPasteboard.general.string = password
-                    copyToastMessage = String(localized: "password_copied", bundle: locBundle)
-                    showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
+                    onCopy(String(localized: "password_copied", bundle: locBundle))
                 }, label: {
                     Label(String(localized: "copy_password", bundle: locBundle), systemImage: "key")
                 })
@@ -103,20 +99,28 @@ public struct AutofillCredentialCard: View {
             if let email = credential.email, !email.isEmpty {
                 Button(action: {
                     UIPasteboard.general.string = email
-                    copyToastMessage = String(localized: "email_copied", bundle: locBundle)
-                    showCopyToast = true
-                    // Delay for 1 second before calling onCopy which dismisses the view
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        onCopy()
-                    }
+                    onCopy(String(localized: "email_copied", bundle: locBundle))
                 }, label: {
                     Label(String(localized: "copy_email", bundle: locBundle), systemImage: "envelope")
                 })
             }
 
+            if credential.hasTotp,
+               let secret = credential.totpSecret,
+               let code = TotpGenerator.generateCode(secret: secret),
+               !code.isEmpty {
+                Button(action: {
+                    UIPasteboard.general.string = code
+                    onCopy(String(localized: "totp_code_copied", bundle: locBundle))
+                }, label: {
+                    Label(String(localized: "copy_totp_code", bundle: locBundle), systemImage: "number")
+                })
+            }
+
             if (credential.username != nil && !credential.username!.isEmpty) ||
                (credential.password != nil && !credential.password!.isEmpty) ||
-               (credential.email != nil && !credential.email!.isEmpty) {
+               (credential.email != nil && !credential.email!.isEmpty) ||
+               credential.hasTotp {
                 Divider()
             }
 
@@ -136,29 +140,37 @@ public struct AutofillCredentialCard: View {
                 Label(String(localized: "edit", bundle: locBundle), systemImage: "pencil")
             })
         })
-        .overlay(
-            Group {
-                if showCopyToast {
-                    VStack {
-                        Spacer()
-                        Text(copyToastMessage)
-                            .padding()
-                            .background(Color.black.opacity(0.7))
-                            .foregroundColor(colorScheme == .dark ? ColorConstants.Dark.text : ColorConstants.Light.text)
-                            .cornerRadius(8)
-                            .padding(.bottom, 20)
-                    }
-                    .transition(.opacity)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            withAnimation {
-                                showCopyToast = false
-                            }
-                        }
-                    }
-                }
-            }
+    }
+}
+
+/// Toast pill used for copy confirmations.
+public struct CopyToastView: View {
+    public let message: String
+
+    public init(message: String) {
+        self.message = message
+    }
+
+    public var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(.green)
+            Text(message)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.primary)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(
+            Capsule()
+                .fill(.regularMaterial)
         )
+        .overlay(
+            Capsule()
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5)
+        )
+        .shadow(color: Color.black.opacity(0.18), radius: 12, x: 0, y: 4)
     }
 }
 
@@ -188,7 +200,6 @@ public func truncateText(_ text: String?, limit: Int) -> String {
             createdAt: Date(),
             updatedAt: Date()
         ),
-        action: {},
-        onCopy: {}
+        action: {}
     )
 }

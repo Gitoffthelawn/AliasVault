@@ -26,7 +26,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import net.aliasvault.app.MainActivity
 import net.aliasvault.app.R
-import net.aliasvault.app.autofill.models.FieldType
+import net.aliasvault.app.autofill.utils.AutofillFieldMapper
 import net.aliasvault.app.autofill.utils.FieldFinder
 import net.aliasvault.app.autofill.utils.ImageUtils
 import net.aliasvault.app.autofill.utils.RustItemMatcher
@@ -176,6 +176,7 @@ class AutofillService : AutofillService() {
                             // Add debug dataset if enabled in settings
                             val sharedPreferences = getSharedPreferences("AliasVaultPrefs", android.content.Context.MODE_PRIVATE)
                             val showSearchText = sharedPreferences.getBoolean("autofill_show_search_text", false)
+                            val copyTotpOnFill = sharedPreferences.getBoolean("autofill_copy_totp_on_fill", true)
                             if (showSearchText) {
                                 responseBuilder.addDataset(createSearchDebugDataset(fieldFinder, appInfo ?: "unknown"))
                             }
@@ -190,9 +191,12 @@ class AutofillService : AutofillService() {
                             } else {
                                 // If there are matches, add them to the dataset
                                 for (item in filteredItems) {
-                                    responseBuilder.addDataset(
-                                        createItemDataset(fieldFinder, item),
+                                    val dataset = createItemDataset(
+                                        fieldFinder = fieldFinder,
+                                        item = item,
+                                        copyTotpOnSelect = copyTotpOnFill && item.hasTotp,
                                     )
+                                    responseBuilder.addDataset(dataset)
                                 }
 
                                 // Add "Open app" option at the bottom (when search text is not shown and there are matches)
@@ -245,124 +249,70 @@ class AutofillService : AutofillService() {
     }
 
     /**
-     * Create a dataset from an item.
-     * @param fieldFinder The field finder
-     * @param item The item
-     * @return The dataset
+     * Build the picker Dataset for an item. Sets presentation (label + icon),
+     * stages placeholder values via [AutofillFieldMapper], and wires
+     * `Dataset.setAuthentication` to [AutofillFillActivity], passing
+     * [copyTotpOnSelect] through so the activity copies the TOTP code on
+     * selection when requested. The OS discards the placeholder values and
+     * substitutes the dataset returned by the activity.
      */
-    private fun createItemDataset(fieldFinder: FieldFinder, item: Item): Dataset {
-        // Always use icon layout (will show logo or placeholder icon)
-        val layoutId = R.layout.autofill_dataset_item_icon
+    private fun createItemDataset(
+        fieldFinder: FieldFinder,
+        item: Item,
+        copyTotpOnSelect: Boolean,
+    ): Dataset {
+        val presentation = RemoteViews(packageName, R.layout.autofill_dataset_item_icon)
+        val builder = Dataset.Builder(presentation)
 
-        // Create presentation for this item using our custom layout
-        val presentation = RemoteViews(packageName, layoutId)
-
-        val dataSetBuilder = Dataset.Builder(presentation)
-
-        // Add autofill values for all fields
-        var presentationDisplayValue = item.name
-        var hasSetValue = false
-        for (field in fieldFinder.autofillableFields) {
-            val fieldType = field.second
-            when (fieldType) {
-                FieldType.PASSWORD -> {
-                    if (!item.password.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.password as CharSequence),
-                        )
-                        hasSetValue = true
-                    }
-                }
-                FieldType.EMAIL -> {
-                    if (!item.email.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.email),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.email})"
-                    } else if (!item.username.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.username),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.username})"
-                    }
-                }
-                FieldType.USERNAME -> {
-                    if (!item.username.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.username),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.username})"
-                    } else if (!item.email.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.email),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.email})"
-                    }
-                }
-                else -> {
-                    // For unknown field types, try both email and username
-                    if (!item.email.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.email),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.email})"
-                    } else if (!item.username.isNullOrEmpty()) {
-                        dataSetBuilder.setValue(
-                            field.first,
-                            AutofillValue.forText(item.username),
-                        )
-                        hasSetValue = true
-                        presentationDisplayValue += " (${item.username})"
-                    }
-                }
-            }
-        }
-
-        // If no value was set, this shouldn't happen now since we filter items
-        // but keep as safety measure
-        if (!hasSetValue && fieldFinder.autofillableFields.isNotEmpty()) {
+        val applyResult = AutofillFieldMapper.applyItem(builder, item, fieldFinder.autofillableFields)
+        if (!applyResult.hasValue && fieldFinder.autofillableFields.isNotEmpty()) {
             Log.w(TAG, "Item ${item.name} has no autofillable data - this should have been filtered")
-            dataSetBuilder.setValue(
+            builder.setValue(
                 fieldFinder.autofillableFields.first().first,
                 AutofillValue.forText(""),
             )
         }
 
-        // Set the display value of the dropdown item.
-        presentation.setTextViewText(
-            R.id.text,
-            presentationDisplayValue,
-        )
+        val displayValue = if (applyResult.labelSuffix != null) {
+            "${item.name} (${applyResult.labelSuffix})"
+        } else {
+            item.name
+        }
+        presentation.setTextViewText(R.id.text, displayValue)
 
-        // Set the logo if available, otherwise use placeholder icon
         val logoBytes = item.logo
         val bitmap = if (logoBytes != null) {
             ImageUtils.bytesToBitmap(logoBytes)
         } else {
-            // Use placeholder key icon for Login/Alias items
             ItemTypeIcon.getIcon(
                 context = this@AutofillService,
                 itemType = ItemTypeIcon.ItemType.LOGIN,
                 size = 96,
             )
         }
-
         if (bitmap != null) {
             presentation.setImageViewBitmap(R.id.icon, bitmap)
         }
 
-        return dataSetBuilder.build()
+        val autofillIds = fieldFinder.autofillableFields.map { it.first }.toTypedArray()
+        val fieldTypeOrdinals = IntArray(fieldFinder.autofillableFields.size) { i ->
+            fieldFinder.autofillableFields[i].second.ordinal
+        }
+        val authIntent = Intent(this, AutofillFillActivity::class.java).apply {
+            putExtra(AutofillFillActivity.EXTRA_ITEM_ID, item.id.toString().uppercase())
+            putExtra(AutofillFillActivity.EXTRA_AUTOFILL_IDS, autofillIds)
+            putExtra(AutofillFillActivity.EXTRA_FIELD_TYPES, fieldTypeOrdinals)
+            putExtra(AutofillFillActivity.EXTRA_COPY_TOTP, copyTotpOnSelect)
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            item.id.hashCode(),
+            authIntent,
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT,
+        )
+        builder.setAuthentication(pendingIntent.intentSender)
+
+        return builder.build()
     }
 
     /**

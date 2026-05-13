@@ -897,6 +897,57 @@ class NativeVaultManager(reactContext: ReactApplicationContext) :
     }
 
     /**
+     * Get the autofill copy-TOTP-on-fill setting.
+     * Defaults to true when not yet set.
+     * @param promise The promise to resolve with boolean result
+     */
+    @ReactMethod
+    override fun getAutofillCopyTotpOnFill(promise: Promise) {
+        try {
+            val sharedPreferences = reactApplicationContext.getSharedPreferences("AliasVaultPrefs", android.content.Context.MODE_PRIVATE)
+            val enabled = sharedPreferences.getBoolean("autofill_copy_totp_on_fill", true)
+            promise.resolve(enabled)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting autofill copy-TOTP-on-fill setting", e)
+            promise.reject("ERR_GET_AUTOFILL_SETTING", "Failed to get autofill copy-TOTP-on-fill setting: ${e.message}", e)
+        }
+    }
+
+    /**
+     * Set the autofill copy-TOTP-on-fill setting.
+     * @param enabled Whether to copy TOTP code to clipboard on autofill
+     * @param promise The promise to resolve
+     */
+    @ReactMethod
+    override fun setAutofillCopyTotpOnFill(enabled: Boolean, promise: Promise) {
+        try {
+            val sharedPreferences = reactApplicationContext.getSharedPreferences("AliasVaultPrefs", android.content.Context.MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("autofill_copy_totp_on_fill", enabled).apply()
+            promise.resolve(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting autofill copy-TOTP-on-fill setting", e)
+            promise.reject("ERR_SET_AUTOFILL_SETTING", "Failed to set autofill copy-TOTP-on-fill setting: ${e.message}", e)
+        }
+    }
+
+    /**
+     * Generate a TOTP code from a Base32-encoded secret.
+     * Delegates to the shared Kotlin TotpGenerator so the JS layer can reuse
+     * the same RFC 6238 implementation as the autofill service. Returns null
+     * for invalid secrets.
+     */
+    @ReactMethod
+    override fun generateTotpCode(secret: String, promise: Promise) {
+        try {
+            val code = net.aliasvault.app.utils.TotpGenerator.generateCode(secret)
+            promise.resolve(code)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error generating TOTP code", e)
+            promise.reject("ERR_TOTP_GENERATE", "Failed to generate TOTP code: ${e.message}", e)
+        }
+    }
+
+    /**
      * Get the current fragment activity.
      * @return The fragment activity
      */

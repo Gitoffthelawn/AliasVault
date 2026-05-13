@@ -67,9 +67,17 @@ export interface Spec extends TurboModule {
   openAutofillSettingsPage(): Promise<void>;
   getAutofillShowSearchText(): Promise<boolean>;
   setAutofillShowSearchText(showSearchText: boolean): Promise<void>;
+  getAutofillCopyTotpOnFill(): Promise<boolean>;
+  setAutofillCopyTotpOnFill(enabled: boolean): Promise<void>;
 
   // Clipboard management
   copyToClipboardWithExpiration(text: string, expirationSeconds: number, localOnly: boolean): Promise<void>;
+
+  // TOTP code generation (RFC 6238, HMAC-SHA1, 6 digits, 30s period).
+  // Delegates to the platform-native TOTP generator so iOS, Android and the
+  // autofill extensions all share one implementation. Returns null when the
+  // secret is invalid.
+  generateTotpCode(secret: string): Promise<string | null>;
 
   // Battery optimization management
   isIgnoringBatteryOptimizations(): Promise<boolean>;
