@@ -35,10 +35,12 @@
 "copy_username" = "Kopiera användarnamn";
 "copy_password" = "Kopiera lösenord";
 "copy_email" = "Kopiera e-postadress";
+"copy_totp_code" = "Kopiera TOTP-kod";
 "view_details" = "Visa Detaljer";
 "username_copied" = "Användarnamn kopierat";
 "password_copied" = "Lösenord kopierat";
 "email_copied" = "E-postadress kopierad";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "TOTP-kod";
 
 /* Search bar */
