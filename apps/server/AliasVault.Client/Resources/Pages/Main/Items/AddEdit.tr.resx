@@ -162,11 +162,11 @@
   </data>
   <!-- Passkey labels -->
   <data name="PasskeySectionHeader">
-    <value>Passkey</value>
+    <value>Geçiş anahtarı</value>
     <comment>Section header for passkey</comment>
   </data>
   <data name="PasskeyLabel">
-    <value>Passkey</value>
+    <value>Geçiş anahtarı</value>
     <comment>Label for passkey</comment>
   </data>
   <data name="PasskeySiteLabel">
