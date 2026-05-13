@@ -154,8 +154,8 @@
       "showSearchTextDescription": "Incluye el texto que recibe AliasVault de Android para buscar una credencial coincidente"
     },
     "advancedOptions": "Opciones Avanzadas",
-    "copyTotpOnFill": "Copy TOTP code on autofill",
-    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
+    "copyTotpOnFill": "Copiar código TOTP al autorrelleno",
+    "copyTotpOnFillDescription": "Cuando autorrellena una credencial con 2FA, copie automáticamente su código TOTP al portapapeles para que pueda pegarlo en el siguiente campo.",
     "vaultUnlock": "Método de desbloqueo de la bóveda",
     "autoLock": "Tiempo de bloqueo automático",
     "clipboardClear": "Limpiar portapapeles",
