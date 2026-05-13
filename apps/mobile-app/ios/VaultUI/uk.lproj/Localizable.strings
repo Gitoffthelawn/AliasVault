@@ -35,10 +35,12 @@
 "copy_username" = "Копіювати ім'я користувача";
 "copy_password" = "Копіювати пароль";
 "copy_email" = "Копіювати електронну адресу";
+"copy_totp_code" = "Copy TOTP Code";
 "view_details" = "Переглянути подробиці";
 "username_copied" = "Ім'я користувача скопійовано";
 "password_copied" = "Пароль скопійовано";
 "email_copied" = "Адреса ел. пошти скопійована";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "Код TOTP";
 
 /* Search bar */
