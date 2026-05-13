@@ -35,10 +35,12 @@
 "copy_username" = "העתקת שם משתמש";
 "copy_password" = "העתקת סיסמה";
 "copy_email" = "העתקת דוא״ל";
+"copy_totp_code" = "Copy TOTP Code";
 "view_details" = "הצגת פרטים";
 "username_copied" = "שם המשתמש הועתק";
 "password_copied" = "הסיסמה הועתקה";
 "email_copied" = "כתובת הדוא״ל הועתקה";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "קוד חד־פעמי זמני";
 
 /* Search bar */

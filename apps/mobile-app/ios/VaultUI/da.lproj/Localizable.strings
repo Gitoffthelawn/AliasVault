@@ -35,10 +35,12 @@
 "copy_username" = "Kopier brugernavn";
 "copy_password" = "Kopier adgangskode";
 "copy_email" = "Kopier e-mail";
+"copy_totp_code" = "Kopier TOTP Kode";
 "view_details" = "Vis detaljer";
 "username_copied" = "Brugernavn kopieret";
 "password_copied" = "Adgangskode kopieret";
 "email_copied" = "E-mail kopieret";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "TOTP Kode";
 
 /* Search bar */

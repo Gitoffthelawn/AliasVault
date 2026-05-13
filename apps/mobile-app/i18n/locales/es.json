@@ -136,8 +136,7 @@
       "step4": "4. Activar \"AliasVault\"",
       "step5": "5. Desactivar otros proveedores de contraseñas (por ejemplo, \"contraseñas iCloud\") para evitar conflictos",
       "openIosSettings": "Abrir ajustes de iOS",
-      "alreadyConfigured": "Ya lo he configurado",
-      "warningText": "Nota: Deberá autenticarse con Face ID/Touch ID o con el código de acceso de su dispositivo cuando use autorelleno."
+      "alreadyConfigured": "Ya lo he configurado"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Característica experimental",
@@ -151,10 +150,12 @@
       "buttonTip": "Si el botón de arriba no funciona, podría ser por el bloqueo de los ajustes de seguridad. Puede ir manualmente a Ajustes de Android → Gestión General → Contraseñas y autocompletar.",
       "step2": "2. Algunas aplicaciones, por ejemplo, Google Chrome, pueden requerir configuración manual en sus ajustes para permitir aplicaciones de relleno automático de terceros. Sin embargo, la mayoría de las aplicaciones deberían funcionar con autorrelleno de forma predeterminada.",
       "alreadyConfigured": "Ya lo he configurado",
-      "advancedOptions": "Opciones Avanzadas",
       "showSearchText": "Mostrar texto de búsqueda",
       "showSearchTextDescription": "Incluye el texto que recibe AliasVault de Android para buscar una credencial coincidente"
     },
+    "advancedOptions": "Opciones Avanzadas",
+    "copyTotpOnFill": "Copiar código TOTP al autorrelleno",
+    "copyTotpOnFillDescription": "Cuando autorrellena una credencial con 2FA, copie automáticamente su código TOTP al portapapeles para que pueda pegarlo en el siguiente campo.",
     "vaultUnlock": "Método de desbloqueo de la bóveda",
     "autoLock": "Tiempo de bloqueo automático",
     "clipboardClear": "Limpiar portapapeles",

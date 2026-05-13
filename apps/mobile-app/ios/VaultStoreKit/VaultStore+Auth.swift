@@ -2,6 +2,7 @@ import Foundation
 import LocalAuthentication
 import Security
 import VaultModels
+import VaultUtils
 
 /// Extension for the VaultStore class to handle authentication methods
 extension VaultStore {

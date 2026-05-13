@@ -35,10 +35,12 @@
 "copy_username" = "Скопировать имя пользователя";
 "copy_password" = "Скопировать пароль";
 "copy_email" = "Скопировать Email";
+"copy_totp_code" = "Копировать 2FA-код";
 "view_details" = "Просмотреть подробности";
 "username_copied" = "Имя пользователя скопировано";
 "password_copied" = "Пароль скопирован";
 "email_copied" = "Email скопирован";
+"totp_code_copied" = "Код TOTP скопирован";
 "totp_code" = "TOTP код";
 
 /* Search bar */

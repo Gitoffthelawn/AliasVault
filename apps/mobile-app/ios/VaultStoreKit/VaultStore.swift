@@ -5,6 +5,7 @@ import CryptoKit
 import CommonCrypto
 import Security
 import VaultModels
+import VaultUtils
 
 /// This class is used to store and retrieve the encrypted AliasVault database and encryption key.
 /// It also handles executing queries against the SQLite database and biometric authentication.

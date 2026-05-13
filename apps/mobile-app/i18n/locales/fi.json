@@ -136,8 +136,7 @@
       "step4": "4. Ota \"AliasVault\" käyttöön",
       "step5": "5. Poista käytöstä muut salasanan tarjoajat (esim. \"iCloud Passwords\") ristiriitojen välttämiseksi",
       "openIosSettings": "Avaa iOS-asetukset",
-      "alreadyConfigured": "Olen jo määrittänyt sen",
-      "warningText": "Huomautus: Sinun on tunnistautuva Face-/Touch ID: llä tai laitteesi salakoodilla, kun käytät automaattista täyttöä."
+      "alreadyConfigured": "Olen jo määrittänyt sen"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Kokeellinen ominaisuus",
@@ -151,10 +150,12 @@
       "buttonTip": "Jos yllä oleva painike ei toimi, se saattaa olla estetty turvallisuusasetusten vuoksi. Voit manuaalisesti mennä kohtaan Android-asetukset → Yleinen hallinta → Salasanat ja automaattinen täyttö.",
       "step2": "2. Jotkin sovellukset, kuten Google Chrome, saattavat vaatia asetuksissaan manuaalista määrittämistä salliakseen kolmannen osapuolen täytön sovellukset. Useimpien sovellusten pitäisi kuitenkin toimia oletuksena automaattisen täytön kanssa.",
       "alreadyConfigured": "Olen jo määrittänyt sen",
-      "advancedOptions": "Lisäasetukset",
       "showSearchText": "Näytä hakuteksti",
       "showSearchTextDescription": "Sisällytä teksti AliasVault vastaanottaa Androidilta, jota se käyttää etsimään vastaavaa tunnusta"
     },
+    "advancedOptions": "Lisäasetukset",
+    "copyTotpOnFill": "Copy TOTP code on autofill",
+    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Holvin lukituksen avausmenetelmä",
     "autoLock": "Automaattisen lukituksen aikakatkaisu",
     "clipboardClear": "Tyhjennä leikepöytä",

@@ -140,7 +140,7 @@
   </data>
   <!-- Buttons -->
   <data name="Add">
-    <value>Add</value>
+    <value>Ekle</value>
     <comment>Add button text</comment>
   </data>
   <data name="Cancel">

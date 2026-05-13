@@ -5,6 +5,7 @@ import VaultStoreKit
 import VaultModels
 import SwiftUI
 import VaultUI
+import VaultUtils
 import AVFoundation
 import RustCoreFramework
 import AuthenticationServices
@@ -390,6 +391,29 @@ public class VaultManager: NSObject {
                                    rejecter reject: @escaping RCTPromiseRejectBlock) {
         // iOS autofill doesn't have this feature, no-op
         resolve(nil)
+    }
+
+    @objc
+    func getAutofillCopyTotpOnFill(_ resolve: @escaping RCTPromiseResolveBlock,
+                                   rejecter reject: @escaping RCTPromiseRejectBlock) {
+        resolve(AutofillSettings.shouldCopyTotpOnFill)
+    }
+
+    @objc
+    func setAutofillCopyTotpOnFill(_ enabled: Bool,
+                                   resolver resolve: @escaping RCTPromiseResolveBlock,
+                                   rejecter reject: @escaping RCTPromiseRejectBlock) {
+        AutofillSettings.shouldCopyTotpOnFill = enabled
+        resolve(nil)
+    }
+
+    @objc
+    func generateTotpCode(_ secret: String,
+                          resolver resolve: @escaping RCTPromiseResolveBlock,
+                          rejecter reject: @escaping RCTPromiseRejectBlock) {
+        // Returns nil for invalid secrets; the JS side treats null as "code unavailable".
+        let code = TotpGenerator.generateCode(secret: secret)
+        resolve(code)
     }
 
     @objc

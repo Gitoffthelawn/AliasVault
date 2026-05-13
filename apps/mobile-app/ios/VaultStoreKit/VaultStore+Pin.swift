@@ -3,6 +3,7 @@ import CryptoKit
 import Security
 import SignalArgon2
 import VaultModels
+import VaultUtils
 
 /// Extension for the VaultStore class to handle PIN unlock functionality
 extension VaultStore {

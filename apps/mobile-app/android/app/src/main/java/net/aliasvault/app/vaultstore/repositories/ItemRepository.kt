@@ -389,6 +389,22 @@ class ItemRepository(database: VaultDatabase) : BaseRepository(database) {
         return (results.firstOrNull()?.get("count") as? Long)?.toInt() ?: 0
     }
 
+    /**
+     * Get the first non-deleted TOTP secret for an item, or null when there is none.
+     * Used by the autofill service to copy the current TOTP code to the clipboard
+     * when the user selects a credential to fill.
+     *
+     * @param itemId The UUID of the item.
+     * @return The Base32 secret key string, or null.
+     */
+    fun getTotpSecretForItem(itemId: String): String? {
+        val results = executeQuery(
+            "SELECT SecretKey FROM TotpCodes WHERE ItemId = ? AND IsDeleted = 0 ORDER BY Name ASC LIMIT 1",
+            arrayOf(itemId.uppercase()),
+        )
+        return results.firstOrNull()?.get("SecretKey") as? String
+    }
+
     // MARK: - Write Operations
 
     /**

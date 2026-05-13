@@ -1,5 +1,6 @@
 import Foundation
 import Security
+import VaultUtils
 
 /// Extension for the VaultStore class to handle cache management
 extension VaultStore {

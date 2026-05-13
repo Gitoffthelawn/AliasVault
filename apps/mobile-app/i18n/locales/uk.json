@@ -136,8 +136,7 @@
       "step4": "4. Увімкнути \"AliasVault\"",
       "step5": "5. Вимкніть інших постачальників паролів (наприклад, «Паролі iCloud»), щоб уникнути конфліктів",
       "openIosSettings": "Відкрийте налаштування iOS",
-      "alreadyConfigured": "Я вже це налаштував",
-      "warningText": "Примітка: Під час використання автозаповнення вам потрібно буде пройти автентифікацію за допомогою Face ID/Touch ID або пароля вашого пристрою."
+      "alreadyConfigured": "Я вже це налаштував"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Експериментальна функція",
@@ -151,10 +150,12 @@
       "buttonTip": "Якщо кнопка вище не працює, можливо, вона заблокована через налаштування безпеки. Ви можете вручну перейти до Налаштувань Android → Загальне керування → Паролі та автозаповнення.",
       "step2": "2. Деякі програми, наприклад, Google Chrome, можуть вимагати ручної конфігурації в налаштуваннях, щоб дозволити використання сторонніх програм автозаповнення. Однак більшість програм повинні працювати з автозаповненням за замовчуванням.",
       "alreadyConfigured": "Я вже це налаштував",
-      "advancedOptions": "Додаткові параметри",
       "showSearchText": "Показати текст пошуку",
       "showSearchTextDescription": "Включити текст, який AliasVault отримує від Android, який він використовує для пошуку відповідних облікових даних"
     },
+    "advancedOptions": "Додаткові параметри",
+    "copyTotpOnFill": "Copy TOTP code on autofill",
+    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Метод розблокування сховища",
     "autoLock": "Тайм-аут автоматичного блокування",
     "clipboardClear": "Очистити буфер обміну",
