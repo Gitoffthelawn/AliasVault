@@ -7,7 +7,7 @@
 "website" = "Web Sitesi";
 "username" = "Kullanıcı Adı";
 "title" = "Başlık";
-"unknown_error" = "An unknown error occurred";
+"unknown_error" = "Bilinmeyen bir hata oluştu";
 
 "loading_items" = "Loading items...";
 "no_items_found" = "No items found";
@@ -35,10 +35,12 @@
 "copy_username" = "Kullanıcı Adını Kopyala";
 "copy_password" = "Parolayı Kopyala";
 "copy_email" = "E-postayı Kopyala";
+"copy_totp_code" = "Copy TOTP Code";
 "view_details" = "View Details";
 "username_copied" = "Username copied";
 "password_copied" = "Password copied";
 "email_copied" = "Email copied";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "TOTP Kodu";
 
 /* Search bar */
@@ -50,7 +52,7 @@
 "create_passkey_button_confirm" = "Create Passkey";
 
 /* Passkey provider */
-"passkey" = "Passkey";
+"passkey" = "Geçiş anahtarı";
 "loading_passkeys" = "Loading passkeys...";
 "no_passkeys_found" = "No passkeys found";
 "no_passkeys_match" = "No existing passkeys match your search";
