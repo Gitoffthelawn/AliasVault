@@ -153,7 +153,7 @@
       "showSearchText": "Wyświetl tekst wyszukiwania",
       "showSearchTextDescription": "AliasVault otrzymuje z Androida dane, których używa do wyszukania pasujących danych logowania"
     },
-    "advancedOptions": "Advanced Options",
+    "advancedOptions": "Opcje zaawansowane",
     "copyTotpOnFill": "Copy TOTP code on autofill",
     "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Blokada sejfu",
