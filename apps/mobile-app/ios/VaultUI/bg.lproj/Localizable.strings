@@ -35,10 +35,12 @@
 "copy_username" = "Copy Username";
 "copy_password" = "Copy Password";
 "copy_email" = "Copy Email";
+"copy_totp_code" = "Copy TOTP Code";
 "view_details" = "View Details";
 "username_copied" = "Username copied";
 "password_copied" = "Password copied";
 "email_copied" = "Email copied";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "TOTP Code";
 
 /* Search bar */
