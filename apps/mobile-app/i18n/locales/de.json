@@ -154,8 +154,8 @@
       "showSearchTextDescription": "Füge den Text ein, den AliasVault von Android erhält und der verwendet wird, um nach passenden Anmeldedaten zu suchen"
     },
     "advancedOptions": "Erweiterte Einstellungen",
-    "copyTotpOnFill": "Copy TOTP code on autofill",
-    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
+    "copyTotpOnFill": "TOTP-Code bei Autofill kopieren",
+    "copyTotpOnFillDescription": "Wenn Du Zugangsinformationen samt 2FA per Autofill eintragen lässt, kopiere automatisch den TOTPP code in die Zwischenablage, sodass Du diesen gleich in das dazugehörige Feld einfügen kannst.",
     "vaultUnlock": "Methode zum Entsperren des Tresors",
     "autoLock": "Sperr-Timeout",
     "clipboardClear": "Zwischenablage leeren",
