@@ -154,8 +154,8 @@
       "showSearchTextDescription": "Включите текст, который AliasVault получает от Android и использует для поиска подходящих учетных данных"
     },
     "advancedOptions": "Дополнительные параметры",
-    "copyTotpOnFill": "Copy TOTP code on autofill",
-    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
+    "copyTotpOnFill": "Копировать TOTP-код при автозаполнении",
+    "copyTotpOnFillDescription": "При автозаполнении данных копировать TOTP-код в буфер обмена, чтобы его можно было вставить в следующее поле.",
     "vaultUnlock": "Способ разблокировки хранилища",
     "autoLock": "Тайм-аут автоматической блокировки",
     "clipboardClear": "Очистить буфер обмена",
