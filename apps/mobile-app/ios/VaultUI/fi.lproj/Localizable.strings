@@ -35,10 +35,12 @@
 "copy_username" = "Kopioi käyttäjänimi";
 "copy_password" = "Kopioi salasana";
 "copy_email" = "Kopioi sähköposti";
+"copy_totp_code" = "Copy TOTP Code";
 "view_details" = "Näytä yksityiskohdat";
 "username_copied" = "Käyttäjänimi kopioitu";
 "password_copied" = "Salasana kopioitu";
 "email_copied" = "Sähköposti kopioitu";
+"totp_code_copied" = "TOTP code copied";
 "totp_code" = "TOTP-koodi";
 
 /* Search bar */
