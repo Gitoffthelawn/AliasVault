@@ -153,7 +153,7 @@
       "showSearchText": "Показать текст поиска",
       "showSearchTextDescription": "Включите текст, который AliasVault получает от Android и использует для поиска подходящих учетных данных"
     },
-    "advancedOptions": "Advanced Options",
+    "advancedOptions": "Дополнительные параметры",
     "copyTotpOnFill": "Copy TOTP code on autofill",
     "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Способ разблокировки хранилища",
