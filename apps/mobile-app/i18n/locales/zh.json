@@ -153,7 +153,7 @@
       "showSearchText": "显示搜索文本",
       "showSearchTextDescription": "包含 AliasVault 从 Android 接收的用于搜索匹配凭据的文本"
     },
-    "advancedOptions": "Advanced Options",
+    "advancedOptions": "高级选项",
     "copyTotpOnFill": "Copy TOTP code on autofill",
     "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "密码库解锁方式",
