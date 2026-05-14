@@ -40,7 +40,7 @@
 "username_copied" = "Nume de utilizator copiat";
 "password_copied" = "Parolă copiată";
 "email_copied" = "E-mail copiat";
-"totp_code_copied" = "TOTP code copied";
+"totp_code_copied" = "Cod TOTP copiat";
 "totp_code" = "Cod TOTP";
 
 /* Search bar */
