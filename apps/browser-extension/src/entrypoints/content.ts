@@ -389,10 +389,7 @@ function initializeLoginDetector(container: HTMLElement): void {
 
       if (lastAutofilledResponse.success && lastAutofilledResponse.credential) {
         /*
-         * Skip the prompt entirely when the submitted URL is already linked
-         * (host-equivalent) to the autofilled credential. Without this guard
-         * the user would see "Add URL?", click it, and the background dedup
-         * would silently no-op — confusing UX.
+         * Skip the prompt when the submitted URL is already linked.
          */
         const linkCheck = await sendMessage('IS_URL_LINKED_TO_CREDENTIAL', {
           itemId: lastAutofilledResponse.credential.itemId,
@@ -400,7 +397,7 @@ function initializeLoginDetector(container: HTMLElement): void {
         }, 'background') as { linked: boolean };
 
         if (!linkCheck.linked) {
-          // User used an existing credential: offer to add URL to it
+          // Current URL is not linked to the existing credential, show the prompt.
           showAddUrlPrompt(container, {
             login,
             existingCredential: lastAutofilledResponse.credential,
