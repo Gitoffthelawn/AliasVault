@@ -154,8 +154,8 @@
       "showSearchTextDescription": "Include textul pe care AliasVault îl primește de la Android și pe care îl folosește pentru a căuta datele de autentificare corespunzătoare"
     },
     "advancedOptions": "Opțiuni Avansate",
-    "copyTotpOnFill": "Copy TOTP code on autofill",
-    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
+    "copyTotpOnFill": "Copiază codul TOTP la completare automată",
+    "copyTotpOnFillDescription": "Când completezi automat datele de autentificare cu 2FA, copiază automat codul TOTP în clipboard, astfel încât să îl poți insera în câmpul următor.",
     "vaultUnlock": "Metodă deblocare seif",
     "autoLock": "Interval auto-blocare",
     "clipboardClear": "Golește clipboardul",
