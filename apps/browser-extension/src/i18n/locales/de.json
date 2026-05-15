@@ -399,8 +399,6 @@
     "clipboardSettings": "Zwischenablage-Einstellungen",
     "contextMenuSettings": "Kontextmenü-Einstellungen",
     "passkeySettings": "Passkey-Einstellungen",
-    "contextMenuEnabled": "Kontextmenü ist aktiviert",
-    "contextMenuDisabled": "Kontextmenü ist deaktiviert",
     "contextMenuDescription": "Rechtsklicke auf Eingabefelder, um auf AliasVault-Optionen zuzugreifen",
     "selectLanguage": "Sprache auswählen",
     "serverConfiguration": "Serverkonfiguration",
