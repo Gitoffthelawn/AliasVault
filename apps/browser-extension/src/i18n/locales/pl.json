@@ -399,8 +399,6 @@
     "clipboardSettings": "Ustawienia schowka",
     "contextMenuSettings": "Ustawienia menu kontekstowego",
     "passkeySettings": "Ustawienia kluczy dostępu",
-    "contextMenuEnabled": "Menu kontekstowe jest włączone",
-    "contextMenuDisabled": "Menu kontekstowe jest wyłączone",
     "contextMenuDescription": "Kliknij prawym przyciskiem myszy na pola wejściowe, aby uzyskać dostęp do opcji AliasVault",
     "selectLanguage": "Wybierz język",
     "serverConfiguration": "Konfiguracja serwera",
