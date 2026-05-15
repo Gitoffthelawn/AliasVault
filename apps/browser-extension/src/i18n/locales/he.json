@@ -399,8 +399,6 @@
     "clipboardSettings": "הגדרות לוח הגזירים",
     "contextMenuSettings": "הגדרות תפריט הקשר",
     "passkeySettings": "Passkey Settings",
-    "contextMenuEnabled": "תפריט הקשר פעיל",
-    "contextMenuDisabled": "תפריט הקשר כבוי",
     "contextMenuDescription": "ניתן ללחוץ על שדה עם הלחצן הימני כדי לגשת לאפשרויות AliasVault",
     "selectLanguage": "בחירת שפה",
     "serverConfiguration": "הגדרות שרת",
