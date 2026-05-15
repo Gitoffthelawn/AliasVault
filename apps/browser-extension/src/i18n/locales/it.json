@@ -399,8 +399,6 @@
     "clipboardSettings": "Impostazioni appunti",
     "contextMenuSettings": "Preferenze menu contestuale",
     "passkeySettings": "Impostazioni Passkey",
-    "contextMenuEnabled": "Il menu contestuale è attivato",
-    "contextMenuDisabled": "Il menu contestuale è disabilitato",
     "contextMenuDescription": "Click destro sui campi di input per accedere alle opzioni di AliasVault",
     "selectLanguage": "Seleziona la lingua",
     "serverConfiguration": "Configurazione del server",
