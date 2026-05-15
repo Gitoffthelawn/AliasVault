@@ -399,8 +399,6 @@
     "clipboardSettings": "剪贴板设置",
     "contextMenuSettings": "上下文菜单设置",
     "passkeySettings": "通行密钥设置",
-    "contextMenuEnabled": "上下文菜单已启用",
-    "contextMenuDisabled": "上下文菜单已停用",
     "contextMenuDescription": "右键点击输入字段即可访问 AliasVault 选项",
     "selectLanguage": "选择语言",
     "serverConfiguration": "服务器配置",

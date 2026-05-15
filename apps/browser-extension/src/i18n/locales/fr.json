@@ -399,8 +399,6 @@
     "clipboardSettings": "Paramètres du presse-papiers",
     "contextMenuSettings": "Paramètres du menu contextuel",
     "passkeySettings": "Paramètres de la clé d'accès",
-    "contextMenuEnabled": "Le menu contextuel est activé",
-    "contextMenuDisabled": "Le menu contextuel est désactivé",
     "contextMenuDescription": "Faites un clic droit sur les champs de saisie pour accéder aux options d'AliasVault",
     "selectLanguage": "Sélectionner une langue",
     "serverConfiguration": "Configuration du serveur",

@@ -399,8 +399,6 @@
     "clipboardSettings": "Klembord instellingen",
     "contextMenuSettings": "Context menu instellingen",
     "passkeySettings": "Passkey instellingen",
-    "contextMenuEnabled": "Context menu is ingeschakeld",
-    "contextMenuDisabled": "Context menu is uitgeschakeld",
     "contextMenuDescription": "Klik met de rechtermuisknop op invoervelden om AliasVault opties te zien",
     "selectLanguage": "Selecteer taal",
     "serverConfiguration": "Serverconfiguratie",

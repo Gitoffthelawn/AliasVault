@@ -399,8 +399,6 @@
     "clipboardSettings": "Ajustes del portapapeles",
     "contextMenuSettings": "Ajustes del menú contextual",
     "passkeySettings": "Ajustes de llaves de acceso",
-    "contextMenuEnabled": "El menú contextual está activado",
-    "contextMenuDisabled": "El menú contextual está desactivado",
     "contextMenuDescription": "Haga clic derecho en los campos de entrada para acceder a las opciones de AliasVault",
     "selectLanguage": "Seleccionar idioma",
     "serverConfiguration": "Configuración del servidor",

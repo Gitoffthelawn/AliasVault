@@ -399,8 +399,6 @@
     "clipboardSettings": "Leikepöydän asetukset",
     "contextMenuSettings": "Kontekstivalikon asetukset",
     "passkeySettings": "Todennusavainten asetukset",
-    "contextMenuEnabled": "Kontekstivalikko on otettu käyttöön",
-    "contextMenuDisabled": "Kontekstivalikko on poistettu käytöstä",
     "contextMenuDescription": "Oikea-napsauta syöttökenttiä päästäksesi AliasVaultin vaihtoehtoihin",
     "selectLanguage": "Valitse kieli",
     "serverConfiguration": "Palvelimen asetukset",
