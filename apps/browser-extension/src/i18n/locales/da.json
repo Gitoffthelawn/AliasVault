@@ -399,8 +399,6 @@
     "clipboardSettings": "Indstillinger for udklipsholder",
     "contextMenuSettings": "Indstillinger for kontekstmenu",
     "passkeySettings": "Indstillinger for passkey",
-    "contextMenuEnabled": "Kontekstmenu er aktiveret",
-    "contextMenuDisabled": "Kontekstmenu er deaktiveret",
     "contextMenuDescription": "Højreklik på inputfelter for at få adgang til AliasVault-funktioner",
     "selectLanguage": "Vælg sprog",
     "serverConfiguration": "Serverkonfiguration",
