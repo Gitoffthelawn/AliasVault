@@ -399,8 +399,6 @@
     "clipboardSettings": "Configurações da Área de Transferência",
     "contextMenuSettings": "Configurações do Menu de Contexto",
     "passkeySettings": "Configurações de Passkey",
-    "contextMenuEnabled": "Menu de contexto está habilitado",
-    "contextMenuDisabled": "Menu de contexto está desabilitado",
     "contextMenuDescription": "Clique com o botão direito nos campos para acessar as opções do AliasVault",
     "selectLanguage": "Selecionar Idioma",
     "serverConfiguration": "Configurações do Servidor",

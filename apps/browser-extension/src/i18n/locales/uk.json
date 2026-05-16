@@ -399,8 +399,6 @@
     "clipboardSettings": "Параметри буфера обміну",
     "contextMenuSettings": "Налаштування контекстного меню",
     "passkeySettings": "Налаштування ключа доступу",
-    "contextMenuEnabled": "Контекстне меню увімкнено",
-    "contextMenuDisabled": "Контекстне меню вимкнено",
     "contextMenuDescription": "Натисніть правою кнопкою миші на поля введення, щоб отримати доступ до параметрів AliasVault",
     "selectLanguage": "Виберіть мову",
     "serverConfiguration": "Конфігурація сервера",

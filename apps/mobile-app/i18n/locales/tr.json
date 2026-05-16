@@ -136,8 +136,7 @@
       "step4": "4. “AliasVault”u etkinleştirin",
       "step5": "5. Çakışmaları önlemek için diğer parola sağlayıcılarını (örn. “iCloud Anahtar Zinciri”) devre dışı bırakın",
       "openIosSettings": "iOS Ayarlarını Aç",
-      "alreadyConfigured": "Yapılandırma tamamlandı",
-      "warningText": "Not: Otomatik doldurma özelliğini kullanırken Face ID/Touch ID veya cihaz şifrenizle kimlik doğrulamanız gerekecektir."
+      "alreadyConfigured": "Yapılandırma tamamlandı"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Deneysel Özellikler",
@@ -151,10 +150,12 @@
       "buttonTip": "Eğer yukarıdaki buton çalışmazsa, güvenlik ayarları nedeniyle engellenmiş olabilir. Manuel olarak Android Ayarları → Genel Yönetim → Parolalar ve otomatik doldurma bölümüne gidebilirsiniz.",
       "step2": "2. Bazı uygulamalar, örneğin Google Chrome, üçüncü taraf otomatik doldurma uygulamalarına izin vermek için kendi ayarlarında manuel yapılandırma gerektirebilir. Ancak çoğu uygulama varsayılan olarak otomatik doldurma ile çalışmalıdır.",
       "alreadyConfigured": "Yapılandırma tamamlandı",
-      "advancedOptions": "Advanced Options",
       "showSearchText": "Show search text",
       "showSearchTextDescription": "Include the text AliasVault receives from Android that it uses to search for a matching credential"
     },
+    "advancedOptions": "Advanced Options",
+    "copyTotpOnFill": "Copy TOTP code on autofill",
+    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Kasa Açma Yöntemi",
     "autoLock": "Otomatik Kilit Süresi",
     "clipboardClear": "Panoyu Temizle",
@@ -588,7 +589,7 @@
   "apiErrors": {
     "CLAIM_DOES_NOT_MATCH_USER": "The current chosen email address is already in use. Please change the email address by editing this credential.",
     "CLAIM_DOES_NOT_EXIST": "An error occurred while trying to load the emails. Please try to edit and save the credential entry to synchronize the database, then try again.",
-    "UNKNOWN_ERROR": "An unknown error occurred. Please try again.",
+    "UNKNOWN_ERROR": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
     "ACCOUNT_LOCKED": "Account temporarily locked due to too many failed attempts. Please try again later.",
     "ACCOUNT_BLOCKED": "Your account has been disabled. If you believe this is a mistake, please contact support.",
     "USER_NOT_FOUND": "Invalid username or password. Please try again.",

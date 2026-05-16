@@ -15,7 +15,7 @@
     "twoFactorNote": "Not: Kimlik doğrulayıcı cihazınıza erişiminiz yoksa, web sitesinden giriş yaparak kurtarma kodu ile iki adımlı doğrulamayı sıfırlayabilirsiniz.",
     "masterPassword": "Master Password",
     "unlockVault": "Kilidi aç",
-    "unlockWithPin": "Unlock with PIN",
+    "unlockWithPin": "Şifre ile aç",
     "enterPinToUnlock": "Enter your PIN to unlock your vault",
     "useMasterPassword": "Use Master Password",
     "unlockTitle": "Unlock Your Vault",
@@ -39,7 +39,7 @@
   },
   "common": {
     "loading": "Yükleniyor...",
-    "notice": "Notice",
+    "notice": "Bildirim",
     "error": "Hata",
     "cancel": "İptal",
     "confirm": "Onayla",
@@ -47,7 +47,7 @@
     "back": "Geri",
     "next": "İleri",
     "use": "Kullan",
-    "add": "Add",
+    "add": "Ekle",
     "delete": "Sil",
     "undo": "Undo",
     "save": "Kaydet",
@@ -64,8 +64,8 @@
     "disabled": "Disabled",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
-    "show": "Show",
-    "hide": "Hide",
+    "show": "Göster",
+    "hide": "Gizle",
     "showDetails": "Show details",
     "hideDetails": "Hide details",
     "copyToClipboard": "Copy to clipboard",
@@ -83,7 +83,7 @@
     "email": "E-Posta",
     "username": "Kullanıcı Adı",
     "password": "Parola",
-    "generate": "Generate",
+    "generate": "Oluştur",
     "serviceName": "Hizmet Adı",
     "loggedIn": "Logged in",
     "syncingVault": "Kasa senkronize ediliyor",
@@ -101,8 +101,8 @@
       "browserExtensionOutdated": "This browser extension is outdated and cannot be used to access this vault. Please update this browser extension to continue.",
       "serverVersionNotSupported": "The AliasVault server needs to be updated to a newer version in order to use this browser extension. Please contact support if you need help.",
       "serverVersionTooOld": "The AliasVault server needs to be updated to a newer version in order to use this feature. Please contact the server admin if you need help.",
-      "unknownError": "An unknown error occurred",
-      "unknownErrorTryAgain": "An unknown error occurred. Please try again.",
+      "unknownError": "Bilinmeyen bir hata oluştu",
+      "unknownErrorTryAgain": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
       "vaultNotAvailable": "Vault not available",
       "vaultIsLocked": "Vault is locked",
       "passwordChanged": "Parolanız, en son giriş yaptığınızdan bu yana değişti. Güvenlik nedeniyle lütfen tekrar giriş yapın.",
@@ -116,7 +116,7 @@
       "mobileLoginRequestExpired": "Mobile login request timed out. Please reload the page and try again."
     },
     "apiErrors": {
-      "UNKNOWN_ERROR": "An unknown error occurred. Please try again.",
+      "UNKNOWN_ERROR": "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.",
       "ACCOUNT_LOCKED": "Account temporarily locked due to too many failed attempts. Please try again later.",
       "ACCOUNT_BLOCKED": "Your account has been disabled. If you believe this is a mistake, please contact support.",
       "USER_NOT_FOUND": "Invalid username or password. Please try again.",
@@ -142,7 +142,7 @@
     }
   },
   "content": {
-    "or": "or",
+    "or": "yada",
     "new": "New",
     "vaultLocked": "AliasVault is locked.",
     "creatingNewAlias": "Creating new alias...",
@@ -296,16 +296,16 @@
     "card.pin": "PIN"
   },
   "totp": {
-    "addCode": "Add 2FA Code",
+    "addCode": "2FA kodu ekle",
     "instructions": "Enter the secret key shown by the website where you want to add two-factor authentication.",
-    "nameOptional": "Name (optional)",
-    "secretKey": "Secret Key",
+    "nameOptional": "İsim (opsiyonel)",
+    "secretKey": "Gizli anahtar",
     "saveToViewCode": "Save to view code",
     "defaultName": "Authenticator",
     "deleteTotpCodeTitle": "Delete 2FA Code",
     "deleteTotpCodeConfirmation": "Are you sure you want to delete the 2FA code \"{{name}}\"?",
     "errors": {
-      "invalidSecretKey": "Invalid secret key format."
+      "invalidSecretKey": "Geçersiz gizli anahtar formatı."
     }
   },
   "attachmentUploader": {
@@ -399,8 +399,6 @@
     "clipboardSettings": "Clipboard Settings",
     "contextMenuSettings": "Context Menu Settings",
     "passkeySettings": "Passkey Settings",
-    "contextMenuEnabled": "Context menu is enabled",
-    "contextMenuDisabled": "Context menu is disabled",
     "contextMenuDescription": "Right-click on input fields to access AliasVault options",
     "selectLanguage": "Select Language",
     "serverConfiguration": "Server Configuration",
@@ -467,7 +465,7 @@
     }
   },
   "passkeys": {
-    "passkey": "Passkey",
+    "passkey": "Geçiş anahtarı",
     "site": "Site",
     "helpText": "Passkeys are created on the website when prompted. They cannot be manually edited. To remove this passkey, you can delete it from this credential. To replace this passkey or create a new one, visit the website and follow its prompts.",
     "passkeyMarkedForDeletion": "Passkey marked for deletion",
@@ -543,7 +541,7 @@
   "logout": {
     "unsyncedChangesTitle": "Unsynced Changes",
     "unsyncedChangesWarning": "You have unsynced changes that will be lost if you log out now. Are you sure you want to continue?",
-    "logoutAnyway": "Log out anyway"
+    "logoutAnyway": "Yinede çıkış yap"
   },
   "sync": {
     "offline": "Offline",

@@ -136,8 +136,7 @@
       "step4": "4. Activează „AliasVault”",
       "step5": "5. Dezactivează alți furnizori de parole (ex. „iCloud Passwords”) pentru a evita conflictele",
       "openIosSettings": "Deschide Setări iOS",
-      "alreadyConfigured": "Am configurat deja",
-      "warningText": "Notă: Va trebui să te autentifici cu Face ID/Touch ID sau cu codul de acces al dispozitivului când folosești completarea automată."
+      "alreadyConfigured": "Am configurat deja"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Funcție Experimentală",
@@ -151,10 +150,12 @@
       "buttonTip": "Dacă butonul de mai sus nu funcționează, ar putea fi blocat din cauza setărilor de securitate. Poți merge manual la Setări Android → Management general → Parole și completare automată.",
       "step2": "2. Unele aplicații, de exemplu Google Chrome, pot necesita configurare manuală în setările lor pentru a permite aplicațiilor terțe de completare automată. Totuși, majoritatea aplicațiilor ar trebui să funcționeze cu completarea automată în mod implicit.",
       "alreadyConfigured": "Am configurat deja",
-      "advancedOptions": "Opțiuni Avansate",
       "showSearchText": "Afișează textul căutat",
       "showSearchTextDescription": "Include textul pe care AliasVault îl primește de la Android și pe care îl folosește pentru a căuta datele de autentificare corespunzătoare"
     },
+    "advancedOptions": "Opțiuni Avansate",
+    "copyTotpOnFill": "Copiază codul TOTP la completare automată",
+    "copyTotpOnFillDescription": "Când completezi automat datele de autentificare cu 2FA, copiază automat codul TOTP în clipboard, astfel încât să îl poți insera în câmpul următor.",
     "vaultUnlock": "Metodă deblocare seif",
     "autoLock": "Interval auto-blocare",
     "clipboardClear": "Golește clipboardul",

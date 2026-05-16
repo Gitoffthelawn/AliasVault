@@ -136,8 +136,7 @@
       "step4": "4. Activer \"AliasVault\"",
       "step5": "5. Désactiver les autres fournisseurs de mot de passe (par exemple \"mots de passe iCloud\") pour éviter les conflits",
       "openIosSettings": "Ouvrir les réglages d'iOS",
-      "alreadyConfigured": "Je l'ai déjà configuré",
-      "warningText": "Note : Vous devrez vous authentifier avec Face ID/Touch ID ou votre code d'accès lorsque vous utilisez le remplissage automatique."
+      "alreadyConfigured": "Je l'ai déjà configuré"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Fonctionnalité expérimentale",
@@ -151,10 +150,12 @@
       "buttonTip": "Si le bouton ci-dessus ne fonctionne pas, il peut être bloqué en raison des paramètres de sécurité. Vous pouvez manuellement aller dans Réglages Android → Gestion Générale → Mots de passe et saisie automatique.",
       "step2": "2. Certaines applications, par exemple Google Chrome, peuvent nécessiter une configuration manuelle dans leurs paramètres pour permettre le remplissage automatique des applications tierces. Cependant, la plupart des applications devraient fonctionner avec le remplissage automatique par défaut.",
       "alreadyConfigured": "Je l'ai déjà configuré",
-      "advancedOptions": "Options avancées",
       "showSearchText": "Afficher le texte de recherche",
       "showSearchTextDescription": "Inclure le texte que AliasVault reçoit d'Android qu'il utilise pour rechercher un identifiant correspondant"
     },
+    "advancedOptions": "Options avancées",
+    "copyTotpOnFill": "Copier le code TOTP lors de la saisie automatique",
+    "copyTotpOnFillDescription": "Lorsque vous remplissez automatiquement un mot de passe avec 2FA, copiez automatiquement son code TOTP dans le presse-papiers afin de pouvoir le coller dans le champ suivant.",
     "vaultUnlock": "Méthode de déverrouillage du coffre-fort",
     "autoLock": "Délai de verrouillage automatique",
     "clipboardClear": "Effacer le presse-papiers",

@@ -136,8 +136,7 @@
       "step4": "4. Aktiviere \"AliasVault\"",
       "step5": "5. Deaktiviere andere Passwortanbieter (z. B. \"iCloud-Passwörter\"), um Konflikte zu vermeiden",
       "openIosSettings": "Öffne die iOS-Einstellugen",
-      "alreadyConfigured": "Ich habe es bereits konfiguriert",
-      "warningText": "Für die Nutzung von Autofill ist eine Authentifizierung durch Face ID, Touch ID oder Gerätecode erforderlich."
+      "alreadyConfigured": "Ich habe es bereits konfiguriert"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Experimentelles Feature",
@@ -151,10 +150,12 @@
       "buttonTip": "Falls die Schaltfläche oben nicht funktionieren sollte, könnte sie aufgrund von Sicherheitseinstellungen blockiert sein. Gehe in diesem Fall manuell zu \"Android-Einstellungen → Passwörter, Passkeys & Konten\".",
       "step2": "2. Manche Apps wie Google Chrome erfordern möglicherweise eine manuelle Konfiguration in ihren Einstellungen, um Drittanbieter-Autofill-Apps zuzulassen. Die meisten Apps sollten jedoch standardmäßig mit Autofill funktionieren.",
       "alreadyConfigured": "Ich habe es bereits konfiguriert",
-      "advancedOptions": "Erweiterte Einstellungen",
       "showSearchText": "Suchtext anzeigen",
       "showSearchTextDescription": "Füge den Text ein, den AliasVault von Android erhält und der verwendet wird, um nach passenden Anmeldedaten zu suchen"
     },
+    "advancedOptions": "Erweiterte Einstellungen",
+    "copyTotpOnFill": "TOTP-Code bei Autofill kopieren",
+    "copyTotpOnFillDescription": "Wenn Du Zugangsinformationen samt 2FA per Autofill eintragen lässt, kopiere automatisch den TOTPP code in die Zwischenablage, sodass Du diesen gleich in das dazugehörige Feld einfügen kannst.",
     "vaultUnlock": "Methode zum Entsperren des Tresors",
     "autoLock": "Sperr-Timeout",
     "clipboardClear": "Zwischenablage leeren",

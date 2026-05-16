@@ -79,11 +79,11 @@
     <comment>Instructions for adding TOTP codes</comment>
   </data>
   <data name="NameOptionalLabel" xml:space="preserve">
-    <value>Name (optional)</value>
+    <value>İsim (opsiyonel)</value>
     <comment>Label for optional name field</comment>
   </data>
   <data name="SecretKeyLabel" xml:space="preserve">
-    <value>Secret Key</value>
+    <value>Gizli anahtar</value>
     <comment>Label for secret key field</comment>
   </data>
   <data name="SecretKeyPlaceholder" xml:space="preserve">

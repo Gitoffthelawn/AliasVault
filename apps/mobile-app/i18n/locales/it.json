@@ -136,8 +136,7 @@
       "step4": "4. Abilita \"AliasVault\"",
       "step5": "5. Disabilita altri provider password (es. \"Password iCloud\") per evitare conflitti",
       "openIosSettings": "Apri Impostazioni iOS",
-      "alreadyConfigured": "Ho già configurato",
-      "warningText": "Nota: sarà necessario autenticarsi con Face ID/Touch ID o codice dispositivo per utilizzare la compilazione."
+      "alreadyConfigured": "Ho già configurato"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Funzione Sperimentale",
@@ -151,10 +150,12 @@
       "buttonTip": "Se il pulsante qui sopra non funziona, potrebbe essere bloccato a causa delle impostazioni di sicurezza. È possibile andare manualmente in Impostazioni Android → Gestione generale → Password e riempimento automatico.",
       "step2": "2. Alcune applicazioni, ad esempio Google Chrome, potrebbero richiedere la configurazione manuale nelle loro impostazioni per consentire applicazioni di riempimento automatico di terze parti. Tuttavia, la maggior parte delle app dovrebbe funzionare con il riempimento automatico di default.",
       "alreadyConfigured": "L'ho già configurato",
-      "advancedOptions": "Opzioni avanzate",
       "showSearchText": "Visualizza testo di ricerca",
       "showSearchTextDescription": "Includere il testo che AliasVault riceve da Android usato per cercare credenziali corrispondenti"
     },
+    "advancedOptions": "Opzioni avanzate",
+    "copyTotpOnFill": "Copia il codice TOTP con il riempimento automatico",
+    "copyTotpOnFillDescription": "Quando è attivo il riempimento automatico di una credenziale con 2FA, copia automaticamente il suo codice TOTP negli appunti in modo da poterlo incollare nel campo successivo.",
     "vaultUnlock": "Metodo di sblocco cassaforte",
     "autoLock": "Blocco automatico per Timeout",
     "clipboardClear": "Cancella appunti",

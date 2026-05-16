@@ -35,10 +35,12 @@
 "copy_username" = "Copiază numele de utilizator";
 "copy_password" = "Copiază parola";
 "copy_email" = "Copiază e-mailul";
+"copy_totp_code" = "Copiază codul TOTP";
 "view_details" = "Vezi detalii";
 "username_copied" = "Nume de utilizator copiat";
 "password_copied" = "Parolă copiată";
 "email_copied" = "E-mail copiat";
+"totp_code_copied" = "Cod TOTP copiat";
 "totp_code" = "Cod TOTP";
 
 /* Search bar */

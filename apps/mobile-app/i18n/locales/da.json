@@ -136,8 +136,7 @@
       "step4": "4. Aktiver \"AliasVault\"",
       "step5": "5. Deaktiver andre adgangskodeudbydere (f.eks. \"iCloud-adgangskoder\") for at undgå konflikter",
       "openIosSettings": "Åbn iOS-indstillinger",
-      "alreadyConfigured": "Jeg har allerede konfigureret det",
-      "warningText": "Bemærk: Du skal autentificere med Face ID/Touch ID eller din enheds adgangskode, når du bruger autofyld."
+      "alreadyConfigured": "Jeg har allerede konfigureret det"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ Eksperimentel funktion",
@@ -151,10 +150,12 @@
       "buttonTip": "Hvis knappen herover ikke virker, kan den være blokeret pga. sikkerhedsindstillinger. Du kan manuelt gå til Android-indstillinger → Generel styring → Adgangskoder og autofyld.",
       "step2": "2. Nogle apps, f.eks. Google Chrome, kan kræve manuel konfiguration i deres indstillinger for at tillade tredjeparts-autofyld-apps. De fleste apps bør dog fungere med autofyld som standard.",
       "alreadyConfigured": "Jeg har allerede konfigureret det",
-      "advancedOptions": "Avancerede indstillinger",
       "showSearchText": "Vis søgetekst",
       "showSearchTextDescription": "Inkluder den tekst, AliasVault modtager fra Android, som den bruger til at søge efter matchende loginoplysninger"
     },
+    "advancedOptions": "Avancerede indstillinger",
+    "copyTotpOnFill": "Copy TOTP code on autofill",
+    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "Metode til oplåsning af boks",
     "autoLock": "Tidsafbrydelse for autolås",
     "clipboardClear": "Ryd udklipsholder",

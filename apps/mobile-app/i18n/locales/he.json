@@ -136,8 +136,7 @@
       "step4": "4. להפעיל את „AliasVault”",
       "step5": "5. להשבית ספקי סיסמאות אחרים (למשל: „סיסמאות iCloud”) כדי להימנע מסתירות",
       "openIosSettings": "לפתוח את הגדרות iOS",
-      "alreadyConfigured": "כבר הגדרתי את זה",
-      "warningText": "לתשומת ליבך: יש לעבור אימות בעזרת Face ID/Touch ID (זיהוי פנים/טביעת אצבע) או באמצעות קוד הגישה שלך המכשיר שלך לטובת שימוש בהשלמה אוטומטית."
+      "alreadyConfigured": "כבר הגדרתי את זה"
     },
     "androidAutofillSettings": {
       "warningTitle": "⚠️ יכולת ניסיונית",
@@ -151,10 +150,12 @@
       "buttonTip": "אם הכפתור שלעיל לא עובד כנראה שהוא חסום עקב הגדרות אבטחת מידע. אפשר לגשת ידנית להגדרות Android ← ניהול כללי ← סיסמאות והשלמה אוטומטית.",
       "step2": "2. חלק מהיישומונים, למשל: Google Chrome, עלולים לדרוש הגדרות ידניות בהגדרות שלהן כדי שתאפשרנה יישומוני השלמות אוטומטיות מגורמי צד־שלישי. עם זאת, רוב היישומונים אמורים לעבוד עם השלמה אוטומטית כברירת מחדל.",
       "alreadyConfigured": "כבר הגדרתי את זה",
-      "advancedOptions": "אפשרויות מתקדמות",
       "showSearchText": "הצגת טקסט חיפוש",
       "showSearchTextDescription": "Include the text AliasVault receives from Android that it uses to search for a matching credential"
     },
+    "advancedOptions": "אפשרויות מתקדמות",
+    "copyTotpOnFill": "Copy TOTP code on autofill",
+    "copyTotpOnFillDescription": "When you autofill a credential with 2FA, automatically copy its TOTP code to the clipboard so you can paste it into the next field.",
     "vaultUnlock": "שיטת שחרור נעילת כספת",
     "autoLock": "תום המתנה לנעילה אוטומטית",
     "clipboardClear": "פינוי לוח הגזירים",
