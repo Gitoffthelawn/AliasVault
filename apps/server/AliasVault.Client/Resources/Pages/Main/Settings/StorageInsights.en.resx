@@ -167,8 +167,4 @@
     <value>This re-fetches the favicon for every credential that has a website URL, replacing the existing logo. Depending on your vault size this may take a while. Continue?</value>
     <comment>Confirmation modal body for redownload-all-logos</comment>
   </data>
-  <data name="RedownloadAllLogosNoItemsMessage">
-    <value>No items with a website URL were found, nothing to download.</value>
-    <comment>Notification shown when redownload was triggered but no items qualify</comment>
-  </data>
 </root>

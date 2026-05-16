@@ -388,15 +388,25 @@ function initializeLoginDetector(container: HTMLElement): void {
       }, 'background') as { success: boolean; credential: LastAutofilledCredential | null };
 
       if (lastAutofilledResponse.success && lastAutofilledResponse.credential) {
-        // User used an existing credential: offer to add URL to it
-        showAddUrlPrompt(container, {
-          login,
-          existingCredential: lastAutofilledResponse.credential,
-          onAddUrl: handleAddUrlToCredential,
-          onDismiss: handleSavePromptDismiss,
-          autoDismissMs,
-        });
-        return;
+        /*
+         * Skip the prompt when the submitted URL is already linked.
+         */
+        const linkCheck = await sendMessage('IS_URL_LINKED_TO_CREDENTIAL', {
+          itemId: lastAutofilledResponse.credential.itemId,
+          url: login.url,
+        }, 'background') as { linked: boolean };
+
+        if (!linkCheck.linked) {
+          // Current URL is not linked to the existing credential, show the prompt.
+          showAddUrlPrompt(container, {
+            login,
+            existingCredential: lastAutofilledResponse.credential,
+            onAddUrl: handleAddUrlToCredential,
+            onDismiss: handleSavePromptDismiss,
+            autoDismissMs,
+          });
+          return;
+        }
       }
     } catch {
       // If check fails, fall back to normal save prompt

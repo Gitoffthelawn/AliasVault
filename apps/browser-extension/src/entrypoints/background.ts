@@ -11,7 +11,7 @@ import { handleGetWebAuthnSettings, handleWebAuthnCreate, handleWebAuthnGet, han
 import { handleOpenPopup, handlePopupWithItem, handleOpenPopupCreateCredential, handleToggleContextMenu } from '@/entrypoints/background/PopupMessageHandler';
 import { handleStoreSavePromptState, handleGetSavePromptState, handleClearSavePromptState, handleStoreLastAutofilled, handleGetLastAutofilled, handleClearLastAutofilled } from '@/entrypoints/background/SavePromptStateHandler';
 import { handleStoreTwoFactorState, handleGetTwoFactorState, handleClearTwoFactorState } from '@/entrypoints/background/TwoFactorStateHandler';
-import { handleCheckAuthStatus, handleClearPersistedFormValues, handleClearSession, handleClearVaultData, handleLockVault, handleCreateItem, handleGetFilteredItems, handleGetSearchItems, handleGetDefaultEmailDomain, handleGetDefaultIdentitySettings, handleGetEncryptionKey, handleGetEncryptionKeyDerivationParams, handleGetPasswordSettings, handleGetPersistedFormValues, handleGetVault, handlePersistFormValues, handleStoreEncryptionKey, handleStoreEncryptionKeyDerivationParams, handleStoreVaultMetadata, handleSyncVault, handleUploadVault, handleGetEncryptedVault, handleStoreEncryptedVault, handleGetSyncState, handleMarkVaultClean, handleGetServerRevision, handleCheckSyncStatus, handleFullVaultSync, handleCheckLoginDuplicate, handleSaveLoginCredential, handleAddUrlToCredential, handleGetLoginSaveSettings, handleSetLoginSaveEnabled, handleGetItemsWithTotp, handleSearchItemsWithTotp, handleGetTotpSecrets, handleGenerateTotpCode, handleSetRecentlySelected, handleGetRecentlySelected } from '@/entrypoints/background/VaultMessageHandler';
+import { handleCheckAuthStatus, handleClearPersistedFormValues, handleClearSession, handleClearVaultData, handleLockVault, handleCreateItem, handleGetFilteredItems, handleGetSearchItems, handleGetDefaultEmailDomain, handleGetDefaultIdentitySettings, handleGetEncryptionKey, handleGetEncryptionKeyDerivationParams, handleGetPasswordSettings, handleGetPersistedFormValues, handleGetVault, handlePersistFormValues, handleStoreEncryptionKey, handleStoreEncryptionKeyDerivationParams, handleStoreVaultMetadata, handleSyncVault, handleUploadVault, handleGetEncryptedVault, handleStoreEncryptedVault, handleGetSyncState, handleMarkVaultClean, handleGetServerRevision, handleCheckSyncStatus, handleFullVaultSync, handleCheckLoginDuplicate, handleSaveLoginCredential, handleAddUrlToCredential, handleIsUrlLinkedToCredential, handleGetLoginSaveSettings, handleSetLoginSaveEnabled, handleGetItemsWithTotp, handleSearchItemsWithTotp, handleGetTotpSecrets, handleGenerateTotpCode, handleSetRecentlySelected, handleGetRecentlySelected } from '@/entrypoints/background/VaultMessageHandler';
 
 import { EncryptionKeyDerivationParams } from "@/utils/dist/core/models/metadata";
 import type { LoginResponse } from "@/utils/dist/core/models/webapi";
@@ -32,8 +32,41 @@ browser.alarms.onAlarm.addListener(handleAutoLockAlarm);
 export default defineBackground({
   /**
    * This is the main entry point for the background script.
+   *
+   * IMPORTANT: This function MUST remain synchronous (no async/await directly in
+   * the body). MV3 service workers can be terminated when idle and woken up by
+   * events; only listeners registered synchronously during script evaluation are
+   * guaranteed to be ready when the next event fires. Any asynchronous setup must
+   * run as a fire-and-forget IIFE so this function returns synchronously.
    */
-  async main() {
+  main() {
+    /*
+     * Register any synchronous event listeners first, before any await, 
+     * so they're attached synchronously on service-worker wake-up.
+     */
+    browser.commands.onCommand.addListener(async (command) => {
+      if (command !== "show-autofill-popup") {
+        return;
+      }
+      try {
+        const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+        if (!tab?.id) {
+          return;
+        }
+
+        const results = await browser.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: getActiveElementIdentifier,
+        });
+        const elementIdentifier = results[0]?.result;
+        if (elementIdentifier) {
+          sendMessage('OPEN_AUTOFILL_POPUP', { elementIdentifier }, `content-script@${tab.id}`);
+        }
+      } catch (error) {
+        console.error('Error handling show-autofill-popup command:', error);
+      }
+    });
+
     // Listen for messages using webext-bridge
     onMessage('CHECK_AUTH_STATUS', () => handleCheckAuthStatus());
 
@@ -79,6 +112,7 @@ export default defineBackground({
     onMessage('CHECK_LOGIN_DUPLICATE', ({ data }) => handleCheckLoginDuplicate(data as { domain: string; username: string }));
     onMessage('SAVE_LOGIN_CREDENTIAL', ({ data }) => handleSaveLoginCredential(data as { serviceName: string; username: string; password: string; url: string; domain: string; logoBase64?: string }));
     onMessage('ADD_URL_TO_CREDENTIAL', ({ data }) => handleAddUrlToCredential(data as { itemId: string; url: string }));
+    onMessage('IS_URL_LINKED_TO_CREDENTIAL', ({ data }) => handleIsUrlLinkedToCredential(data as { itemId: string; url: string }));
     onMessage('GET_LOGIN_SAVE_SETTINGS', () => handleGetLoginSaveSettings());
     onMessage('SET_LOGIN_SAVE_ENABLED', ({ data }) => handleSetLoginSaveEnabled(data as boolean));
 
@@ -129,44 +163,32 @@ export default defineBackground({
     onMessage('PASSKEY_POPUP_RESPONSE', ({ data }) => handlePasskeyPopupResponse(data));
     onMessage('GET_REQUEST_DATA', ({ data }) => handleGetRequestData(data));
 
-    // Setup context menus
-    const isContextMenuEnabled = await LocalPreferencesService.getGlobalContextMenuEnabled();
-    if (isContextMenuEnabled) {
-      await setupContextMenus();
-    }
-
     /*
-     * Initialize auto-lock alarm system.
-     * This ensures the alarm is restored if the service worker was terminated.
-     * Note: The alarm listener is registered at top-level scope (see above).
+     * Async setup (context menus, alarm restoration) runs in a fire-and-forget
+     * IIFE so main() returns synchronously. Listener registrations above are
+     * already synchronous and complete before this runs.
      */
-    await initializeAutoLockAlarm();
-
-    // Listen for custom commands
-    try {
-      browser.commands.onCommand.addListener(async (command) => {
-        if (command === "show-autofill-popup") {
-          // Get the currently active tab
-          const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
-          if (!tab?.id) {
-            return;
-          }
-
-          // Execute script in the active tab
-          await browser.scripting.executeScript({
-            target: { tabId: tab.id },
-            func: getActiveElementIdentifier,
-          }).then((results) => {
-            const elementIdentifier = results[0]?.result;
-            if (elementIdentifier) {
-              sendMessage('OPEN_AUTOFILL_POPUP', { elementIdentifier }, `content-script@${tab.id}`);
-            }
-          }).catch(console.error);
+    (async () : Promise<void> => {
+      try {
+        const isContextMenuEnabled = await LocalPreferencesService.getGlobalContextMenuEnabled();
+        if (isContextMenuEnabled) {
+          await setupContextMenus();
         }
-      });
-    } catch (error) {
-      console.error('Error setting up command listener:', error);
-    }
+      } catch (error) {
+        console.error('Error setting up context menus:', error);
+      }
+
+      try {
+        /*
+         * Initialize auto-lock alarm system.
+         * This ensures the alarm is restored if the service worker was terminated.
+         * Note: The alarm listener is registered at top-level scope (see above).
+         */
+        await initializeAutoLockAlarm();
+      } catch (error) {
+        console.error('Error initializing auto-lock alarm:', error);
+      }
+    })();
   }
 });
 

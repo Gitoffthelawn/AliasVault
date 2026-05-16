@@ -17,7 +17,7 @@ namespace AliasServerDb.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -394,11 +394,11 @@ namespace AliasServerDb.Migrations
 
                     b.HasIndex("PushNotificationSent");
 
-                    b.HasIndex("ToLocal");
-
                     b.HasIndex("UserEncryptionKeyId");
 
                     b.HasIndex("Visible");
+
+                    b.HasIndex("To", "DateSystem");
 
                     b.ToTable("Emails");
                 });
